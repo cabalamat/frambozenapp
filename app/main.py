@@ -6,13 +6,19 @@ if sys.version_info<(3,6):
     raise Requires36
 
 from flask import Flask, request, session
-app = Flask(__name__)
+
+import allpages
+from allpages import app
+import templateglobal
+
+# pages of app:
+import front
 
 #---------------------------------------------------------------------
 
-@app.route("/")
-def hello():
-    return "Hello World!"
+#@app.route("/")
+#def hello():
+#    return "Hello World!"
 
 #---------------------------------------------------------------------
 

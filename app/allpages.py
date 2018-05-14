@@ -11,8 +11,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "don't tell anyone"
 app.config["SESSION_COOKIE_NAME"] = "session_%d" % (config.PORT,)
 
-from monfab import debugdec, butil, termcolours
-from monfab.debugdec import printargs, prvars, pr
+from frambozen import butil
 
 #---------------------------------------------------------------------
 # jinja2 environment
