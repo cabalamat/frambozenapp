@@ -3,6 +3,7 @@
 from typing import *
 import os, os.path
 import sys
+import html
 
 #---------------------------------------------------------------------
 
@@ -42,6 +43,12 @@ def prn(fs:str, *args, **kwargs):
     """ print to stdout, with \n at end """
     pr(fs+"\n", *args, **kwargs)
 
+
+def htmlEsc(s: str) -> str:
+    return html.escape(s)
+
+
+#---------------------------------------------------------------------
 
 #---------------------------------------------------------------------
 

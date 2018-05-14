@@ -1,0 +1,20 @@
+/* monfab.css
+   ==========
+
+Styles used by HTML created by monfab.
+*/
+
+/* MultiChoiceField */
+
+.mcf-keep-together {
+    white-space: nowrap;
+    margin-right: 12px;
+}
+
+/* ColorField */
+
+.ColorField_ro {
+    border: 1px solid #000000;
+}
+
+/*end*/
