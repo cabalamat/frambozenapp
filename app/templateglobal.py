@@ -31,7 +31,7 @@ To End the row:
 
 """
 
-def rowcol(colSpec):
+def rowcol(colSpec: str)->str:
     cs = "col-" + colSpec
     s = form("""<div class="container-fluid">
   <div class="row">
@@ -41,7 +41,7 @@ def rowcol(colSpec):
 jinjaEnv.globals['rowcol'] = rowcol
 jinjaEnv.globals['rowCol'] = rowcol
 
-def col(colSpec):
+def col(colSpec: str)->str:
     cs = "col-" + colSpec
     s = form("""
     </div>
@@ -50,7 +50,7 @@ def col(colSpec):
     return s
 jinjaEnv.globals['col'] = col
 
-def endrow():
+def endrow()->str:
     s = """</div></div></div><!-- endrow -->"""
     return s
 jinjaEnv.globals['endrow'] = endrow
@@ -64,7 +64,7 @@ jinjaEnv.globals['endRow'] = endrow
 
 """
 
-def formSection(t):
+def formSection(t: str)->str:
     """
     @param t::str containing html = text to go in title
     @return::str containing html
@@ -81,6 +81,9 @@ jinjaEnv.globals['formSection'] = formSection
 
 jinjaEnv.globals['APP_LOGO'] = config.APP_LOGO
 jinjaEnv.globals['APP_TITLE'] = config.APP_TITLE
+jinjaEnv.globals['APP_NAME'] = config.APP_NAME
+jinjaEnv.globals['DB_NAME'] = config.DB_NAME
+jinjaEnv.globals['PORT'] = config.PORT
 
 #---------------------------------------------------------------------
 
