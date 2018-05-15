@@ -28,9 +28,12 @@ join=normalizePath # it works like os.path.join, but better
 # formatting functions
 
 def form(fs:str, *args, **kwargs)->str:
-    """ an easier to use version of python's format """
+    """ an easier to use version of python's format(). It works the same
+    except that %s is converted to {} and %r is converted to {!r}
+    """
     if args or kwargs:
-        r = fs.format(*args, **kwargs)
+        fs2 = fs.replace("%s", "{}").replace("%r", "{!r}")
+        r = fs2.format(*args, **kwargs)
     else:
         r = fs
     return r    
@@ -41,7 +44,8 @@ def pr(fs:str, *args, **kwargs):
 
 def prn(fs:str, *args, **kwargs):
     """ print to stdout, with \n at end """
-    pr(fs+"\n", *args, **kwargs)
+    sys.stdout.write(form(fs, *args, **kwargs))
+    sys.stdout.write("\n")
 
 
 def htmlEsc(s: str) -> str:

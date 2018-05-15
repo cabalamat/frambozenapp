@@ -200,12 +200,14 @@ h4 {
 }
 h1,h2,h3,h4 { 
   color: #182863; 
+  color: #636; 
 }
 
 h1 small,h2 small {
   font-size: 80%;
   font-weight: bold;
   color: #4f6f9f;
+  color: #868;
 }
 
 label {
@@ -216,7 +218,7 @@ label {
 .navbar-header, .navbar-header a, a.dropdown-toggle, .dropdown a,
 .side-nav, .side-nav a {
   color: #fff !important;
-  background: #36a !important;
+  background: #824 !important;
 }
 
 
@@ -234,7 +236,7 @@ a.dropdown-toggle:hover,
 a.dropdown-toggle:focus,
 li.dropdown a:hover
 {
-  background: #2a2 !important;
+  background: #882 !important;
 }
 
 .nav li.active a,
