@@ -979,21 +979,53 @@ input[type=checkbox], input[type=radio] {
 
 
 /*------------------------------------------------------------------*/
-/* for aerialex */
+/* raspberry icon */
 
-.yes {
-    color: #060;
-    background: #efe;
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?9axk29');
+  src:  url('fonts/icomoon.eot?9axk29#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?9axk29') format('truetype'),
+    url('fonts/icomoon.woff?9axk29') format('woff'),
+    url('fonts/icomoon.svg?9axk29#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.no {
-    color: #600;
-    background: #fee;
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1; 
+  font-size:110%; position:relative; top:0.18em;
+  
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.simple-select {
-  border: 0px;
-  background: rgba(0,0,0,0);
+.icon-noun_752516_cc:before {
+  content: "\e901";
+}
+.icon-noun_71141_cc:before {
+  content: "\e902";
+}
+.icon-noun_71140_cc:before {
+  content: "\e903";
+}
+.icon-noun_71181_cc:before {
+  content: "\e904";
+}
+.icon-noun_162884_cc:before {
+  content: "\e905";
+}
+.icon-noun_1596749_cc:before {
+  content: "\e900";
 }
 
 /*------------------------------------------------------------------*/

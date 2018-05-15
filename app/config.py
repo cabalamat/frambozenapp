@@ -9,7 +9,7 @@ PORT=9033
 
 # title on web pages
 APP_TITLE = "Frambozen App"
-APP_LOGO = "<i class='fa fa-glass'></i> "
+APP_LOGO = "<i class='icon-noun_162884_cc'></i> "
 
 # unique identifier for the app, tpyically the same as its directory 
 # in ~/sproj/ .
