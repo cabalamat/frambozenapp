@@ -2,7 +2,8 @@
 
 import sys
 if sys.version_info<(3,6):
-    print("Requires Python 3.6 or later, halting.")
+    print("Requires Python 3.6 or later, the current version is "
+        + sys.version)
     raise Requires36
 import argparse
 
