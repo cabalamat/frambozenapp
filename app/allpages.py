@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "don't tell anyone"
 app.config["SESSION_COOKIE_NAME"] = "session_%d" % (config.PORT,)
 
-from frambozen import butil
+from bozen import butil
 
 #---------------------------------------------------------------------
 # jinja2 environment

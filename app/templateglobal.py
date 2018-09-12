@@ -1,14 +1,14 @@
 # templateglobal.py
 
 """
-Template globals for Aerial Express
+Template globals 
 """
 
 import random
 
 from flask import Flask, request, redirect, session
 
-from frambozen.butil import form
+from bozen.butil import form
 from allpages import jinjaEnv
 
 import config

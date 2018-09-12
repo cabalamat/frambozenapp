@@ -1,7 +1,7 @@
 # front.py = front page
 
 from allpages import app, jinjaEnv
-from frambozen.butil import pr, prn
+from bozen.butil import pr, prn
 
 prn("*** front.py ***")
 

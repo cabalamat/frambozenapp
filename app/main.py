@@ -9,7 +9,7 @@ import argparse
 
 from flask import Flask, request, session
 
-from frambozen.butil import pr, prn
+from bozen.butil import pr, prn
 
 import config
 import allpages
@@ -18,6 +18,7 @@ import templateglobal
 
 # pages of app:
 import front
+import testform
 
 #---------------------------------------------------------------------
 

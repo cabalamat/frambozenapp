@@ -4,6 +4,7 @@ from typing import *
 import os, os.path
 import sys
 import html
+import inspect
 
 #---------------------------------------------------------------------
 
@@ -48,10 +49,26 @@ def prn(fs:str, *args, **kwargs):
     sys.stdout.write("\n")
 
 
+#---------------------------------------------------------------------
+# debugging functions
+
+def dpr(formatStr, *args, **kwargs):
+    """ debugging version of pr(), prn().
+    Prints to stderr, prefixes with funxtion name andf line
+    number, iadds newling.
+    """
+    caller = inspect.stack()[1]
+    fileLine = caller[2]
+    functionName = caller[3]
+    s = form(formatStr, *args, **kwargs)
+    prefix = "%s():%d: " % (functionName, fileLine)
+    sys.stderr.write(prefix + s + "\n")
+
+#---------------------------------------------------------------------
+
+
 def htmlEsc(s: str) -> str:
     return html.escape(s)
-
-
 
 #---------------------------------------------------------------------
 

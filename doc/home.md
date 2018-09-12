@@ -14,6 +14,14 @@ Frambozen has a logo:
 
 ## Frambozenapp
 
+To start:
+
+    $ cd ~/sproj/frambozenapp
+    $ . v3/bin/activate
+    $ cd app
+    $ python main.py
+
+
 ## See also
 
 * [[Field types in similar projects]]
