@@ -1,5 +1,9 @@
 # fieldinfo.py = information about fields
 
+import inspect
+import os.path
+
+from butil import *
 import bozenutil
 
 #---------------------------------------------------------------------
@@ -46,7 +50,7 @@ fi.convertToReadableH(dbv)->str = convert from a db-value into an html
 
 fieldIndex = bozenutil.Incrementor()
 
-class FieldInfo(object):
+class FieldInfo:
     """ superclass for Bozen fields """
 
     def __init__(self, **kwargs):
@@ -59,9 +63,9 @@ class FieldInfo(object):
         self.definedFile = os.path.basename(pan)
         self.definedLine = caller[2]
 
-        dpr("%s:{} [%r] create %s, fieldName=%r kwargs=%r",
+        dpr("%s:{} [%r] create %s, kwargs=%r",
             self.definedFile, self.definedLine,
-            self.index, self.__class__, fieldName, kwargs)
+            self.index, self.__class__, kwargs)
 
 
     def __repr__(self):
@@ -156,11 +160,11 @@ class FieldInfo(object):
         """
         #pr("FieldInfo:readArgs kwargs=%r", kwargs)
         self.defaultValue = kwargs.get('default', self.defaultDefault())
-        if kwargs.has_key('desc'):
+        if 'desc' in kwargs:
             self.desc = kwargs['desc']
-        if kwargs.has_key('title'):
+        if 'title' in kwargs:
             self.title = kwargs['title']
-        if kwargs.has_key('columnTitle'):
+        if 'columnTitle' in kwargs:
             self.columnTitle =  kwargs['columnTitle']
 
         self.fieldLen = kwargs.get("fieldLen", 20)
@@ -263,6 +267,54 @@ class FieldInfo(object):
 
 
 #---------------------------------------------------------------------
+
+
+class StrField(FieldInfo):
+    """ a field holding a Python str """
+
+    def readArgs(self, **kwargs):
+        super(StrField, self).readArgs(**kwargs)
+        self.minLength = kwargs.get('minLength', None)
+        self.maxLength = kwargs.get('maxLength', None)
+        self.charsAllowed = kwargs.get('charsAllowed', None)
+        self.required = kwargs.get('required', False)
+
+
+    def defaultDefault(self):
+        """ return the default value for the default value of the
+        object.
+        """
+        return ""
+
+    def convertValue(self, v):
+        return butil.myStr(v)
+
+
+    def errorMsg(self, v):
+        if self.required and not v:
+            return "This field is required."
+
+        msg = "Value '{}' ".format(v)
+
+        if self.minLength!=None and len(v)<self.minLength:
+            msg += "must be at least %d characters long"%self.minLength
+            return msg
+
+        if self.maxLength!=None and len(v)>self.maxLength:
+            msg += "must be no longer than %d characters"%self.maxLength
+            return msg
+
+        if self.charsAllowed!=None:
+            for ch in v:
+                if ch not in self.charsAllowed:
+                    msg += ("may only contain chars in: %s"
+                            % self.charsAllowed)
+                    return msg
+
+        return ""
+
+
+
 
 #---------------------------------------------------------------------
 
