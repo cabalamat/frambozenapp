@@ -25,3 +25,4 @@ To start:
 ## See also
 
 * [[Field types in similar projects]]
+* [[Issue with Python 3 packaging]]

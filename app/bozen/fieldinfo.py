@@ -3,8 +3,8 @@
 import inspect
 import os.path
 
-from butil import *
-import bozenutil
+from .butil import *
+from . import bozenutil
 
 #---------------------------------------------------------------------
 # utility functions
@@ -227,8 +227,7 @@ class FieldInfo:
         :param v: value from database
         :rtype str or unicode
         """
-        #s = self.formatStr.format(butil.myStr(v))
-        s = self.formatStr.format(butil.unicodeToStr(v))
+        s = self.formatStr.format(v)
         return s
 
 

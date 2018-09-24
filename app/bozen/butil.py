@@ -66,9 +66,62 @@ def dpr(formatStr, *args, **kwargs):
 
 #---------------------------------------------------------------------
 
+def myStr(x):
+    """ My version of the str() conversion function. This converts any
+    type into a str. If x is a unicode, it is converted into a utf-8
+    bytestream.
+    @param x = a value of some type
+    @return::str
+    """
+    if x is None:
+        return ""
+    elif type(x)==unicode:
+        return x.encode('utf-8')
+    else:
+        return str(x)
+    
+HTML_DECODE = [ ('&#39;', "'"),
+                ('&quot;', '"'),
+                ('&lt;', '<'),
+                ('&gt;', '>'),
+                ('&amp;', '&') ]
+
+def attrEsc(s, noneIs=''):
+    """ Escapes a string for html attribute special characters
+    @param s::str = a string
+    @return::str = the equivalent string with chanracters escaped
+    """
+    if s==None: return noneIs
+    if not (isinstance(s, str) or isinstance(s,unicode)):
+        s = myStr(s)
+    hdc = HTML_DECODE[-1:] + HTML_DECODE[:-1]
+    for encoded, decoded in hdc:
+        s = s.replace(decoded, encoded)
+    return s
+
 
 def htmlEsc(s: str) -> str:
     return html.escape(s)
+
+#---------------------------------------------------------------------
+
+class Struct:
+    """ an anonymous object whose fields can be accessed using dot
+    notation.
+    See <http://norvig.com/python-iaq.html>
+    """
+
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+    def __repr__(self):
+        keys = sorted(self.__dict__.keys())
+        args = ["%s=%r" % (key, self.__dict__[key])
+                for key in keys]
+        return 'Struct(%s)' % ', '.join(args)
+
+    def hasattr(self, key):
+        return self.__dict__.has_key(key)
 
 #---------------------------------------------------------------------
 
