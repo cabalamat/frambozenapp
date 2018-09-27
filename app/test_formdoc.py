@@ -1,12 +1,10 @@
 # test_formdoc.py = tests <formdoc.py>
 
+from bozen.butil import *
+from bozen import lintest
 
-from butil import *
-import lintest
-
-
-from fieldinfo import StrField
-import formdoc
+from bozen.fieldinfo import StrField
+from bozen import formdoc
 
 #---------------------------------------------------------------------
 

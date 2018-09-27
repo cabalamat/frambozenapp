@@ -1,11 +1,11 @@
 # test_fieldinfo.py = test <fieldinfo.py>
 
 
-from butil import *
-import lintest
+from bozen.butil import *
+from bozen import lintest
 
-import fieldinfo
-from fieldinfo import titleize, StrField
+from bozen import fieldinfo
+from bozen.fieldinfo import titleize, StrField
 
 
 #---------------------------------------------------------------------
