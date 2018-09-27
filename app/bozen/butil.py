@@ -126,4 +126,21 @@ class Struct:
 #---------------------------------------------------------------------
 
 
+def exValue(f, orValue):
+    """ Evaluate function f. If it returns a value, return it.
+    If it throws an exception, return (orValue) instead
+    @param f::function
+    @param orValue
+    """
+    r = orValue
+    try:
+        r = f()
+    except:
+        r = orValue
+    return r
+
+
+#---------------------------------------------------------------------
+
+
 #end

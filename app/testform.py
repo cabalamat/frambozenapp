@@ -16,7 +16,9 @@ class TheTestForm(FormDoc):
 
 @app.route('/testForm')
 def testForm():
+    dpr("- - - in testForm() - - -")
     theTF = TheTestForm()
+    dpr("theTF=%r", theTF)
     
     tem = jinjaEnv.get_template("testForm.html")
     h = tem.render(

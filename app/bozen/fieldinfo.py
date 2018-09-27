@@ -3,8 +3,13 @@
 import inspect
 import os.path
 
+from . import butil
 from .butil import *
 from . import bozenutil
+
+#import butil
+#from butil import *
+#import bozenutil
 
 #---------------------------------------------------------------------
 # utility functions
@@ -65,7 +70,7 @@ class FieldInfo:
 
         dpr("%s:{} [%r] create %s, kwargs=%r",
             self.definedFile, self.definedLine,
-            self.index, self.__class__, kwargs)
+            self.index, str(self.__class__.__name__), kwargs)
 
 
     def __repr__(self):
@@ -241,6 +246,7 @@ class FieldInfo:
         :param fieldName: the field name
         :type fieldName: str
         """
+        dpr("setting field name to %r", fieldName)
         self.fieldName = fieldName
         if not hasattr(self, 'title'):
             self.title = titleize(self.fieldName)

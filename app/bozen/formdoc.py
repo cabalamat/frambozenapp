@@ -6,6 +6,10 @@ from .butil import *
 from . import bozenutil
 from .fieldinfo import FieldInfo
 
+#from butil import *
+#import bozenutil
+#from fieldinfo import FieldInfo
+
 #---------------------------------------------------------------------
 
 class FormDocMeta(type):
@@ -21,10 +25,12 @@ def initialiseClass(cls, dyct):
     :param class cls: the class we are initialising
     :param dict dict: a dictionary containing class variables
     """
-    #print "cls=%r __name__=%r" % (cls, cls.__name__)
+    dpr("cls=%r __name__=%r", cls, cls.__name__)
     cls.classInfo.fieldNameSet = set()
     cls.classInfo.fieldNameTuple = []
+    dpr("fieldNameTuple=%r", cls.classInfo.fieldNameTuple)
     for fieldName, fieldInfo in dyct.items():
+        dpr("fieldName=%r fieldInfo=%r", fieldName, fieldInfo)
         if not isinstance(fieldInfo, FieldInfo): continue
         fieldInfo.setFieldName(fieldName)
         fieldInfo.setDocClass(cls)
@@ -33,6 +39,7 @@ def initialiseClass(cls, dyct):
             fieldName)
         cls.classInfo.fieldNameSet.add(fieldName)
         cls.classInfo.fieldNameTuple.append(fieldName)
+        #dpr("fieldNameTuple=%r", cls.classInfo.fieldNameTuple)
     #//for
     def keyFn(fieldName):
         return dyct[fieldName].index
@@ -112,6 +119,7 @@ class FormDoc(metaclass=FormDocMeta):
         """
         s = "<%s" % (self.__class__.__name__,)
         showFields = self.classInfo.fieldNameTuple[:5]
+        dpr("showFields=%r", showFields)
         for fn in showFields:
             fv = self[fn]
             s += " %s=%r" % (fn, fv)
