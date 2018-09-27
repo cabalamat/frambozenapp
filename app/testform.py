@@ -4,7 +4,7 @@
 from allpages import app, jinjaEnv
 from bozen.butil import pr, prn, dpr
 from bozen import FormDoc
-from bozen import StrField
+from bozen import StrField, ChoiceField
 
 prn("*** testform.py ***")
 
@@ -13,6 +13,7 @@ prn("*** testform.py ***")
 class TheTestForm(FormDoc):
     aaa = StrField()
     bbb = StrField()
+    favouriteFruit = ChoiceField(choices=("Apple", "Banana", "Orange"))
 
 @app.route('/testForm')
 def testForm():
