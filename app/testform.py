@@ -1,5 +1,6 @@
 # testform.py = the /testForm page
 
+from flask import request, redirect
 
 from allpages import app, jinjaEnv
 from bozen.butil import pr, prn, dpr
@@ -15,15 +16,22 @@ class TheTestForm(FormDoc):
     bbb = StrField()
     favouriteFruit = ChoiceField(choices=("Apple", "Banana", "Orange"))
 
-@app.route('/testForm')
+@app.route('/testForm', methods=['POST', 'GET'])
 def testForm():
     dpr("- - - in testForm() - - -")
     theTF = TheTestForm()
     dpr("theTF=%r", theTF)
+    resultTable = ""
+    
+    dpr("request=%r", request)
+    if request.method=='POST':      
+        theTF = theTF.populateFromRequest(request)
+    #//if    
     
     tem = jinjaEnv.get_template("testForm.html")
     h = tem.render(
         theTF = theTF,
+        resultTable = resultTable,
     )
     return h
 

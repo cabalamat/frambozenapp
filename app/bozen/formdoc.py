@@ -1,10 +1,13 @@
 # formdoc.py = FormDoc class, etc for bozen
 
+import copy
 import collections
 
 from .butil import *
 from . import bozenutil
-from .fieldinfo import FieldInfo
+from .fieldinfo import FieldInfo, BoolField
+from . import keychoicefield
+from .keychoicefield import FK
 
 #from butil import *
 #import bozenutil
@@ -217,6 +220,105 @@ class FormDoc(metaclass=FormDocMeta):
         #pr("type(h)=%s", type(h))
         #prvars("h")
         return h
+
+    #========== populate from request ==========
+    # 26-Apr-2016 this will replace populateFromForm()
+
+    def populateFromRequest(self, req, populateBools='all'):
+        """
+        Creates a new FormDoc object similar to (self) with data from
+        the form
+        :param req: HTTP POST request
+        :type req: flask request type
+        :param populateBools: which boolean fields to populate. This
+            is because of the way http POST requests work: they
+            only return data for checkboxes clicked. So it's impossible
+            to differentiate based on post request between checkbox not
+            clicked and checkbox not in form.
+        :type populateBools: 'all' | list of str
+        :rtype FormDoc subclass
+        """
+        from multichoicefield import MultiChoiceField
+        #pr("req=%r::%s", req, type(req))
+        #pr("populateBools=%r::%s", populateBools, type(populateBools))
+
+        reqForm = req.form
+        #pr("reqForm=%r::%s", reqForm, type(reqForm))
+        reqFiles = req.files
+        #pr("reqFiles=%r::%s, len=%r", reqFiles, type(reqFiles), len(reqFiles))
+        import filefield
+        #formDict = mongo.toDict(formData)
+        newOb = copy.copy(self)
+        #pr("self.__dict__=%r", self.__dict__)
+        for fn in self.classInfo.fieldNameTuple:
+            newOb.__dict__[fn] = self.__dict__[fn]
+        #pr("copied __dict__, value is: %r",  newOb.__dict__)
+
+        for k in reqForm.keys():
+            #prvars("k")
+            if self.hasFieldInfo(k):
+                fi = self.getFieldInfo(k)
+                #prvars("fi")
+                if isinstance(fi, (keychoicefield.FKeys, MultiChoiceField)):
+                    listValues = reqForm.getlist(k)
+                    #prvars("k listValues")
+                    #newOb.setField(k, listValues)
+                    newOb[k] = listValues
+                else:
+                    # most fields:
+                    #prvars("k fi")
+                    newOb.setField(k, reqForm[k])
+        #//for k
+
+        #>>>>> get bools to populate
+        if populateBools=='all':
+            boolsToPop = []
+            for fn in self.classInfo.fieldNameTuple:
+                fi = self.getFieldInfo(fn)
+                if isinstance(fi, BoolField):
+                    boolsToPop.append(fn)
+            #//for fn
+        else:
+            boolsToPop = populateBools
+        #prvars("populateBools boolsToPop")
+        #pr("reqForm.keys()=%r", reqForm.keys())
+        for boolFn in boolsToPop:
+            #prvars("boolFn")
+            if boolFn not in reqForm.keys():
+                #pr("unsetting boolean field %s", boolFn)
+                #newOb.setField(boolFn, False) # old code
+                newOb[boolFn] = False # new code
+                #pr("newOb['%s']=%r", boolFn, newOb[boolFn])
+        #//for boolFn
+
+        #>>>>> check reqFiles is there
+        if len(reqFiles)==0 and False:
+            for fn in self.classInfo.fieldNameTuple:
+                fi = self.getFieldInfo(fn)
+                if isinstance(fi, filefield.FileField):
+                    msg = ("No files in request, but form contains "
+                        "field %s (type %s), are you sure the "
+                        "<form> tag includes enctype='multipart/form-data'?"
+                        % (fi.fieldName, fi.__class__.__name__))
+                    raise RuntimeError(msg)
+            #//for
+        #//if
+
+        #>>>>> file upload has to be processed separately:
+        for k in reqFiles.keys():
+            if self.hasFieldInfo(k):
+                fi = self.getFieldInfo(k)
+                if isinstance(fi, filefield.FileField):
+                    fileData = reqFiles[k]
+                    #prvars("k fi fileData")
+                    if fileData.filename:
+                        savedAsPan = fi.uploadFile(fileData)
+                        newOb[k] = savedAsPan
+        #//for k
+        return newOb
+
+
+
     
     #========== utility functions ==========
 
@@ -228,6 +330,30 @@ class FormDoc(metaclass=FormDocMeta):
         """
         return cls.__dict__[fieldName]
 
+    @classmethod
+    def hasFieldInfo(cls, fieldName):
+        """ Does the class have a FieldInfo for a fieldName?
+        :param string fieldName:
+        :rtype bool
+        """
+        return fieldName in cls.__dict__
+
+    def setField(self, fieldName, newValue):
+        """
+        Set a field with a string value (e.g. coming from a form).
+        Convert the value to a different type if required.
+        :param str fieldName: the field we are putting the value into
+        :param str newValue: the new value
+        """
+        if self.hasFieldInfo(fieldName):
+            fieldInfo = self.getFieldInfo(fieldName)
+            convertedValue = fieldInfo.convert(newValue)
+            #prvars("fieldName fieldInfo newValue convertedValue")
+            self[fieldName] = convertedValue
+        else:
+            # not a defined field, fail
+            #prvars("fieldName newValue")
+            raise ShouldntGetHere
 
 #---------------------------------------------------------------------
 

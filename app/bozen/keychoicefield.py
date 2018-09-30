@@ -86,6 +86,12 @@ class ChoiceField(StrField):
         return msg
 
 #---------------------------------------------------------------------
+
+class FK: pass
+
+class FKeys: pass
+
+#---------------------------------------------------------------------
 # convenience function for ChoiceField and FK
 
 def renderChoices(fieldName, choices, chosen):

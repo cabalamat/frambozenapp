@@ -195,7 +195,7 @@ class FieldInfo:
         The return type necessarily depends on what field type it is.
         :param string v:
         """
-        v2 = butil.ascStr(v)
+        v2 = str(v)
         #prvars("v2")
         if self.convertF:
             return self.convertF(v2)
@@ -292,7 +292,7 @@ class StrField(FieldInfo):
         return ""
 
     def convertValue(self, v):
-        return butil.myStr(v)
+        return str(v)
 
 
     def errorMsg(self, v):
@@ -319,7 +319,11 @@ class StrField(FieldInfo):
         return ""
 
 
+#---------------------------------------------------------------------
 
+
+class BoolField:
+    pass
 
 #---------------------------------------------------------------------
 
