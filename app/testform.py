@@ -26,6 +26,7 @@ def testForm():
     dpr("request=%r", request)
     if request.method=='POST':      
         theTF = theTF.populateFromRequest(request)
+        resultTable = getResultTable(theTF)
     #//if    
     
     tem = jinjaEnv.get_template("testForm.html")
@@ -35,6 +36,10 @@ def testForm():
     )
     return h
 
+
+def getResultTable(th: TheTestForm)->str:
+    """ return an html table with the contents of (tf) """
+    
 
 #---------------------------------------------------------------------
 

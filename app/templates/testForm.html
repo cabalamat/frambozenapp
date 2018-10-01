@@ -15,8 +15,11 @@ Front page
 
 <p><br>
 <button class='btn btn-primary'>Submit Form</button></p>
-
 </form>
+
+{% if resultTable %}
+<h2><i class='fa fa-table'></i> Form Contents</h2>
+{% endif %}
 
 {% endblock body %}
 
