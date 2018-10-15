@@ -17,6 +17,7 @@ from .formdoc import FormDoc
 
 from .fieldinfo import FieldInfo, StrField
 from .keychoicefield import ChoiceField
+from .numberfield import IntField
 
                        
 #---------------------------------------------------------------------

@@ -1,6 +1,6 @@
 # FormDoc
 
-**FormDoc** is a class representing an HTML form. it contains methods to render the HTML for the form and validate the form from an http POST request. 
+**FormDoc** is a class representing an HTML form. it contains methods to render the HTML for the form and validate the form from an http POST request.
 
 ## Example
 

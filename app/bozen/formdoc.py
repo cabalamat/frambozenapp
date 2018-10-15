@@ -2,6 +2,7 @@
 
 import copy
 import collections
+from typing import *
 
 from .butil import *
 from . import bozenutil
@@ -319,7 +320,84 @@ class FormDoc(metaclass=FormDocMeta):
 
 
 
-    
+    def asReadableH(self, fn):
+        """
+        Get a readable form of the field data, converted to  a string /
+        unicode, and then converted to html ready to go in a web page.
+        :param str fn: the name of the field.
+        :rtype unicode or str, containing html
+        """
+        fi = self.getFieldInfo(fn)
+        v = self[fn]
+        #prvars("fn v")
+        s = fi.convertToReadableH(v)
+        return s
+
+
+    def asReadable(self, fn):
+        """
+        Get a readable form of the field data, converted to  a string /
+        unicode.
+        :param str fn: the name of the field.
+        :rtype unicode or str
+        """
+        fi = self.getFieldInfo(fn)
+        v = self[fn]
+        s = fi.convertToReadable(v)
+        return s
+
+    #========== validation ==========
+
+    def isValid(self, fieldsToValidate=None):
+        """ Is a form valid?
+        @param validateFields::[str]|None = if set, only validate
+            these fields
+        :rtype bool
+        """
+        if fieldsToValidate is None:
+            fieldsToValidate = self.classInfo.fieldNameTuple
+        
+        for fn in fieldsToValidate:
+            v = self[fn] # field value
+            #prvars("fn v")
+            fi = self.getFieldInfo(fn) #::FieldInfo
+            em = fi.errorMsg(v)
+            #prvars("em")
+            if em:
+                # got an error, form is invalid
+                self.displayErrors = True
+                return False
+        #//for
+        fwem = self.formWideErrorMessage()
+        if fwem:
+            self.displayErrors = True
+            return False
+        return True
+
+    def formWideErrorMessageH(self):
+        """
+        Wrap up a form wide error message in approprate HTML.
+        :return an html-ized error message, or "" is there is none.
+        :rtype str containing html
+        """
+        if not self.displayErrors:
+            return ""
+        fwem = self.formWideErrorMessage()
+        if not fwem: return ""
+        h = form("""<div class='form-error-line'>
+    <i class='fa fa-exclamation-triangle'></i> {}
+</div>""", fwem)
+        return h
+
+    def formWideErrorMessage(self):
+        """
+        Return a form-wide error message. If there is form-wide
+        validation to be done, this method should be over-ridden.
+        :return an error message, or "" is there is none.
+        :rtype str
+        """
+        return ""
+
     #========== utility functions ==========
 
     @classmethod
@@ -338,6 +416,11 @@ class FormDoc(metaclass=FormDocMeta):
         """
         return fieldName in cls.__dict__
 
+    @classmethod
+    def fieldNames(cls)->List[str]:
+        """ Return this class's field names """
+        return list(cls.classInfo.fieldNameTuple)
+
     def setField(self, fieldName, newValue):
         """
         Set a field with a string value (e.g. coming from a form).
@@ -354,7 +437,8 @@ class FormDoc(metaclass=FormDocMeta):
             # not a defined field, fail
             #prvars("fieldName newValue")
             raise ShouldntGetHere
-
+        
+        
 #---------------------------------------------------------------------
 
 
