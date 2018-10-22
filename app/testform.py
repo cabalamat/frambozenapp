@@ -5,7 +5,7 @@ from flask import request, redirect
 from allpages import app, jinjaEnv
 from bozen.butil import pr, prn, dpr, form, htmlEsc
 from bozen import FormDoc
-from bozen import StrField, ChoiceField, IntField
+from bozen import StrField, ChoiceField, IntField, FloatField, BoolField
 
 prn("*** testform.py ***")
 
@@ -15,6 +15,9 @@ class TheTestForm(FormDoc):
     aaa = StrField()
     bbb = StrField()
     aNumber = IntField(minValue=0, maxValue=100)
+    cost = FloatField(title="Cost, £",
+         formatStr="{:.2f}")
+    tickyBox = BoolField()
     favouriteFruit = ChoiceField(choices=("Apple", "Banana", "Orange"))
 
 @app.route('/testForm', methods=['POST', 'GET'])

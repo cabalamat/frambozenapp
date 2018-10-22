@@ -28,7 +28,8 @@ numbers
 
 import sys, os.path, stat
 
-import butil, termcolours
+#import butil, 
+from . import termcolours
 tc = termcolours.TermColours
 
 

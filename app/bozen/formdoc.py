@@ -239,7 +239,7 @@ class FormDoc(metaclass=FormDocMeta):
         :type populateBools: 'all' | list of str
         :rtype FormDoc subclass
         """
-        from multichoicefield import MultiChoiceField
+        from .multichoicefield import MultiChoiceField
         #pr("req=%r::%s", req, type(req))
         #pr("populateBools=%r::%s", populateBools, type(populateBools))
 
