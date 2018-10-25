@@ -4,6 +4,8 @@
 import bozen
 from bozen.butil import *
 from bozen import lintest
+from bozen.fieldinfo import StrField
+from bozen.numberfield import IntField
 from bozen import mondoc
 
 bozen.setDefaultDatabase('test_bozen')

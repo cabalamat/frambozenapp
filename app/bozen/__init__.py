@@ -11,7 +11,7 @@ import os, sys; sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 
 #---------------------------------------------------------------------
-# bozen main classes
+# bozen form and field classes
 
 from .formdoc import FormDoc
 
@@ -20,6 +20,13 @@ from .keychoicefield import ChoiceField
 from .numberfield import IntField, FloatField, BoolField
 
                        
+#---------------------------------------------------------------------
+# interact with mongoDB
+
+from .mongo import setDefaultDatabase, getDefaultDatabase
+from .mondoc import MonDoc
+    
+    
 #---------------------------------------------------------------------
 
 

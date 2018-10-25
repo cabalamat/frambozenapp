@@ -29,18 +29,18 @@ def initialiseClass(cls, dyct):
     :param class cls: the class we are initialising
     :param dict dict: a dictionary containing class variables
     """
-    dpr("cls=%r __name__=%r", cls, cls.__name__)
+    #dpr("cls=%r __name__=%r", cls, cls.__name__)
     cls.classInfo.fieldNameSet = set()
     cls.classInfo.fieldNameTuple = []
-    dpr("fieldNameTuple=%r", cls.classInfo.fieldNameTuple)
+    #dpr("fieldNameTuple=%r", cls.classInfo.fieldNameTuple)
     for fieldName, fieldInfo in dyct.items():
-        dpr("fieldName=%r fieldInfo=%r", fieldName, fieldInfo)
+        #dpr("fieldName=%r fieldInfo=%r", fieldName, fieldInfo)
         if not isinstance(fieldInfo, FieldInfo): continue
         fieldInfo.setFieldName(fieldName)
         fieldInfo.setDocClass(cls)
-        dpr("%s fieldName=%s",
-            fieldInfo.__class__.__name__,
-            fieldName)
+        #dpr("%s fieldName=%s",
+        #    fieldInfo.__class__.__name__,
+        #    fieldName)
         cls.classInfo.fieldNameSet.add(fieldName)
         cls.classInfo.fieldNameTuple.append(fieldName)
         #dpr("fieldNameTuple=%r", cls.classInfo.fieldNameTuple)
