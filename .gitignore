@@ -10,5 +10,6 @@
 #### ignore directories
 v3/
 data_dir/
+mypy_cache/
 
 #end
