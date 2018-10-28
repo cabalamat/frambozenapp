@@ -99,9 +99,8 @@ class FormDoc(metaclass=FormDocMeta):
             self.__dict__[k] = v
             
  
-    def allowedFieldNameSet(self):
+    def allowedFieldNameSet(self)->Set[str]:
         """ Return allowed field names for this class
-        @return::set str
         """
         return self.classInfo.fieldNameSet           
         

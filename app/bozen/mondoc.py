@@ -72,6 +72,13 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         """
         super(MonDoc, self).__init__(**kwargs)
         
+    def allowedFieldNameSet(self)->Set[str]:
+        """ Return allowed field names for this class. Valid fields
+        are all the ones defined, and _id. This overrides the method in
+        FormDoc, which doesn't allow '_id'.
+        """
+        return self.classInfo.fieldNameSet | set(["_id"])
+        
     def __repr__(self):
         s = "<%s" % (self.__class__.__name__,)
         if self.__dict__.has_key('_id'):
@@ -105,6 +112,23 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         """ return a document's collection """
         return cls.classInfo.useCollection
 
+    #========== misc methodss
+
+    def id(self)->str:
+        """ return this docment's _id, converted to a string,
+        or "" if no _id.
+        """
+        if self.hasId():
+            return str(self._id)
+        else:
+            return ""
+
+    def hasId(self)->bool:
+        """ does this document have an _id field? """
+        return '_id' in self.__dict__
+    
+    
+    
 #---------------------------------------------------------------------
 
 
