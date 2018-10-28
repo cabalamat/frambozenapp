@@ -26,7 +26,7 @@ class T_create_save_delete(lintest.TestCase):
     def setUpAll(self):
         """ run once before all the tests, to set up the system """
         self.db = bozen.getDefaultDatabase()
-        self.db.drop_collection("foo")
+        self.db.drop_collection("Foo")
         numFoos = Foo.count()
         self.assertSame(numFoos, 0, "there should be no Foos")
 
@@ -66,6 +66,18 @@ class T_create_save_delete(lintest.TestCase):
             self.failed("incorrectly doesn't throw exception for "
                 "non-existant field")
 
+    def test_save(self):
+        f = Foo()
+        f.name = "Bran Stark"
+        f.address = "up north"
+        f.y = "Why?"
+        f.howMany = -333
+        f.save()
+        numFoos = Foo.count()
+        self.assertSame(numFoos, 1, "there should be exactly 1 Foo")
+
+        id = f.id()
+        dpr("f.id()=%r", id)
     
 #---------------------------------------------------------------------
 

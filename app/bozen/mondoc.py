@@ -112,7 +112,60 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         """ return a document's collection """
         return cls.classInfo.useCollection
 
-    #========== misc methodss
+    #========== saving and loading
+    
+    def save(self):
+        """ save this document """
+        if not self.hasId():
+            self._id = "%s-%s" % (
+                self.__class__.__name__, 
+                mongo.idInc.getNewIndexB36())
+            self.preCreate()
+            
+        self.preSave()
+        self.col().save(self.mongoDict())
+        self.postSave()    
+
+    def preSave(self):
+        """ The user can over-ride this with a method to be called
+        immediately before the document is saved.
+        """
+        pass
+
+    def postSave(self):
+        """ The user can over-ride this with a method to be called
+        immediately after the document is saved.
+        """
+        pass
+
+    def preCreate(self):
+        """ The user can over-ride this with a method to be called
+        immediately before the document is created in the database
+        (but just after its future _id has been assigned).
+        """
+        pass
+    
+    def postLoad(self):
+        """ The user can over-ride this with a method to be called
+        immediately after the document is loaded.
+        """
+        pass
+    
+    def mongoDict(self):
+        """ return a dictionary for the current document,
+        in the format wanted by pymongo. Only include fields
+        defined in the class definition.
+        :rtype dict
+        """
+        d = {}
+        for fn in (self.classInfo.fieldNameTuple + ('_id',)):
+            if not fn in self.__dict__: continue
+            d[fn] = self[fn]
+        #//for
+        #prvars("d")
+        return d
+    
+    #========== misc methods
 
     def id(self)->str:
         """ return this docment's _id, converted to a string,
