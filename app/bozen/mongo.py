@@ -1,6 +1,7 @@
 # mongo.py = interface to MongoDB
 
 from typing import *
+import re
 
 import pymongo
 
@@ -37,7 +38,7 @@ class MongoabIncrementor:
         self.database = database
 
     def getNewIndex(self)->int:
-        self.index = self.database.mongoab.find_and_modify(
+        self.index = self.database.bozen.find_and_modify(
             query={'_id': 'lastIndex'},
             update={'$inc': {'value': 1}},
             upsert=True,
@@ -92,6 +93,27 @@ def base36encode(n: int)->str:
 def base36decode(number: str)->int:
     return int(number, 36)
 
+#---------------------------------------------------------------------
+
+
+validObjectId = re.compile("[0-9a-fA-F]{24}")
+def isObjectIdStr(s):
+    """ Is (s) a string that came from an ObjectId (24 hex digits?)
+    :param string s: a string that may or may not be from an ObjectId
+    :rtype bool
+    """
+    if not isinstance(s, str):
+        return False
+    return bool(validObjectId.match(s))
+
+def normaliseId(id):
+    """ Normalise a MongoDB id, that is, if it is convertable to an
+    ObjectId, do so. Else keep it as it is.
+    :param id:
+    """
+    if isObjectIdStr(id):
+        return ObjectId(id)
+    return id
 
 #---------------------------------------------------------------------
 

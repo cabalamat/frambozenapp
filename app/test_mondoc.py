@@ -79,6 +79,32 @@ class T_create_save_delete(lintest.TestCase):
         id = f.id()
         dpr("f.id()=%r", id)
     
+    def test_find(self):
+        """ the find() function """
+        f = list(Foo.find({'name': "Bran Stark"}))
+        self.assertSame(len(f), 1, "there is only one Bran Stark")
+
+    def test_find_one(self):
+        """ the find_one() function """
+        r = Foo.find_one({'name': "Bran Stark"})
+        self.assertSame(type(r), Foo, "returned a Foo")
+        self.assertSame(r.address, "up north", "address is correct")
+
+        r = Foo.find_one({'name': "doesn't exist"})
+        self.assertSame(r, None, "no record returned")
+
+    def test_getDoc(self):
+        """ test the getDoc() function """
+        f = Foo.find_one({'name': "Bran Stark"})
+        fid = f.id()
+        pr("fid=%r", fid)
+        f2 = Foo.getDoc(fid)
+        self.assertSame(f2.address, "up north",
+            "address got by getDoc() is correct")
+
+        f3 = Foo.getDoc("this shouldn't exist")
+        self.assertSame(f3, None, "f3 correctly doesn't exist")
+        
 #---------------------------------------------------------------------
 
 #---------------------------------------------------------------------

@@ -107,6 +107,67 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         cursor = cls.col().find(*args, **kwargs)
         return cursor.count()
 
+
+    @classmethod
+    def find(cls, *args, **kwargs)->Iterator:
+        """ a wrapper round the pymongo find() method. This method
+        is an iterator; each value returned is an instance of the relevant
+        MonDoc subclass.
+        """
+        kwargs = cls.fixKwargs(kwargs)
+        cursor = cls.col().find(*args, **kwargs)
+        for item in cursor:
+            ins = cls.transform(item)
+            yield ins
+            
+    @classmethod
+    def find_one(cls, *args, **kwargs):
+        """ a wrapper round the pymongo find_one() method. The value
+        returned is an instance of the relevant MonDoc subclass.
+        :return the first document returned by the find
+        :rtype this MonDoc subclass, or None if no document found
+        """
+        kwargs = cls.fixKwargs(kwargs)
+        doc = cls.col().find_one(*args, **kwargs)
+        if doc==None: return None
+        ins = cls.transform(doc)
+        return ins
+    
+    @classmethod
+    def getDoc(cls, id):
+        """ get a document from the collection given its id.
+        If it doesn't exist, return None
+        :param id:
+        :ptype id: str or ObjectId
+        :param bool createIfNotExist: if the document doesn't exist,
+            create a new one and set its _id to be id.
+        :rtype MonDoc subclass, or None
+        """
+        id = mongo.normaliseId(id)
+        result = cls.col().find_one({'_id': id})
+        if result==None:
+            return None
+        ins = cls.transform(result)
+        return ins
+
+
+
+    @classmethod
+    def transform(cls, mongoDoc):
+        """ Transform a document as returned by pymongo into a MonDoc-subclass
+        document.
+        :param dict mongoDoc: a document as returned from pymongo. This
+            is a dict with the keys being strings and the values being
+            json values converted to the equivalent Python type.
+        :return a monDoc subclass
+        :rtype MonDoc subclass
+        """
+        instance = cls()
+        for k, v in mongoDoc.items():
+            instance.__dict__[k] = v
+        instance.postLoad()
+        return instance
+    
     @classmethod
     def col(cls)->pymongo.collection.Collection:
         """ return a document's collection """
@@ -179,6 +240,45 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
     def hasId(self)->bool:
         """ does this document have an _id field? """
         return '_id' in self.__dict__
+    
+    #========== utility functions ==========
+    
+    @staticmethod
+    def fixKwargs(kwargs):
+        """ Normalise the kwargs to the `find()` method.
+        :param dict kwargs: this is the keyword arguments to the find()
+            method or similar methods
+        :return the same kwargs but with the sort parameter normalised
+        :rtype dict
+        """
+        if 'sort' in kwargs:
+            kwargs['sort'] = MonDoc.fixSort(kwargs['sort'])
+        return kwargs
+
+    @staticmethod
+    def fixSort(sortArg):
+        """ Normalise sort argument.
+
+        This puts the sort argument into a form that pymongo requires. See:
+        <http://api.mongodb.org/
+        python/current/api/pymongo/cursor.html#pymongo.cursor.Cursor.sort>
+
+        Examples:
+
+        'foo' -> [('foo', 1)]
+        ('bar',-1) -> [('bar', -1)]
+        [('foo',-1), 'bar'] -> [('foo', -1), ('bar', 1)]
+
+        :return the sort argument in te way that pymongo requires it
+        :rtype list of tuple (string, int)
+        """
+        if isinstance(sortArg, (str,tuple)):
+            sortArg = [sortArg]
+        newSortArg = [term if isinstance(term, tuple)
+                           else (term, 1)
+                      for term in sortArg]
+        return newSortArg
+
     
     
     

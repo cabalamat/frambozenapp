@@ -15,3 +15,10 @@ Wrote stub of formdoc, fieldinfo, test_fieldinfo pages.
 
 Next steps: write some tests in test_fieldinfo, write the StrField
 class to implement the tests.
+
+## 2018-Oct-28
+
+Currently 23 assertions in 8 test functions
+
+Next steps: MonDoc functions for loading documents (`getDoc()`)
+and acting on groups of documents (`find()`, `find_one()` etc). --DONE
