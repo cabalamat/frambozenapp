@@ -134,6 +134,15 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         return ins
     
     @classmethod
+    def delete_many(cls, spec=None):
+        """ Delete all the documents in this table
+        :param spec: Optional MongoDB search specification. If included,
+            only records complying with the specification will be deleted.
+        :type spec: dict or None
+        """
+        cls.col().delete_many(spec)
+        
+    @classmethod
     def getDoc(cls, id):
         """ get a document from the collection given its id.
         If it doesn't exist, return None
@@ -149,8 +158,6 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
             return None
         ins = cls.transform(result)
         return ins
-
-
 
     @classmethod
     def transform(cls, mongoDoc):
@@ -172,8 +179,8 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
     def col(cls)->pymongo.collection.Collection:
         """ return a document's collection """
         return cls.classInfo.useCollection
-
-    #========== saving and loading
+    
+    #========== saving ==========
     
     def save(self):
         """ save this document """
@@ -185,8 +192,14 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
             
         self.preSave()
         self.col().save(self.mongoDict())
-        self.postSave()    
-
+        self.postSave()   
+        
+    def delete(self):
+        """ Delete this document from the database """
+        if self.hasId():
+            self.col().delete_one({'_id': self._id})
+    remove = delete
+ 
     def preSave(self):
         """ The user can over-ride this with a method to be called
         immediately before the document is saved.
@@ -225,6 +238,80 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         #//for
         #prvars("d")
         return d
+    
+    
+
+    #========== functions for rendering as html ==========
+
+    def a(self, urlStub=None, includeLogo=True)->str:
+        """Get an a-href for a document.
+        :param urlStub: if this parameter is given, then the urlStub is
+            the url before the id(), e.g. if id()="foo-12" and urlStub="/abc/"
+            then the whole url is "/abc/foo-12"
+        """
+        if urlStub:
+            url = urlStub + self.id()
+            #prvars("url")
+        else:
+            url = self.url()
+            #prvars("url")
+        if includeLogo:
+            logo = self.logo()
+        else:
+            logo = ""
+        h = "<a href='%s'>%s%s</a>" % (attrEsc(url),
+            logo, self.getNameH())
+        return h
+
+
+    def url(self)->str:
+        """
+        The URL at which this document can be accessed in the web app.
+        By convention this is /{collectionName}/{documentId} ; this can be
+        over-ridden if desired.
+        """
+        n = self.__class__.__name__
+        collectionName = n[:1].lower() + n[1:]
+        u = form("/{}/{}", collectionName, self.id())
+        return u
+
+    @classmethod
+    def classLogo(cls)->str:
+        """
+        A logo for all documents in the collection, for example using
+        Font Awesome or a similar web logo collection. If a logo is used,
+        insert a space after it unless you want it to be right next to
+        the text describing the document.
+        """
+        return ""
+
+    def logo(self)->str:
+        """
+        A logo for the document, for example using Font Awesome or a
+        similar web logo collection. If a logo is used, insert a space after
+        it unless you want it to be right next to the text describing
+        the document.
+        """
+        return self.classLogo()
+
+    def getName(self)->str:
+        """ Returns a string that is used to descibe the document.
+        The default implementation here is the contents of the first
+        FieldInfo field defined for the MonDoc.
+        """
+        if len(self.classInfo.fieldNameTuple)==0:
+            return ""
+        fn0 = self.classInfo.fieldNameTuple[0]
+        if fn0.endswith("_id"): return self.id()
+        return self.asReadable(fn0)
+
+    def getNameH(self)->str:
+        """ Returns an html-escpaed string that is used to descibe the document.
+        The default implementation here is the contents of the first
+        FieldInfo field defined for the MonDoc.
+        """
+        return htmlEsc(self.getName())
+
     
     #========== misc methods
 

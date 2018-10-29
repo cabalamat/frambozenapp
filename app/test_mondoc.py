@@ -105,12 +105,47 @@ class T_create_save_delete(lintest.TestCase):
         f3 = Foo.getDoc("this shouldn't exist")
         self.assertSame(f3, None, "f3 correctly doesn't exist")
         
+    def test_delete(self):
+        """ test the delete() method """
+        f = Foo.find_one({'name': "Bran Stark"})
+        f.delete()
+        fs = list(Foo.find({'name': "Bran Stark"}))
+        self.assertSame(len(fs), 0, "Bran Stark has been deleted")
+        
 #---------------------------------------------------------------------
+
+class T_urls(lintest.TestCase):
+    """ test a, url, logo, getName functions """
+
+    def test_url(self):
+        self.db = bozen.getDefaultDatabase()
+        self.db.drop_collection("foo")
+        numFoos = Foo.count()
+        self.assertSame(numFoos, 0, "there should be no Foos")
+
+        # make a foo
+        foo = Foo(name="Onion Knight", address="Seaworth")
+        foo.save()
+        id = foo.id()
+
+        u = foo.url()
+        urlSb = "/foo/" + id
+        self.assertSame(u, urlSb, "foo's url is correct")
+
+        self.assertSame(foo.logo(), "", "foo doesn't have a logo")
+
+        self.assertSame(foo.getName(), "Onion Knight", "foo.getName()")
+
+        # put it all together
+        a = foo.a()
+        aSb = form("<a href='{}'>Onion Knight</a>", urlSb)
+        self.assertSame(a, aSb, "foo.a()")
 
 #---------------------------------------------------------------------
 
 group = lintest.TestGroup()
 group.add(T_create_save_delete)
+group.add(T_urls)
 
 if __name__=='__main__': group.run()
 
