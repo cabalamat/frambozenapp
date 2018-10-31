@@ -15,7 +15,7 @@ import os, sys; sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from .formdoc import FormDoc
 
-from .fieldinfo import FieldInfo, StrField
+from .fieldinfo import FieldInfo, StrField, TextAreaField
 from .keychoicefield import ChoiceField
 from .numberfield import IntField, FloatField, BoolField
 

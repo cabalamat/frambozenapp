@@ -6,7 +6,8 @@ from typing import *
 
 from .butil import *
 from . import bozenutil
-from .fieldinfo import FieldInfo, BoolField
+from .fieldinfo import FieldInfo
+from .numberfield import BoolField
 from . import keychoicefield
 from .keychoicefield import FK
 

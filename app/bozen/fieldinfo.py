@@ -321,9 +321,52 @@ class StrField(FieldInfo):
 
 #---------------------------------------------------------------------
 
+class TextAreaField(StrField):
+    """ a string field displayed using a textarea element """
 
-class BoolField:
-    pass
+    def readArgs(self, **kwargs):
+        super(TextAreaField, self).readArgs(**kwargs)
+        self.rows = kwargs.get('rows', 2)
+        self.cols = kwargs.get('cols', 30)
+        self.wysiwyg = kwargs.get('wysiwyg', False)
+
+
+    def formField_rw(self, v, **kwargs):
+        """ return html for a form field for this fieldInfo """
+        h = form(('''<textarea  class="{monospace} {wysiwyg}"
+ id="id_{fieldName}" name="{fieldName}"
+ {rows} {cols}
+ >{v}</textarea>'''),
+            monospace = self.monospaceClass(),
+            wysiwyg = "wysiwyg" if self.wysiwyg else "gin",
+            fieldName = self.fieldName,
+            rows = possibleAttr("rows", self.rows),
+            cols = possibleAttr("cols", self.cols),
+            v = htmlEsc(v),
+        )
+        return h
+
+    def formField_ro(self, v, **kwargs):
+        lines = [htmlEsc(line.strip()) for line in v.split("\n")]
+        h = "<br>\n".join(lines)
+        if h == "": h = "&nbsp;"
+        h2 = "<span class='read-only'>{}</span>".format(butil.myStr(h))
+        return h2
+
+def possibleAttr(attrName, attrValue):
+    """ If an attribute is not None, include it in the html for an
+    element.
+    :param str attrName: the attribute name
+    :param attrValue: the value of the attribute
+    :return a string possibly containing an attribute name and value
+    :rtype str
+    """
+    if attrValue is None: return ""
+    h = form("{attrName}='{attrValue}'",
+        attrName = attrName,
+        attrValue = attrValue)
+    return h
+
 
 #---------------------------------------------------------------------
 

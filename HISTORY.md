@@ -23,4 +23,6 @@ Currently 23 assertions in 8 test functions
 Next steps: MonDoc functions for loading documents (`getDoc()`)
 and acting on groups of documents (`find()`, `find_one()` etc). --DONE
 
-Deleting documents. 
+Deleting documents.  --DONE
+
+Adding a(), url() etc functions  --DONE
