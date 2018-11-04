@@ -5,7 +5,7 @@ from bozen.butil import *
 from bozen import lintest
 
 from bozen import fieldinfo
-from bozen.fieldinfo import titleize, StrField
+from bozen.fieldinfo import titleize, cssClasses, StrField
 
 
 #---------------------------------------------------------------------
@@ -19,6 +19,26 @@ class T_functions(lintest.TestCase):
         r = titleize("theFieldName123x")
         sb = "The Field Name 123 x"
         self.assertSame(r, sb)  
+        
+    def test_cssClasses(self):
+        r = cssClasses()
+        self.assertSame(r, "")
+        r = cssClasses('')
+        self.assertSame(r, '')
+        r = cssClasses('foo', 'bar')
+        self.assertSame(r, ' class="foo bar"')
+        r = cssClasses(['foo', 'bar'])
+        self.assertSame(r,  ' class="foo bar"')
+        r = cssClasses('foo', False, 'bar')
+        self.assertSame(r, ' class="foo bar"')
+        r = cssClasses('foo', '', 'bar') 
+        self.assertSame(r, ' class="foo bar"')
+        r = cssClasses('foo', True and 'monospace')
+        self.assertSame(r, ' class="foo monospace"')
+        r = cssClasses('bar', False and 'monospace')
+        self.assertSame(r, ' class="bar"')
+        r = cssClasses('bar', 'should=fail', 'qwerty-56')
+        self.assertSame(r, ' class="bar qwerty-56"')
     
 #---------------------------------------------------------------------
    

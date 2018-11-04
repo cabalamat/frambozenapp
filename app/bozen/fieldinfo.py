@@ -2,6 +2,7 @@
 
 import inspect
 import os.path
+import re
 
 from . import butil
 from .butil import *
@@ -33,6 +34,48 @@ def titleize(fn: str)->str:
         insideNumber = ch.isdigit()
     return r.strip()
 
+
+
+""" For discussion of valid CSS class names, see:
+https://stackoverflow.com/questions/448981/which-characters-are-valid-in-css-class-names-selectors
+"""
+validCssClassName = re.compile("-?[_a-zA-Z]+[_a-zA-Z0-9-]*")
+
+def cssClasses(*args)->str:
+    """ Utility function for producing HTML containing the CSS classes
+    of an HTML element. Examples:
+    
+    cssClasses() => ''
+    cssClasses('') => ''
+    cssClasses('foo','bar') => ' class="foo bar"'
+    cssClasses(['foo','bar']) => ' class="foo bar"'
+    cssClasses('foo',False,'bar') => ' class="foo bar"'
+    cssClasses('foo','','bar') => ' class="foo bar"'
+    cssClasses('foo',True and 'monospace') => ' class="foo monospace"'
+    cssClasses('bar',False and 'monospace') =. ' class="bar"'
+    
+    (args) is 0 or more arguments, each of which is either a list or
+    an atom, where an atom is either a sting or something with a 
+    truth-value of False.
+    
+    cssClasses collects all the non-False atoms; these are CSS class names.
+    It returns a string containing all the CSS classes. If there are none, 
+    it returns ''.
+    
+    The function does not permit invalid CSS class names.
+    """
+    atoms = []
+    for arg in args:
+        if isinstance(arg, list):
+            atoms += arg
+        else:
+            atoms.append(arg)
+    goodAtoms = [a for a in atoms 
+                   if a and isinstance(a, str)
+                      and validCssClassName.fullmatch(a)]
+    if len(goodAtoms)<1: return ""
+    h = ' class="' + " ".join(goodAtoms) + '"'
+    return h
 
 #---------------------------------------------------------------------
 """
