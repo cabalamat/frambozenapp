@@ -104,7 +104,7 @@ def isObjectIdStr(s):
     """
     if not isinstance(s, str):
         return False
-    return bool(validObjectId.match(s))
+    return bool(validObjectId.fullmatch(s))
 
 def normaliseId(id):
     """ Normalise a MongoDB id, that is, if it is convertable to an

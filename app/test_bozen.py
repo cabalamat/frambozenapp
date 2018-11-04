@@ -11,6 +11,9 @@ group.add(test_fieldinfo.group)
 import test_formdoc
 group.add(test_formdoc.group)
 
+import test_mongo
+group.add(test_mongo.group)
+
 import test_mondoc
 group.add(test_mondoc.group)
 
