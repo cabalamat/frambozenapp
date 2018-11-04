@@ -14,13 +14,16 @@ prn("*** testform.py ***")
 
 class TheTestForm(FormDoc):
     aaa = StrField()
-    bbb = StrField()
+    bbb = StrField(monospaced=True)
     aNumber = IntField(minValue=0, maxValue=100)
     cost = FloatField(title="Cost, £",
+         formatStr="{:.2f}")
+    costM = FloatField(title="Cost (M), £", monospaced=True,
          formatStr="{:.2f}")
     tickyBox = BoolField()
     favouriteFruit = ChoiceField(choices=("Apple", "Banana", "Orange"))
     note = TextAreaField()
+    noteM = TextAreaField(monospaced=True)
 
 @app.route('/testForm', methods=['POST', 'GET'])
 def testForm():

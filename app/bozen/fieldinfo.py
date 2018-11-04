@@ -3,6 +3,7 @@
 import inspect
 import os.path
 import re
+from typing import *
 
 from . import butil
 from .butil import *
@@ -77,6 +78,20 @@ def cssClasses(*args)->str:
     h = ' class="' + " ".join(goodAtoms) + '"'
     return h
 
+def possibleAttr(attrName:str, attrValue:Optional[str])->str:
+    """ If an attribute is not None, include it in the html for an
+    element.
+    :param str attrName: the attribute name
+    :param attrValue: the value of the attribute
+    :return a string possibly containing an attribute name and value
+    :rtype str
+    """
+    if attrValue is None: return ""
+    h = form("{attrName}='{attrValue}'",
+        attrName = attrName,
+        attrValue = attrValue)
+    return h
+
 #---------------------------------------------------------------------
 """
 Things a field index (fi) must do:
@@ -116,7 +131,7 @@ class FieldInfo:
             self.index, str(self.__class__.__name__), kwargs)
 
 
-    def __repr__(self):
+    def __repr__(self)->str:
         r = "<%s %s>" % (self.__class__.__name__,
             butil.exValue(lambda: self.fieldName, "(name unknown)"))
         return r
@@ -148,18 +163,18 @@ class FieldInfo:
             return self.formField_rw(v, **kwargs)
 
 
-    def formField_rw(self, v, **kwargs):
+    def formField_rw(self, v, **kwargs)->str:
         vStr = self.convertToReadable(v)
-        h = form("""<input class='gin{monospace}' id="id_{fn}"
+        h = form("""<input{cc} id="id_{fn}"
             name="{fn}"
             type="text" value="{v}" size={fieldLen}>""",
-            monospace = self.monospaceClass(),
+            cc = cssClasses("gin", self.monospaced and "monospace"),
             fn = self.fieldName,
             v = attrEsc(vStr),
             fieldLen = self.fieldLen)
         return h
 
-    def formField_ro(self, v, **kwargs):
+    def formField_ro(self, v, **kwargs)->str:
         vStr = htmlEsc(self.convertToReadable(v))
         if vStr.strip() == "": vStr = "&nbsp;"
         h = form("<span class='read-only{monospace}' "
@@ -170,24 +185,15 @@ class FieldInfo:
         )
         return h
 
-    def monospaceClass(self):
-        """ returns text for the monospace CSS class.
-        :rtype str
-        """
-        if self.monospaced:
-            return " monospace"
-        else:
-            return ""
 
     #========== error message for field
 
-    def errorMsg(self, v):
+    def errorMsg(self, v)->str:
         """ Calculate an error message for this field
         :param v: data for this field (in format as it goes in the
             database)
         :return an error message for this field,
             or "" if there are no errors
-        :rtype str
         """
         retVal = ""
         #pr("v=%r self.minValue=%r", v, self.minValue)
@@ -230,13 +236,12 @@ class FieldInfo:
         """
         return None
 
-    def convert(self, v):
+    def convert(self, v: str):
         """ Convert a value from something got from a form to a value
         that can be stored in the database for that field. uses the
         (convertF) parameter if it is set, otherwise uses the FieldInfo
         subclass's convertValue() method
         The return type necessarily depends on what field type it is.
-        :param string v:
         """
         v2 = str(v)
         #prvars("v2")
@@ -253,7 +258,7 @@ class FieldInfo:
         """
         raise ImplementedBySubclass
 
-    def convertToReadableH(self, v):
+    def convertToReadableH(self, v)->str:
         """ Convert the internal value in the database (v) to a readable
         value (i.e. a string or unicode that could de displayed in a form
         or elsewhere). This method is the opposite of the convertValue()
@@ -266,7 +271,7 @@ class FieldInfo:
         h = htmlEsc(self.convertToReadable(v))
         return h
 
-    def convertToReadable(self, v):
+    def convertToReadable(self, v)->str:
         """ Convert the internal value in the database (v) to a readable
         value (i.e. a string or unicode that could de displayed in a form
         or elsewhere). This method is the opposite of the convertValue()
@@ -281,13 +286,11 @@ class FieldInfo:
 
     #========== helper functions
 
-    def setFieldName(self, fieldName):
+    def setFieldName(self, fieldName: str)->str:
         """
         This is called from formdoc.initialiseClass() to set the
         fieldName to be whatever the class variable name is in the
         class definition.
-        :param fieldName: the field name
-        :type fieldName: str
         """
         dpr("setting field name to %r", fieldName)
         self.fieldName = fieldName
@@ -306,7 +309,7 @@ class FieldInfo:
         """
         self.docClass = docClass
 
-    def classFieldName(self):
+    def classFieldName(self)->str:
         """ Text giving the class and fieldname of the FieldInfo, e.g.
         "Customer.phoneNumber". May be useful for debugging.
         @return::str
@@ -334,11 +337,11 @@ class StrField(FieldInfo):
         """
         return ""
 
-    def convertValue(self, v):
+    def convertValue(self, v)->str:
         return str(v)
 
 
-    def errorMsg(self, v):
+    def errorMsg(self, v)->str:
         if self.required and not v:
             return "This field is required."
 
@@ -376,12 +379,13 @@ class TextAreaField(StrField):
 
     def formField_rw(self, v, **kwargs):
         """ return html for a form field for this fieldInfo """
-        h = form(('''<textarea  class="{monospace} {wysiwyg}"
+        h = form(('''<textarea{cc}
  id="id_{fieldName}" name="{fieldName}"
  {rows} {cols}
  >{v}</textarea>'''),
-            monospace = self.monospaceClass(),
-            wysiwyg = "wysiwyg" if self.wysiwyg else "gin",
+            cc = cssClasses(
+                self.monospaced and "monospace",
+                "wysiwyg" if self.wysiwyg else "gin"),
             fieldName = self.fieldName,
             rows = possibleAttr("rows", self.rows),
             cols = possibleAttr("cols", self.cols),
@@ -389,26 +393,12 @@ class TextAreaField(StrField):
         )
         return h
 
-    def formField_ro(self, v, **kwargs):
+    def formField_ro(self, v, **kwargs)->str:
         lines = [htmlEsc(line.strip()) for line in v.split("\n")]
         h = "<br>\n".join(lines)
         if h == "": h = "&nbsp;"
         h2 = "<span class='read-only'>{}</span>".format(butil.myStr(h))
         return h2
-
-def possibleAttr(attrName, attrValue):
-    """ If an attribute is not None, include it in the html for an
-    element.
-    :param str attrName: the attribute name
-    :param attrValue: the value of the attribute
-    :return a string possibly containing an attribute name and value
-    :rtype str
-    """
-    if attrValue is None: return ""
-    h = form("{attrName}='{attrValue}'",
-        attrName = attrName,
-        attrValue = attrValue)
-    return h
 
 
 #---------------------------------------------------------------------
