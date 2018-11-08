@@ -86,6 +86,8 @@ def getDefaultDatabase()->Optional[pymongo.collection.Collection]:
 
 ## CSS
 
+*See also [[Bozen CSS]].*
+
 Bozen code outputs HTML. This HTML contains CSS classes. The file `bozen.css` contains definitions of the CSS classes used by Bozen.
 
 These CSS classes begin with `bz-` where they define the type of an element, but not not when they merely define a characteristic of it.
