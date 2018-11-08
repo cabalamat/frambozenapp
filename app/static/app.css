@@ -549,7 +549,7 @@ td.form-section {
 }
 td.nopad-form-section {
   width: 100%; text-align: center;
-  font-weight: bold;
+/*   font-weight: bold; */
 }
 
 td.form-section div, td.nopad-form-section div {

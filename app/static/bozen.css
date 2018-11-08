@@ -1,0 +1,203 @@
+/* bozen.css
+   =========
+
+Styles used by HTML created by Bozen.
+*/
+
+/*------------------------------------------------------------------*/
+/* forms */
+
+
+.form-table tr {
+    //background: #0f0;
+    //padding: 40px !important;
+    //border: 2px solid #900;
+}
+
+.form-table th {
+    vertical-align: top;
+    padding: 6px 10px 6px 0px;
+}
+
+.form-table th, .form-table label  {
+  //vertical-align: top;
+  text-align: right;
+  //float: right;
+}
+
+.form-table th.form-title {
+  /* title for a form field */
+  //min-width: 150px;
+}
+
+.form-table td {
+    padding: 2px 10px 2px 0px;
+}
+
+.form-table input {
+   padding: 1px 5px;
+}
+
+.form-table .btn {
+   padding: 4px 8px;
+}
+
+/* make sure there is enough space before buttons */
+
+.form-table td > .btn {
+  margin-top: 12px;
+}
+
+.form-error-line, .form-error {
+  /* an error message in a form */
+  color: #800;
+  background: #fee;
+  //color: #ff6;
+  //background: #800;
+}
+
+.form-warning-line, .form-warning {
+  /* a warning message in a form */
+  color: #c60;
+  background: #fed;
+
+}
+
+.form-error-line, .form-warning-line {
+  padding: 3px 6px 3px 6px;
+}
+.form-error-line {
+  border: 2px solid #eaa;
+}
+.form-warning-line {
+  padding: 3px 6px 3px 6px;
+  border: 2px solid #d96;
+}
+
+.form-error-line td, .form-warning-line td {
+  padding: 3px 6px 3px 6px;
+}
+
+.message-box {
+  padding: 3px 6px 3px 6px;
+  border: 2px solid #aea;
+  color: #060;
+  background: #efe;
+}
+
+.form-error {
+  //padding: 3px 6px 3px 6px;
+  //border: 1px solid #c66;
+}
+
+input.gin, textarea.gin, .gin {
+  /* green input box -- similar to alphabet */
+  padding: 1px 2px 1px 2px;
+  border: 2px solid #060;
+  border-radius: 4px;
+}
+.form-error-line input.gin, 
+.form-error-line textarea.gin,
+.form-error-line .gin {
+  border: 2px solid #eaa;
+  //border: 2px solid #800;
+}    
+
+.monospace {
+  font-family: monospace !important;
+}
+
+input[type=number] {
+  /* remove up/down buttons from firefox */
+  -moz-appearance: textfield;
+}
+
+.read-only-input {
+  border: 2px solid #bbc;
+  padding: 1px 2px 1px 2px;
+  border-radius: 4px;
+}
+
+span.read-only {
+  /* read-only elements in lower contrast */
+
+  padding: 0px 4px 0px 4px;
+  min-width: 150px;
+  display: inline-block;
+}
+
+.roin, span.read-only { /* readonly input */
+  border-radius: 4px;
+
+  background: #f4f8ff;
+  border: 2px solid #bbd;
+  color: #008;
+}
+
+/* two column forms */
+
+.two-columns {
+  vertical-align: top;
+}
+
+.second-column {
+  border-left: 20px solid #fff;
+}
+
+
+td.form-section {
+  width: 100%; text-align: center;
+  font-weight: bold;
+  padding-top: 30px;
+  //padding-bottom: 10px;
+}
+td.nopad-form-section {
+  width: 100%; text-align: center;
+  font-weight: bold;
+}
+
+td.form-section div, td.nopad-form-section div {
+  //background: #494;
+  //color: #fff;
+  padding: 2px 0px 0px 0px;
+
+  border-left: 2px solid #6b6;
+  border-top: 2px solid #6b6;
+  border-right: 2px solid #6b6;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* ImageField in form */
+img.ImageField {
+    padding: 0px;
+    border: 2px solid #888;
+    max-width: 200px;
+    max-height: 200px;
+}
+.ImageField .ImageField-pan {
+    vertical-align: top;
+}
+
+select {
+    background: none;
+    //border: none;
+    padding: 1px 2px 1px 2px;
+    border: 1px solid #060;
+    //border-radius: 4px;
+}
+
+/* MultiChoiceField */
+
+.mcf-keep-together {
+    white-space: nowrap;
+    margin-right: 12px;
+}
+
+/* ColorField */
+
+.ColorField_ro {
+    border: 1px solid #000000;
+}
+
+/*end*/
