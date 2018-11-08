@@ -12,7 +12,7 @@ Frambozen has a logo:
 
 ## Frambozen
 
-Is known as **bozen** inside the repository (it's shorter). See [[bozen]].
+Is known as **bozen** inside the repository (it's shorter). See [[Bozen]].
 
 ## Frambozenapp
 
