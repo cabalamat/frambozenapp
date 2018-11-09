@@ -165,7 +165,7 @@ class FormDoc(metaclass=FormDocMeta):
         """ Build an html form containing all the fields in the FormDoc.
         Includes enclosing '<table>' tags.
         """
-        h = form("<table class='form-table'>{}</table>",
+        h = form("<table class='bz-form-table'>{}</table>",
             self.buildFormLines(**kwargs))
         return h
 
@@ -197,7 +197,7 @@ class FormDoc(metaclass=FormDocMeta):
                 errCssClass = "form-error-line"
 
         h = form("""<tr class='{fn}_line {errCssClass}'>
-    <th class='form-title'>
+    <th class='bz-field-title'>
       <label for="id_{fn}" title="{desc}">{title}</label></th>
     <td>{ff} {errMsg2}</td>
 </tr>""",

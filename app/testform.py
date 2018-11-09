@@ -14,6 +14,7 @@ prn("*** testform.py ***")
 
 class TheTestForm(FormDoc):
     aaa = StrField()
+    copyOfAaa = StrField(readOnly=True)
     bbb = StrField(monospaced=True)
     aNumber = IntField(minValue=0, maxValue=100)
     cost = FloatField(title="Cost, £",
@@ -23,7 +24,6 @@ class TheTestForm(FormDoc):
     tickyBox = BoolField()
     favouriteFruit = ChoiceField(choices=("Apple", "Banana", "Orange"))
     note = TextAreaField()
-    noteM = TextAreaField(monospaced=True)
 
 @app.route('/testForm', methods=['POST', 'GET'])
 def testForm():
@@ -35,6 +35,7 @@ def testForm():
     dpr("request=%r", request)
     if request.method=='POST':     
         theTF = theTF.populateFromRequest(request)
+        theTF.copyOfAaa = theTF.aaa
         if theTF.isValid():
             resultTable = getResultTable(theTF)
     #//if    
@@ -49,7 +50,7 @@ def testForm():
 
 def getResultTable(th: TheTestForm)->str:
     """ return an html table with the contents of (tf) """
-    h = """<table class='report_table'>
+    h = """<table class='bz-report-table'>
 <tr>
     <th>Field Name</th>
     <th>Type</th>

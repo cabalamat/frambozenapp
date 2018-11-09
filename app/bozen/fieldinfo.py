@@ -168,7 +168,7 @@ class FieldInfo:
         h = form("""<input{cc} id="id_{fn}"
             name="{fn}"
             type="text" value="{v}" size={fieldLen}>""",
-            cc = cssClasses("gin", self.monospaced and "monospace"),
+            cc = cssClasses("bz-input", self.monospaced and "monospace"),
             fn = self.fieldName,
             v = attrEsc(vStr),
             fieldLen = self.fieldLen)
@@ -177,11 +177,10 @@ class FieldInfo:
     def formField_ro(self, v, **kwargs)->str:
         vStr = htmlEsc(self.convertToReadable(v))
         if vStr.strip() == "": vStr = "&nbsp;"
-        h = form("<span class='read-only{monospace}' "
-                 "id='id_{fn}'>{v}</span>",
+        h = form("<span{cc} id='id_{fn}'>{v}</span>",
+            cc = cssClasses("bz-read-only",  self.monospaced and "monospace"),
             fn = self.fieldName,
             v = vStr,
-            monospace = self.monospaceClass(),
         )
         return h
 
@@ -384,8 +383,9 @@ class TextAreaField(StrField):
  {rows} {cols}
  >{v}</textarea>'''),
             cc = cssClasses(
+                "bz-input",
                 self.monospaced and "monospace",
-                "wysiwyg" if self.wysiwyg else "gin"),
+                self.wysiwyg and "wysiwyg"),
             fieldName = self.fieldName,
             rows = possibleAttr("rows", self.rows),
             cols = possibleAttr("cols", self.cols),

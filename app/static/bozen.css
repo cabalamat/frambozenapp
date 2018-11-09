@@ -8,47 +8,48 @@ Styles used by HTML created by Bozen.
 /* forms */
 
 
-.form-table tr {
+.bz-form-table tr {
     //background: #0f0;
     //padding: 40px !important;
     //border: 2px solid #900;
 }
 
-.form-table th {
+.bz-form-table th {
     vertical-align: top;
     padding: 6px 10px 6px 0px;
 }
 
-.form-table th, .form-table label  {
+.bz-form-table th, .bz-form-table label {
   //vertical-align: top;
   text-align: right;
   //float: right;
 }
 
-.form-table th.form-title {
+.bz-form-table th.bz-field-title {
   /* title for a form field */
   //min-width: 150px;
+  //color: #009;
 }
 
-.form-table td {
+.bz-form-table td {
     padding: 2px 10px 2px 0px;
 }
 
-.form-table input {
+.bz-form-table input {
    padding: 1px 5px;
 }
 
-.form-table .btn {
+.bz-form-table .btn {
    padding: 4px 8px;
 }
 
 /* make sure there is enough space before buttons */
 
-.form-table td > .btn {
+.bz-form-table td > .btn {
   margin-top: 12px;
 }
 
-.form-error-line, .form-error {
+.bz-form-error-line, .bz-form-error {
   /* an error message in a form */
   color: #800;
   background: #fee;
@@ -56,25 +57,24 @@ Styles used by HTML created by Bozen.
   //background: #800;
 }
 
-.form-warning-line, .form-warning {
+.bz-form-warning-line, .bz-form-warning {
   /* a warning message in a form */
   color: #c60;
   background: #fed;
 
 }
 
-.form-error-line, .form-warning-line {
+.bz-form-error-line, .bz-form-warning-line {
   padding: 3px 6px 3px 6px;
 }
-.form-error-line {
+.bz-form-error-line {
   border: 2px solid #eaa;
 }
-.form-warning-line {
-  padding: 3px 6px 3px 6px;
+.bz-form-warning-line {
   border: 2px solid #d96;
 }
 
-.form-error-line td, .form-warning-line td {
+.bz-form-error-line td, .bz-form-warning-line td {
   padding: 3px 6px 3px 6px;
 }
 
@@ -85,20 +85,15 @@ Styles used by HTML created by Bozen.
   background: #efe;
 }
 
-.form-error {
-  //padding: 3px 6px 3px 6px;
-  //border: 1px solid #c66;
-}
-
-input.gin, textarea.gin, .gin {
+.bz-input {
   /* green input box -- similar to alphabet */
   padding: 1px 2px 1px 2px;
   border: 2px solid #060;
   border-radius: 4px;
 }
-.form-error-line input.gin, 
-.form-error-line textarea.gin,
-.form-error-line .gin {
+.form-error-line input.bz-input, 
+.form-error-line textarea.bz-input,
+.form-error-line .bz-input {
   border: 2px solid #eaa;
   //border: 2px solid #800;
 }    
@@ -112,36 +107,14 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.read-only-input {
-  border: 2px solid #bbc;
-  padding: 1px 2px 1px 2px;
-  border-radius: 4px;
-}
-
-span.read-only {
-  /* read-only elements in lower contrast */
-
+.bz-read-only {
   padding: 0px 4px 0px 4px;
   min-width: 150px;
   display: inline-block;
-}
-
-.roin, span.read-only { /* readonly input */
   border-radius: 4px;
-
   background: #f4f8ff;
   border: 2px solid #bbd;
   color: #008;
-}
-
-/* two column forms */
-
-.two-columns {
-  vertical-align: top;
-}
-
-.second-column {
-  border-left: 20px solid #fff;
 }
 
 
@@ -199,5 +172,42 @@ select {
 .ColorField_ro {
     border: 1px solid #000000;
 }
+
+/*------------------------------------------------------------------*/
+/* report tables */
+
+
+
+table.bz-report-table {
+  border: 1px #aaa solid;
+  border-collapse: collapse;
+  margin: 7px 0 7px 0;
+  background: #fff;
+}
+
+table.bz-report-table th {
+  border: 1px solid #aaa;
+  padding: 4px 6px 2px 6px;
+  background: #def;
+  vertical-align: top;
+  text-align: left;
+}
+
+table.bz-report-table td {
+  border: 1px solid #aaa;
+  padding: 3px 6px 1px 6px;
+  vertical-align: top;
+}
+
+.bz-report-tablee pre {
+  color: #000;
+  background: #fff;
+  border: 0;
+  padding: 0;
+  line-height: 120%;
+}
+
+
+/*------------------------------------------------------------------*/
 
 /*end*/
