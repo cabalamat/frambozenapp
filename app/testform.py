@@ -12,6 +12,12 @@ prn("*** testform.py ***")
 
 #---------------------------------------------------------------------
 
+FRUIT_CHOICES = [
+    ('apple', "Apple"),
+    ('banana', "Banana"),
+    ('orange', "Orange"),
+]
+
 class TheTestForm(FormDoc):
     aaa = StrField()
     copyOfAaa = StrField(readOnly=True)
@@ -22,7 +28,8 @@ class TheTestForm(FormDoc):
     costM = FloatField(title="Cost (M), £", monospaced=True,
          formatStr="{:.2f}")
     tickyBox = BoolField()
-    favouriteFruit = ChoiceField(choices=("Apple", "Banana", "Orange"))
+    favouriteFruit = ChoiceField(choices=FRUIT_CHOICES,
+        showNull=True, allowNull=False)
     note = TextAreaField()
 
 @app.route('/testForm', methods=['POST', 'GET'])

@@ -74,6 +74,9 @@ Styles used by HTML created by Bozen.
   border: 2px solid #d96;
 }
 
+.bz-form-error-line th, .bz-form-warning-line th {
+  padding: 3px 6px 3px 6px;
+}
 .bz-form-error-line td, .bz-form-warning-line td {
   padding: 3px 6px 3px 6px;
 }
@@ -91,11 +94,10 @@ Styles used by HTML created by Bozen.
   border: 2px solid #060;
   border-radius: 4px;
 }
-.form-error-line input.bz-input, 
-.form-error-line textarea.bz-input,
-.form-error-line .bz-input {
+.bz-form-error-line input.bz-input, 
+.bz-form-error-line textarea.bz-input,
+.bz-form-error-line .bz-input {
   border: 2px solid #eaa;
-  //border: 2px solid #800;
 }    
 
 .monospace {

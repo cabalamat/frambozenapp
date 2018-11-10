@@ -194,7 +194,7 @@ class FormDoc(metaclass=FormDocMeta):
             if errMsg:
                 errMsg2 = ("<br>\n<i class='fa fa-exclamation-triangle'></i> "
                     + errMsg)
-                errCssClass = "form-error-line"
+                errCssClass = "bz-form-error-line"
 
         h = form("""<tr class='{fn}_line {errCssClass}'>
     <th class='bz-field-title'>
@@ -384,7 +384,7 @@ class FormDoc(metaclass=FormDocMeta):
             return ""
         fwem = self.formWideErrorMessage()
         if not fwem: return ""
-        h = form("""<div class='form-error-line'>
+        h = form("""<div class='bz-form-error-line'>
     <i class='fa fa-exclamation-triangle'></i> {}
 </div>""", fwem)
         return h
