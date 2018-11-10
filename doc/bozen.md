@@ -18,3 +18,4 @@ The [[mongo]] module interacts with [[MongoDB]] using the pymongo library.
 
 * [[Coding standards]]
 * [[Bozen CSS]]
+* [[Glossary]]

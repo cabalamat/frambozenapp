@@ -21,6 +21,10 @@ Implemented in `numberfield.py`:
 * [[FloatField]] = a `float`
 * [[BoolField]] = a `bool`
 
+Implemented in `keychoicefield.py`:
+
+* [[ChoiceField]] = a `str`, being one of a series of choices
+
 ## Parameters
 
 Some parameters are common to many `FieldInfo` subclasses. For each parameter we give its type after ":", where relevant.

@@ -2,11 +2,11 @@
 
 **Bozen CSS** is the CSS classes and identifiers included in HTML rendered by Bozen.
 
-The layout for these classes and identifiers is defined in `static/bozen.css`.
+The layout for these classes and identifiers is defined in `static/bozen.css` in the Flask app.
 
 ## CSS classes
 
-In the below "Old class name" refers to the equivalent class name in Monfab, Bozen's predecessor.
+In the below "Old class name" refers to the equivalent class name in [[Monfab]], Bozen's predecessor.
 
 ### Forms
 
@@ -36,8 +36,8 @@ Class name       | Old class name | Meaning / notes
 Bozen-produced HTML includes Font Awesome 4.5 icons, which are implemented as CSS classes. The ones used are:
 
 
-Icon   | Name   | Used for 
------- | ------ | -----
+Icon   | Class name   | Used for 
+------ | ------       | -----
 <i class='fa fa-exclamation-triangle'></i> | `fa-exclamation-triangle` | accompanies error messages
 
 
