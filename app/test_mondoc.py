@@ -4,9 +4,10 @@ import traceback
 
 import bozen
 from bozen.butil import *
-from bozen import lintest
+from bozen import lintest, MonDoc
 from bozen.fieldinfo import StrField
 from bozen.numberfield import IntField
+from bozen.keychoicefield import FK
 from bozen import mondoc
 
 bozen.setDefaultDatabase('test_bozen')
@@ -143,9 +144,61 @@ class T_urls(lintest.TestCase):
 
 #---------------------------------------------------------------------
 
+class Author(MonDoc):
+    name = StrField()
+
+class Book(MonDoc):
+    title = StrField()
+    yearPublished = IntField()
+    author_id = FK(Author)
+    
+
+class T_foreignKeys(lintest.TestCase):
+    """ test the FK (foreign key) field and associated functionality """
+    
+    def setUpAll(self):
+        """ run once before all the tests, to set up the system """
+        self.db = bozen.getDefaultDatabase()
+        
+        self.db.drop_collection("Author")
+        numAuthors = Author.count()
+        self.assertSame(numAuthors, 0, "there should be no Authors")
+        
+        self.db.drop_collection("Book")
+        numBooks = Book.count()
+        self.assertSame(numBooks, 0, "there should be no Authors")
+
+    def test_create_data(self):
+        a1 = Author(name="George R. R. Martin")
+        a1.save()
+        a2 = Author(name="George Orwell")
+        a2.save()
+        numAuthors = Author.count()
+        self.assertSame(numAuthors, 2, "there should be 2 Authors")
+        
+        b1 = Book(title="A Game of Thrones")
+        b1.author_id = a1._id
+        b1.save()
+        
+        b2 = Book(title="A Clash of Kings")
+        b2.author_id = a1._id
+        b2.save()
+        
+        b3 = Book(title="Animal Farm")
+        b3.author_id = a2._id
+        b3.save()
+        
+        numBooks = Book.count()
+        self.assertSame(numBooks, 3, "there should be 3 Books")
+                  
+                  
+    
+#---------------------------------------------------------------------
+
 group = lintest.TestGroup()
 group.add(T_create_save_delete)
 group.add(T_urls)
+group.add(T_foreignKeys)
 
 if __name__=='__main__': group.run()
 

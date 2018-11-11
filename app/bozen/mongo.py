@@ -43,7 +43,7 @@ class MongoabIncrementor:
             update={'$inc': {'value': 1}},
             upsert=True,
             new=True)['value']
-        dpr("new index is %d", self.index)
+        dpr("new index is {}", self.index)
         return self.index
     
     def getNewIndexB36(self)->str:

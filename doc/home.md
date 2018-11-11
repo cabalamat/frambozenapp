@@ -10,6 +10,15 @@ Frambozen has a logo:
 
 [TOC]
 
+## About this documentation
+
+This documentation is stored in the `doc/` directory in frambozenapp. 
+
+The documentation was written using my **CatWiki** wiki software, available from <https://github.com/cabalamat/catwiki>.
+
+The documentation files are stored in the expanded form of Markdown used by CatWiki. 
+They are best viewed in catWiki; alternately you can view them in a text editor or other Markdown software (with some limitations).
+
 ## Frambozen
 
 Is known as **bozen** inside the repository (it's shorter). See [[Bozen]].

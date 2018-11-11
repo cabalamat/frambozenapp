@@ -24,6 +24,7 @@ Implemented in `numberfield.py`:
 Implemented in `keychoicefield.py`:
 
 * [[ChoiceField]] = a `str`, being one of a series of choices
+* [[FK]] = a foreign key to a MongoDB document
 
 ## Parameters
 
