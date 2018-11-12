@@ -191,17 +191,34 @@ class T_foreignKeys(lintest.TestCase):
         numBooks = Book.count()
         self.assertSame(numBooks, 3, "there should be 3 Books")
         
-    def test_accessForeignFields(self):
+    def test_accessForeignFields_b1(self):
         grrm = Author.find_one({'name': "George R. R. Martin"})
-        go = Author.find_one({'name': "George Orwell"})
         
         #>>>>> Book "A Game of Thrones"
         b1 = Book.find_one({'yearPublished': 1996})
         self.assertSame(b1.title, "A Game of Thrones")
         self.assertSame(b1.author_id, grrm._id, 
             "Author id of A Game of Thrones")
+        b1keys = sorted(list(b1.__dict__.keys()))
+        dpr("b1 has keys: %r", b1keys)
+        
         self.assertSame(b1.author.name, "George R. R. Martin", 
             "Author of A Game of Thrones")
+        
+        # make sure b1 doesn't write .author field 
+        b1.save()
+        b1dict = Book.col().find_one({'yearPublished': 1996})
+        dpr("b1 (from pymongo) %r", b1dict)
+        b1keys = list(b1dict.keys())
+        self.assertTrue("_id" in b1keys, "b1dict has _id")
+        self.assertTrue("title" in b1keys, "b1dict has title")
+        self.assertTrue("yearPublished" in b1keys,
+            "b1dict has yearPublished")
+        self.assertTrue("author_id" in b1keys, 
+            "b1dict has author_id")
+        self.assertFalse("author" in b1keys, 
+            "b1dict doesn't have author field")
+        
         try:
             r = b1.foo
         except KeyError:
@@ -213,6 +230,10 @@ class T_foreignKeys(lintest.TestCase):
             self.failed("incorrectly doesn't throw exception for "
                 "non-existant field")
             
+            
+    def test_accessForeignFields_b3(self):
+        go = Author.find_one({'name': "George Orwell"})
+        
         #>>>>> Book "Animal Farm"
         b3 = Book.find_one({'yearPublished': 1945}) 
         self.assertSame(b3.title, "Animal Farm")
