@@ -131,6 +131,31 @@ class FormDoc(metaclass=FormDocMeta):
         s += ">"
         return s
        
+    #========== for joins ==========
+
+    def __getattr__(self, fieldName: str) -> Union['MonDoc', 'NullDoc']:
+        """ This is called when self.__dict__ doesn't have a
+        key of (fieldName)
+        """
+        fnid = fieldName + "_id"
+        dpr("fieldName=%r fnid=%r", fieldName, fnid)
+
+        if fnid in self.__dict__:
+            fi = self.getFieldInfo(fnid)
+            dpr("fi=%r", fi)
+            if isinstance(fi, FK):
+                dpr("got it")
+                fetchedDoc = fi.getDoc(self[fnid]) #new
+                if not fetchedDoc:
+                    fetchedDoc = nulldoc.NullDoc(fi.foreignTable)
+                dpr("fetchedDoc=%r", fetchedDoc)
+                self.__dict__[fieldName] = fetchedDoc
+                return fetchedDoc
+
+        # not found, so fall over
+        raise KeyError("'%s' not found" %(fieldName,))
+
+
 
     #========== make it work like a dict ==========
 

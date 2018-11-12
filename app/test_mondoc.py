@@ -176,20 +176,51 @@ class T_foreignKeys(lintest.TestCase):
         numAuthors = Author.count()
         self.assertSame(numAuthors, 2, "there should be 2 Authors")
         
-        b1 = Book(title="A Game of Thrones")
+        b1 = Book(title="A Game of Thrones", yearPublished=1996)
         b1.author_id = a1._id
         b1.save()
         
-        b2 = Book(title="A Clash of Kings")
+        b2 = Book(title="A Clash of Kings", yearPublished=1999)
         b2.author_id = a1._id
         b2.save()
         
-        b3 = Book(title="Animal Farm")
+        b3 = Book(title="Animal Farm", yearPublished=1945)
         b3.author_id = a2._id
         b3.save()
         
         numBooks = Book.count()
         self.assertSame(numBooks, 3, "there should be 3 Books")
+        
+    def test_accessForeignFields(self):
+        grrm = Author.find_one({'name': "George R. R. Martin"})
+        go = Author.find_one({'name': "George Orwell"})
+        
+        #>>>>> Book "A Game of Thrones"
+        b1 = Book.find_one({'yearPublished': 1996})
+        self.assertSame(b1.title, "A Game of Thrones")
+        self.assertSame(b1.author_id, grrm._id, 
+            "Author id of A Game of Thrones")
+        self.assertSame(b1.author.name, "George R. R. Martin", 
+            "Author of A Game of Thrones")
+        try:
+            r = b1.foo
+        except KeyError:
+            exStr = traceback.format_exc()
+            self.passed("correctly throws exception for non-existant field, "
+                "exception is:\n-----begin-----\n%s-----end-----"
+                % (exStr,))
+        else:
+            self.failed("incorrectly doesn't throw exception for "
+                "non-existant field")
+            
+        #>>>>> Book "Animal Farm"
+        b3 = Book.find_one({'yearPublished': 1945}) 
+        self.assertSame(b3.title, "Animal Farm")
+        self.assertSame(b3.author_id, go._id, 
+            "Author id of Animal Farm")
+        self.assertSame(b3.author.name, "George Orwell", 
+            "Author of Animal Farm")   
+            
                   
                   
     

@@ -208,7 +208,7 @@ class FK(FieldInfo):
         If (self._foreignTable) is a string, change it to a MonDoc
         subclass.
         """
-        import mondoc
+        from . import mondoc
         if isinstance(self._foreignTable, str):
             pr("Looking up MonDoc subclass for '%s'", self._foreignTable)
             mdsc = mondoc.monDocSubclassDict.get(self._foreignTable, None)

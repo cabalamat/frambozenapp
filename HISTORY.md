@@ -26,3 +26,15 @@ and acting on groups of documents (`find()`, `find_one()` etc). --DONE
 Deleting documents.  --DONE
 
 Adding a(), url() etc functions  --DONE
+
+## 2018-Nov-11 
+
+Currently 52 assertions in 16 test functions
+
+3286 lines of Python (from `wc *.py */*.py`)
+
+## 2018-Nov-12
+
+Passed 59 assertions in 17 test functions
+3442 lines of Python (from `wc *.py */*.py`)
+

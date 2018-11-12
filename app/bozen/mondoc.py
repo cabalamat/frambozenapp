@@ -81,7 +81,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         
     def __repr__(self):
         s = "<%s" % (self.__class__.__name__,)
-        if self.__dict__.has_key('_id'):
+        if '_id' in self.__dict__:
             s += " %s" % (self.id(),)
         showFields = self.classInfo.fieldNameTuple[:5]
         for fn in showFields:
