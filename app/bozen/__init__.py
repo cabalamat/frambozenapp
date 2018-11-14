@@ -18,6 +18,7 @@ from .formdoc import FormDoc
 from .fieldinfo import FieldInfo, StrField, TextAreaField
 from .keychoicefield import ChoiceField
 from .numberfield import IntField, FloatField, BoolField
+from .multichoicefield import MultiChoiceField
 
                        
 #---------------------------------------------------------------------

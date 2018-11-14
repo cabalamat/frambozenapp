@@ -6,7 +6,8 @@ from allpages import app, jinjaEnv
 from bozen.butil import pr, prn, dpr, form, htmlEsc
 from bozen import FormDoc
 from bozen import (StrField, ChoiceField, TextAreaField,
-    IntField, FloatField, BoolField)
+    IntField, FloatField, BoolField,
+    MultiChoiceField)
 
 prn("*** testform.py ***")
 
@@ -17,19 +18,23 @@ FRUIT_CHOICES = [
     ('banana', "Banana"),
     ('orange', "Orange"),
 ]
+SLOT_CHOICES = [
+    ('slotA', "Slot A - Apple"),
+    ('slotB', "Slot B - Banana"),
+    ('slotC', "Slot C - Carrot"),
+    ('slotD', "Slot D - Date"),
+]
+
 
 class TheTestForm(FormDoc):
     aaa = StrField()
-    copyOfAaa = StrField(readOnly=True)
-    bbb = StrField(monospaced=True)
     aNumber = IntField(minValue=0, maxValue=100)
     cost = FloatField(title="Cost, £",
-         formatStr="{:.2f}")
-    costM = FloatField(title="Cost (M), £", monospaced=True,
          formatStr="{:.2f}")
     tickyBox = BoolField()
     favouriteFruit = ChoiceField(choices=FRUIT_CHOICES,
         showNull=True, allowNull=False)
+    slots = MultiChoiceField(choices=SLOT_CHOICES)
     note = TextAreaField()
 
 @app.route('/testForm', methods=['POST', 'GET'])

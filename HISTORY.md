@@ -43,3 +43,8 @@ Passed 59 assertions in 17 test functions
 Add NullDoc (for when FK cannot be dereferenced)
 Passed 70 assertions in 19 test functions
 3447 lines of Python (from `wc *.py */*.py`)
+
+## 2018-Nov-14
+
+Add MultiChoiceField
+3546 lines of Python (from `wc *.py */*.py`)

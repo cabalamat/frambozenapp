@@ -26,6 +26,10 @@ Implemented in `keychoicefield.py`:
 * [[ChoiceField]] = a `str`, being one of a series of choices
 * [[FK]] = a foreign key to a MongoDB document
 
+Implemented in `multichoicefield.py`:
+
+* [[MultiChoiceField]] = a `List[str]`, allowing thew user to chose several of a list of choices
+
 ## Parameters
 
 Some parameters are common to many `FieldInfo` subclasses. For each parameter we give its type after ":", where relevant.

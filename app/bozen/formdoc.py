@@ -21,7 +21,7 @@ from . import nulldoc
 class FormDocMeta(type):
     def __init__(cls, name, bases, dyct):
         dpr("!!!! in FormDocMeta init method !!!!")
-        super(FormDocMeta, cls).__init__(name, bases, dyct)
+        super().__init__(name, bases, dyct)
         cls.classInfo = Struct()
         initialiseClass(cls, dyct)
         

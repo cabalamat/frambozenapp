@@ -65,7 +65,7 @@ bCopy.author.name #=> "George Orwell"
 
 ## Parameters
 
-The `FK` constructor takes one compulsory parameter, the name of the collection it is a reference to. If this collection hasn't been defined you, you can use a string, e.g. `FK(Author)` and `FK('Author')` mean the same thing.
+The `FK` constructor takes one **compulsory** parameter, the name of the collection it is a reference to. If this collection hasn't been defined you, you can use a string, e.g. `FK(Author)` and `FK('Author')` mean the same thing.
 
 `desc`:`str` = A description of the field. This is used as a comment and is displayed as a tooltip on the field title as it appears on the page (using the HTML `title` attribute)
 

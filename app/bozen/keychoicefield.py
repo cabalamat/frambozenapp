@@ -22,7 +22,7 @@ class ChoiceField(StrField):
     """
 
     def readArgs(self, **kwargs):
-        super(ChoiceField, self).readArgs(**kwargs)
+        super().readArgs(**kwargs)
         choices = kwargs.get('choices',
             (('N','No'),('Y','Yes'))
         )
