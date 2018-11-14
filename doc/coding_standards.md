@@ -1,6 +1,6 @@
-# Coding standards
+# Coding Standards
 
-This page lists coding standards that Bozen will conform to.
+This page lists coding standards and conventions that Bozen will conform to.
 
 [TOC]
 
@@ -106,6 +106,10 @@ Might, when rendering the form, produce HTML like this:
 
 This includes the CSS classes `bz-input` (which means it is a Bozen input element in a form) tells you wta it is, 
 and `monospace` (which means the text in the form is displayed in a monospace font) describes something about what it looks like.
+
+## See also
+
+* [[Documentation Standards]]
 
 
 
