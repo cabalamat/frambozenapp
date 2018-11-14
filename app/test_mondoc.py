@@ -9,6 +9,7 @@ from bozen.fieldinfo import StrField
 from bozen.numberfield import IntField
 from bozen.keychoicefield import FK
 from bozen import mondoc
+from bozen.nulldoc import NullDoc
 
 bozen.setDefaultDatabase('test_bozen')
 
@@ -241,6 +242,27 @@ class T_foreignKeys(lintest.TestCase):
             "Author id of Animal Farm")
         self.assertSame(b3.author.name, "George Orwell", 
             "Author of Animal Farm")   
+        
+    def test_no_FK_so_NullDoc(self):
+        """ when FK cannot be deferenced, return a NullDoc """
+        b4 = Book(title="The C Programming Language",
+            yearPublished=1988)
+        b4.save()
+        
+        b4load = Book.find_one({'title':"The C Programming Language"})
+        r = b4load.title
+        self.assertSame(r, "The C Programming Language", "Title correct")
+        r = b4load.yearPublished
+        self.assertSame(r, 1988, "Year correct")
+        r = b4load.author_id
+        self.assertSame(r, None, "author_id correct")
+        r = b4load.author
+        self.assertTrue(isinstance(r, NullDoc),
+            "author is a NullDoc")   
+        self.assertSame(r.fakeClass, Author,
+            "the NullDoc is pretending to be an Author")   
+        r = b4load.author.name
+        self.assertSame(r, "", "No author, so field gets default value")
             
                   
                   

@@ -42,7 +42,7 @@ The HTML to render the *Favourite Fruit* line in the form looks something like t
 </tr>
 ```
 
-### Functionality
+### Validation functionality
 
 In the example, `showNull=True` meaning there is a "- select one -" option at the top, and `allowNull=False` which means the user must select one of the other options, otherwise the form is invalid and an error message is displayed:
 

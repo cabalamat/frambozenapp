@@ -10,6 +10,7 @@ from .fieldinfo import FieldInfo
 from .numberfield import BoolField
 from . import keychoicefield
 from .keychoicefield import FK
+from . import nulldoc
 
 #from butil import *
 #import bozenutil

@@ -36,5 +36,10 @@ Currently 52 assertions in 16 test functions
 ## 2018-Nov-12
 
 Passed 59 assertions in 17 test functions
-3442 lines of Python (from `wc *.py */*.py`)
+3342 lines of Python (from `wc *.py */*.py`)
 
+## 2018-Nov-13
+
+Add NullDoc (for when FK cannot be dereferenced)
+Passed 70 assertions in 19 test functions
+3447 lines of Python (from `wc *.py */*.py`)
