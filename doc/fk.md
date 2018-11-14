@@ -66,3 +66,17 @@ bCopy.author.name #=> "George Orwell"
 ## Parameters
 
 The `FK` constructor takes one compulsory parameter, the name of the collection it is a reference to. If this collection hasn't been defined you, you can use a string, e.g. `FK(Author)` and `FK('Author')` mean the same thing.
+
+`desc`:`str` = A description of the field. This is used as a comment and is displayed as a tooltip on the field title as it appears on the page (using the HTML `title` attribute)
+
+`title`:`str` = The text description that will appear against a field on a web form. This defaults to a name based on the field name in the table schema.
+
+`default`:`str` = the default value that goes in the field. If not set, it is the value of the 0th choice in `choices`.
+
+`showNull`:`bool` defaults to `False` = if true, the list of elecment begibns with a null element of `('',"- select one -")`
+
+`allowNull`:`bool` defaults to `True` = if true, allows the user to select the null (`''`) element
+
+`choiceF`:`Callable[[FK],List[Tuple[str,str]]]`. Choice function. Normally an FK as an HTML form field lists all the documents in a target collection. if this function is set, it is called when building the form to determine which documents to list.
+
+`showLink`:`bool` defaults to `True` = if true, show a link to the URL of the document for the foreign key.
