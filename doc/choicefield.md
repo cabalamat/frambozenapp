@@ -58,6 +58,6 @@ In the example, `showNull=True` meaning there is a "- select one -" option at th
 
 `default`:`str` = the default value that goes in the field. If not set, it is the value of the 0th choice in `choices`.
 
-`showNull`:`bool` defaults to `False` = if true, the list of elecment begibns with a null element of `('',"- select one -")`
+`showNull`:`bool` defaults to `False` = if true, the list of elements begins with a null element of `('',"- select one -")`
 
 `allowNull`:`bool` defaults to `True` = if true, allows the user to select the null (`''`) element

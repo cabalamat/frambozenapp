@@ -134,7 +134,7 @@ class FormDoc(metaclass=FormDocMeta):
        
     #========== for joins ==========
 
-    def __getattr__(self, fieldName: str) -> Union['MonDoc', 'NullDoc']:
+    def __getattr__(self, fieldName: str):
         """ This is called when self.__dict__ doesn't have a
         key of (fieldName)
         """
@@ -275,7 +275,8 @@ class FormDoc(metaclass=FormDocMeta):
         #pr("reqFiles=%r::%s, len=%r", reqFiles, type(reqFiles), len(reqFiles))
         import filefield
         #formDict = mongo.toDict(formData)
-        newOb = copy.copy(self)
+        #newOb = copy.copy(self)
+        newOb = self.makeCopy()
         #pr("self.__dict__=%r", self.__dict__)
         for fn in self.classInfo.fieldNameTuple:
             newOb.__dict__[fn] = self.__dict__[fn]
@@ -344,7 +345,11 @@ class FormDoc(metaclass=FormDocMeta):
         #//for k
         return newOb
 
-
+    def makeCopy(self):
+        """ return a shallow copy of this object """
+        newOb = self.__class__()
+        newOb.__dict__ = dict(self.__dict__)
+        return newOb
 
     def asReadableH(self, fn):
         """
