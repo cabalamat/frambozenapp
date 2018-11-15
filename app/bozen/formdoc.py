@@ -6,6 +6,7 @@ from typing import *
 
 from .butil import *
 from . import bozenutil
+from .bztypes import DbId, DisplayValue, DbValue, HtmlStr
 from .fieldinfo import FieldInfo
 from .numberfield import BoolField
 from . import keychoicefield
@@ -117,7 +118,7 @@ class FormDoc(metaclass=FormDocMeta):
         #//for
     
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Show a string representation of me
         :rtype str
@@ -187,7 +188,7 @@ class FormDoc(metaclass=FormDocMeta):
         
     #========== rendering an html form ==========
 
-    def buildForm(self, **kwargs):
+    def buildForm(self, **kwargs) -> HtmlStr:
         """ Build an html form containing all the fields in the FormDoc.
         Includes enclosing '<table>' tags.
         """
@@ -195,7 +196,7 @@ class FormDoc(metaclass=FormDocMeta):
             self.buildFormLines(**kwargs))
         return h
 
-    def buildFormLines(self, **kwargs):
+    def buildFormLines(self, **kwargs) -> HtmlStr:
         """ Build an html form containing all the fields in the FormDoc.
         Doesn't include enclosing '<table>' tags.
         """
@@ -207,7 +208,7 @@ class FormDoc(metaclass=FormDocMeta):
         #//for
         return h
 
-    def formLine(self, fn, **kwargs):
+    def formLine(self, fn, **kwargs) -> HtmlStr:
         """ Build a line of an html form
         :param str fn: field name
         """
@@ -236,7 +237,7 @@ class FormDoc(metaclass=FormDocMeta):
         )
         return h
     
-    def formField(self, fn, **kwargs):
+    def formField(self, fn, **kwargs) -> HtmlStr:
         """ Build a field of an html form
         :param str fn: field name
         """
@@ -251,7 +252,8 @@ class FormDoc(metaclass=FormDocMeta):
     #========== populate from request ==========
     # 26-Apr-2016 this will replace populateFromForm()
 
-    def populateFromRequest(self, req, populateBools='all'):
+    def populateFromRequest(self, req, 
+        populateBools:Union[str,List[str]]='all') -> 'FormDoc':
         """
         Creates a new FormDoc object similar to (self) with data from
         the form
@@ -345,18 +347,16 @@ class FormDoc(metaclass=FormDocMeta):
         #//for k
         return newOb
 
-    def makeCopy(self):
+    def makeCopy(self) -> 'FormDoc':
         """ return a shallow copy of this object """
         newOb = self.__class__()
         newOb.__dict__ = dict(self.__dict__)
         return newOb
 
-    def asReadableH(self, fn):
-        """
-        Get a readable form of the field data, converted to  a string /
-        unicode, and then converted to html ready to go in a web page.
-        :param str fn: the name of the field.
-        :rtype unicode or str, containing html
+    def asReadableH(self, fn: str) -> HtmlStr:
+        """ Get a readable form of the field data, converted to  a 
+        string / unicode, and then converted to html ready to go in a 
+        web page.
         """
         fi = self.getFieldInfo(fn)
         v = self[fn]
@@ -365,12 +365,9 @@ class FormDoc(metaclass=FormDocMeta):
         return s
 
 
-    def asReadable(self, fn):
-        """
-        Get a readable form of the field data, converted to  a string /
-        unicode.
-        :param str fn: the name of the field.
-        :rtype unicode or str
+    def asReadable(self, fn: str) -> str:
+        """ Get a readable form of the field data, converted to a 
+        string / unicode.
         """
         fi = self.getFieldInfo(fn)
         v = self[fn]
@@ -379,11 +376,8 @@ class FormDoc(metaclass=FormDocMeta):
 
     #========== validation ==========
 
-    def isValid(self, fieldsToValidate=None):
+    def isValid(self, fieldsToValidate:Union[List[str],None]=None) -> bool:
         """ Is a form valid?
-        @param validateFields::[str]|None = if set, only validate
-            these fields
-        :rtype bool
         """
         if fieldsToValidate is None:
             fieldsToValidate = self.classInfo.fieldNameTuple
@@ -405,7 +399,7 @@ class FormDoc(metaclass=FormDocMeta):
             return False
         return True
 
-    def formWideErrorMessageH(self):
+    def formWideErrorMessageH(self) -> HtmlStr:
         """
         Wrap up a form wide error message in approprate HTML.
         :return an html-ized error message, or "" is there is none.
@@ -420,7 +414,7 @@ class FormDoc(metaclass=FormDocMeta):
 </div>""", fwem)
         return h
 
-    def formWideErrorMessage(self):
+    def formWideErrorMessage(self) -> str:
         """
         Return a form-wide error message. If there is form-wide
         validation to be done, this method should be over-ridden.
@@ -432,27 +426,23 @@ class FormDoc(metaclass=FormDocMeta):
     #========== utility functions ==========
 
     @classmethod
-    def getFieldInfo(cls, fieldName):
+    def getFieldInfo(cls, fieldName: str) -> FieldInfo:
         """ Get the FieldInfo object for a field in a FormDoc subclass.
-        :param string fieldName:
-        :rtype FieldInfo
         """
         return cls.__dict__[fieldName]
 
     @classmethod
-    def hasFieldInfo(cls, fieldName):
+    def hasFieldInfo(cls, fieldName: str) -> bool:
         """ Does the class have a FieldInfo for a fieldName?
-        :param string fieldName:
-        :rtype bool
         """
         return fieldName in cls.__dict__
 
     @classmethod
-    def fieldNames(cls)->List[str]:
+    def fieldNames(cls) -> List[str]:
         """ Return this class's field names """
         return list(cls.classInfo.fieldNameTuple)
 
-    def setField(self, fieldName, newValue):
+    def setField(self, fieldName: str, newValue: str):
         """
         Set a field with a string value (e.g. coming from a form).
         Convert the value to a different type if required.

@@ -25,6 +25,11 @@ with DbValue.
 """
 DisplayValue = str
 
+"""
+An HtmlStr is a string that includes HTML markup, e.g. "<b>bold</b>"
+"""
+HtmlStr = str
+
 """ 
 a value in a FormDoc field as it will go in the Database
 """
@@ -33,7 +38,7 @@ DbValue = str
 """
 ChoiceList is used for the choices in ChoiceFiled and MultiChoiceField
 """
-ChoiceList = List[Tuple[DbValue, DisplayValue] 
+ChoiceList = List[Tuple[DbValue, DisplayValue]]
 
 #---------------------------------------------------------------------
 
