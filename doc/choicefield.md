@@ -50,7 +50,7 @@ In the example, `showNull=True` meaning there is a "- select one -" option at th
 
 ## Parameters
 
-`choices`:`List[Tuple[str,str]]` **COMPULSORY** = the choices in the selection box. For each tuple, the database value is defined followed by the display value.
+`choices`:`List[Tuple[str,str]]` **compulsory** = the choices in the selection box. For each tuple, the database value is defined followed by the display value.
 
 `desc`:`str` = A description of the field. This is used as a comment and is displayed as a tooltip on the field title as it appears on the page (using the HTML `title` attribute)
 
