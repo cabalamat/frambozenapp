@@ -6,6 +6,7 @@ import pymongo
 
 from .butil import *
 from . import bozenutil
+from .bztypes import DbId, DisplayValue, DbValue, HtmlStr
 from . import formdoc
 from . import mongo
 
@@ -97,7 +98,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
     #========== class methods ==========
     
     @classmethod
-    def count(cls, *args, **kwargs)->int:
+    def count(cls, *args, **kwargs) -> int:
         """ return a count of documents in this class.
         The args and kwargs arguments are the same as for
             pymongo.collection.Collection.find()
@@ -109,7 +110,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
 
 
     @classmethod
-    def find(cls, *args, **kwargs)->Iterator:
+    def find(cls, *args, **kwargs) -> Iterator:
         """ a wrapper round the pymongo find() method. This method
         is an iterator; each value returned is an instance of the relevant
         MonDoc subclass.
@@ -121,11 +122,9 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
             yield ins
             
     @classmethod
-    def find_one(cls, *args, **kwargs):
+    def find_one(cls, *args, **kwargs) -> Union['MonDoc',None]:
         """ a wrapper round the pymongo find_one() method. The value
         returned is an instance of the relevant MonDoc subclass.
-        :return the first document returned by the find
-        :rtype this MonDoc subclass, or None if no document found
         """
         kwargs = cls.fixKwargs(kwargs)
         doc = cls.col().find_one(*args, **kwargs)
@@ -143,7 +142,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         cls.col().delete_many(spec)
         
     @classmethod
-    def getDoc(cls, id):
+    def getDoc(cls, id: DbId) -> Union['MonDoc',None]:
         """ get a document from the collection given its id.
         If it doesn't exist, return None
         :param id:
@@ -160,14 +159,12 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         return ins
 
     @classmethod
-    def transform(cls, mongoDoc):
+    def transform(cls, mongoDoc: Dict) -> 'MonDoc':
         """ Transform a document as returned by pymongo into a MonDoc-subclass
         document.
-        :param dict mongoDoc: a document as returned from pymongo. This
+        @param dict mongoDoc: a document as returned from pymongo. This
             is a dict with the keys being strings and the values being
             json values converted to the equivalent Python type.
-        :return a monDoc subclass
-        :rtype MonDoc subclass
         """
         instance = cls()
         for k, v in mongoDoc.items():
@@ -176,7 +173,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         return instance
     
     @classmethod
-    def col(cls)->pymongo.collection.Collection:
+    def col(cls) -> pymongo.collection.Collection:
         """ return a document's collection """
         return cls.classInfo.useCollection
     
@@ -243,7 +240,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
 
     #========== functions for rendering as html ==========
 
-    def a(self, urlStub=None, includeLogo=True)->str:
+    def a(self, urlStub=None, includeLogo=True) -> HtmlStr:
         """Get an a-href for a document.
         :param urlStub: if this parameter is given, then the urlStub is
             the url before the id(), e.g. if id()="foo-12" and urlStub="/abc/"
@@ -264,7 +261,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         return h
 
 
-    def url(self)->str:
+    def url(self) -> str:
         """
         The URL at which this document can be accessed in the web app.
         By convention this is /{collectionName}/{documentId} ; this can be
@@ -276,7 +273,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         return u
 
     @classmethod
-    def classLogo(cls)->str:
+    def classLogo(cls) -> HtmlStr:
         """
         A logo for all documents in the collection, for example using
         Font Awesome or a similar web logo collection. If a logo is used,
@@ -285,7 +282,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         """
         return ""
 
-    def logo(self)->str:
+    def logo(self) -> HtmlStr:
         """
         A logo for the document, for example using Font Awesome or a
         similar web logo collection. If a logo is used, insert a space after
@@ -294,7 +291,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         """
         return self.classLogo()
 
-    def getName(self)->str:
+    def getName(self) -> str:
         """ Returns a string that is used to descibe the document.
         The default implementation here is the contents of the first
         FieldInfo field defined for the MonDoc.
@@ -305,7 +302,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         if fn0.endswith("_id"): return self.id()
         return self.asReadable(fn0)
 
-    def getNameH(self)->str:
+    def getNameH(self) -> HtmlStr:
         """ Returns an html-escpaed string that is used to descibe the document.
         The default implementation here is the contents of the first
         FieldInfo field defined for the MonDoc.
@@ -315,7 +312,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
     
     #========== misc methods
 
-    def id(self)->str:
+    def id(self) -> str:
         """ return this docment's _id, converted to a string,
         or "" if no _id.
         """
@@ -324,7 +321,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         else:
             return ""
 
-    def hasId(self)->bool:
+    def hasId(self) -> bool:
         """ does this document have an _id field? """
         return '_id' in self.__dict__
     
@@ -343,7 +340,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         return kwargs
 
     @staticmethod
-    def fixSort(sortArg):
+    def fixSort(sortArg) -> List[Tuple[str,int]]:
         """ Normalise sort argument.
 
         This puts the sort argument into a form that pymongo requires. See:
@@ -356,8 +353,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         ('bar',-1) -> [('bar', -1)]
         [('foo',-1), 'bar'] -> [('foo', -1), ('bar', 1)]
 
-        :return the sort argument in te way that pymongo requires it
-        :rtype list of tuple (string, int)
+        @return = the sort argument in te way that pymongo requires it
         """
         if isinstance(sortArg, (str,tuple)):
             sortArg = [sortArg]

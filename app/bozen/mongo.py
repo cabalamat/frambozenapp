@@ -6,6 +6,7 @@ import re
 import pymongo
 
 from .butil import *
+from .bztypes import DbId
 
 #---------------------------------------------------------------------
 
@@ -106,7 +107,7 @@ def isObjectIdStr(s):
         return False
     return bool(validObjectId.fullmatch(s))
 
-def normaliseId(id):
+def normaliseId(id: DbId) -> DbId:
     """ Normalise a MongoDB id, that is, if it is convertable to an
     ObjectId, do so. Else keep it as it is.
     :param id:
