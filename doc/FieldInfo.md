@@ -24,11 +24,12 @@ Implemented in `numberfield.py`:
 Implemented in `keychoicefield.py`:
 
 * [[ChoiceField]] = a `str`, being one of a series of choices
-* [[FK]] = a foreign key to a MongoDB document
+* [[FK]] = a foreign key to a MongoDB document, enabling a one-to-one or one-to-many relation
 
 Implemented in `multichoicefield.py`:
 
-* [[MultiChoiceField]] = a `List[str]`, allowing thew user to chose several of a list of choices
+* [[MultiChoiceField]] = a `List[str]`, allowing the user to chose several of a list of choices
+* [[FKeys]] = a list of foreign keys to MongoDB documents, enabling a many-to-many relation
 
 ## Parameters
 
