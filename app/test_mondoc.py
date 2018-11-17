@@ -154,7 +154,7 @@ class Book(MonDoc):
     author_id = FK(Author)
     
 
-class T_foreignKeys(lintest.TestCase):
+class T_FK(lintest.TestCase):
     """ test the FK (foreign key) field and associated functionality """
     
     def setUpAll(self):
@@ -264,15 +264,98 @@ class T_foreignKeys(lintest.TestCase):
         r = b4load.author.name
         self.assertSame(r, "", "No author, so field gets default value")
             
-                  
-                  
+     
+#---------------------------------------------------------------------
+
+class AuthorM(MonDoc):
+    name = StrField()
+
+class BookM(MonDoc):
+    title = StrField()
+    authors_ids = FK(AuthorM)
     
+
+class T_FKeys(lintest.TestCase):
+    """ test the FKeys (foreign keys) field and associated functionality """
+                 
+    
+    def setUpAll(self):
+        """ run once before all the tests, to set up the system """
+        self.db = bozen.getDefaultDatabase()
+        
+        self.db.drop_collection("AuthorM")
+        numAuthors = AuthorM.count()
+        self.assertSame(numAuthors, 0, "there should be no Authors")
+        
+        self.db.drop_collection("BookM")
+        numBooks = BookM.count()
+        self.assertSame(numBooks, 0, "there should be no Authors")
+
+    def test_create_data(self):
+        a1 = AuthorM(name="Brian Kernighan")
+        a1.save()
+        a2 = AuthorM(name="Dennis Ritchie")
+        a2.save()
+        a3 = AuthorM(name="Rob Pike")
+        a3.save()
+        numAuthors = AuthorM.count()
+        self.assertSame(numAuthors, 3, "there should be 3 Authors")
+        
+        b1 = BookM(title="The C Progranmming Language")
+        b1.authors_ids = [a1._id, a2._id]
+        b1.save()
+        b2 = BookM(title="The Practice of Programming")
+        b2.authors_ids = [a1._id, a3._id]
+        b2.save()
+        b3 = BookM(title="The Unix Programming Environment")
+        b3.authors_ids = [a1._id, a3._id]
+        b3.save()
+        numBooks = BookM.count()
+        self.assertSame(numBooks, 3, "there should be 3 Books")
+        
+    def test_load(self):
+        self.a1 = AuthorM.find_one({'name': "Brian Kernighan"})
+        self.assertSame(self.a1.name, "Brian Kernighan")       
+        self.a2 = AuthorM.find_one({'name': "Dennis Ritchie"})
+        self.assertSame(self.a2.name, "Dennis Ritchie")      
+        self.a3 = AuthorM.find_one({'name': "Rob Pike"})
+        self.assertSame(self.a3.name, "Rob Pike")
+        
+        self.b1 = BookM.find_one({'title': "The C Progranmming Language"})
+        self.assertSame(self.b1.authors_ids, [self.a1._id, self.a2._id],
+            "authors for b1")
+        self.b3 = BookM.find_one({'title': "The Unix Programming Environment"})
+        self.assertSame(self.b1.authors_ids, [self.a1._id, self.a2._id],
+            "authors for b1")
+        
+    def test_FKeys_refererence(self):
+        r = self.b1.authors
+        self.assertSame(len(r), 2, "b1 has 2 authors")
+        authorNames = ", ".join(au.name for au in self.b1.authors)
+        self.assertSame(authorNames, "Brian Kernighan, Dennis Ritchie",
+            "authors for b1")
+        
+        r3 = self.b3.authors
+        self.assertSame(len(r3), 2, "b3 has 2 authors")
+        authorNames = ", ".join(au.name for au in self.b3.authors)
+        self.assertSame(authorNames, "Brian Kernighan, Rob Pike",
+            "authors for b3")
+        
+        
+        
+        
+        
+        
+        
+        
+        
 #---------------------------------------------------------------------
 
 group = lintest.TestGroup()
 group.add(T_create_save_delete)
 group.add(T_urls)
-group.add(T_foreignKeys)
+group.add(T_FK)
+group.add(T_FKeys)
 
 if __name__=='__main__': group.run()
 

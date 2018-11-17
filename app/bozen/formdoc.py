@@ -153,11 +153,33 @@ class FormDoc(metaclass=FormDocMeta):
                 dpr("fetchedDoc=%r", fetchedDoc)
                 self.__dict__[fieldName] = fetchedDoc
                 return fetchedDoc
+            
+        fnids = fieldName + "_ids"
+        dpr("fieldName=%r fnids=%r", fieldName, fnids)
+        
+        if fnids in self.__dict__:
+            return self.getFKeysDereference(fnids)
 
         # not found, so fall over
         raise KeyError("'%s' not found" %(fieldName,))
 
-
+    def getFKeysDereference(self, fnids: str) -> List['MonDoc']:
+        """ fnids is something like xxxs_ids and we have to create
+        an xxxs field containing a list of Xxx objects, and also
+        return this value
+        """
+        fi = self.getFieldInfo(fnids)
+        ids = self[fnids]
+        targetColClass = fi.foreignTable
+        result = []
+        for id in ids:
+            doc = targetColClass.getDoc(id)
+            if doc:
+                result.append(doc)
+        #//for
+        self[fnids[:-4]] = result
+        return result
+        
 
     #========== make it work like a dict ==========
 
