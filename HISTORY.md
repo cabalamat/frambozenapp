@@ -48,3 +48,15 @@ Passed 70 assertions in 19 test functions
 
 Add MultiChoiceField
 3546 lines of Python (from `wc *.py */*.py`)
+
+## 2018-Nov-17
+
+Working on FKeys
+Passed 83 assertions in 22 test functions
+3808 lines of Python (from `wc *.py */*.py`)
+
+## 2018-Nov-17
+
+FKeys reverse lookups
+Passed 91 assertions in 24 test functions
+3864 lines of Python (from `wc *.py */*.py`)

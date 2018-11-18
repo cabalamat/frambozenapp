@@ -236,7 +236,32 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         #prvars("d")
         return d
     
+    #========== FKeys reverse lookup ==========
     
+    def getForeignIds(self, 
+            foreignCol: Type['MonDoc'], 
+            fn: str) -> Iterable[DbId]:
+        """ TODO: this needs to be made more efficient as it currently 
+        retreives all fields. Also allow (foreignCol) to be a str which 
+        is then looked up.
+        """
+        if not self.hasId(): return []    
+        for foreignDoc in foreignCol.find({fn: self._id}):
+            foreignId = foreignDoc._id
+            yield foreignId
+        #//for    
+        
+    def getForeignDocs(self, 
+            foreignCol: Type['MonDoc'], 
+            fn: str) -> Iterable['MonDoc']:
+        """ TODO: allow (foreignCol) to be a str which is then looked up.
+        """
+        if not self.hasId(): return []  
+        q = {fn: self._id}
+        dpr("query=%r", q)
+        bookIter = foreignCol.find(q)
+        return bookIter
+        
 
     #========== functions for rendering as html ==========
 

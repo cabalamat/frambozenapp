@@ -304,31 +304,43 @@ class T_FKeys(lintest.TestCase):
         b1 = BookM(title="The C Progranmming Language")
         b1.authors_ids = [a1._id, a2._id]
         b1.save()
+        
         b2 = BookM(title="The Practice of Programming")
         b2.authors_ids = [a1._id, a3._id]
         b2.save()
+        
         b3 = BookM(title="The Unix Programming Environment")
         b3.authors_ids = [a1._id, a3._id]
         b3.save()
+        
         numBooks = BookM.count()
         self.assertSame(numBooks, 3, "there should be 3 Books")
         
     def test_load(self):
+        """ load all the books and authors into instance variables """
         self.a1 = AuthorM.find_one({'name': "Brian Kernighan"})
-        self.assertSame(self.a1.name, "Brian Kernighan")       
+        self.assertSame(self.a1.name, "Brian Kernighan")    
+        
         self.a2 = AuthorM.find_one({'name': "Dennis Ritchie"})
-        self.assertSame(self.a2.name, "Dennis Ritchie")      
+        self.assertSame(self.a2.name, "Dennis Ritchie")   
+        
         self.a3 = AuthorM.find_one({'name': "Rob Pike"})
         self.assertSame(self.a3.name, "Rob Pike")
         
         self.b1 = BookM.find_one({'title': "The C Progranmming Language"})
         self.assertSame(self.b1.authors_ids, [self.a1._id, self.a2._id],
             "authors for b1")
-        self.b3 = BookM.find_one({'title': "The Unix Programming Environment"})
-        self.assertSame(self.b1.authors_ids, [self.a1._id, self.a2._id],
-            "authors for b1")
         
-    def test_FKeys_refererence(self):
+        self.b2 = BookM.find_one({'title': "The Practice of Programming"})
+        self.assertSame(self.b2.authors_ids, [self.a1._id, self.a3._id],
+            "authors for b2")
+        
+        self.b3 = BookM.find_one({'title': "The Unix Programming Environment"})
+        self.assertSame(self.b3.authors_ids, [self.a1._id, self.a3._id],
+            "authors for b3")
+        
+    def test_dereference(self):
+        """ dereferencing an FKeys field """
         r = self.b1.authors
         self.assertSame(len(r), 2, "b1 has 2 authors")
         authorNames = ", ".join(au.name for au in self.b1.authors)
@@ -341,14 +353,33 @@ class T_FKeys(lintest.TestCase):
         self.assertSame(authorNames, "Brian Kernighan, Rob Pike",
             "authors for b3")
         
+    def test_getForeignIds(self):
+        """ FKeys reverse lookup -- get ids """
+        bookIds = list(self.a1.getForeignIds(BookM, 'authors_ids'))
+        dpr("bookIds for a1 (Brian Kernighan): %r", bookIds)
+        self.assertSame(len(bookIds), 3, 
+             "Brian Kernighan has authored 3 books in database")
+        self.assertTrue(self.b1._id in bookIds, 
+            "bookIds contains 'The C Progranmming Language'")
+        self.assertTrue(self.b2._id in bookIds, 
+            "bookIds contains 'The Practice of Programming'")
+        self.assertTrue(self.b3._id in bookIds, 
+            "bookIds contains 'The Unix Programming Environment'")
         
+    def test_getForeignDocs(self):  
+        """ FKeys reverse lookup -- get documents """
+        books = list(self.a3.getForeignDocs(BookM, 'authors_ids'))
+        dpr("books for a3 (Rob Pike): %r", books)
+        self.assertSame(len(books), 2, 
+             "Rob Pike has authored 2 books in database")
+        titles = ",".join(book.title for book in books)
+        dpr("book titles = %r", titles)
+        self.assertTrue("The Practice of Programming" in titles,
+            "Books includes: The Practice of Programming")
+        self.assertTrue("The Unix Programming Environment" in titles,
+            "Books includes: The Unix Programming Environment")
         
-        
-        
-        
-        
-        
-        
+     
 #---------------------------------------------------------------------
 
 group = lintest.TestGroup()
