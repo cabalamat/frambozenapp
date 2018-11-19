@@ -61,6 +61,15 @@ class Author(MonDoc):
 
 ## Parameters
 
+The `FKeys` constructor takes one **compulsory** parameter, the name of the collection it is a reference to. If this collection hasn't been defined you, you can use a string, e.g. `FKeys(Author)` and `FKeys('Author')` mean the same thing.
+
+`desc`:`str` = A description of the field. This is used as a comment and is displayed as a tooltip on the field title as it appears on the page (using the HTML `title` attribute)
+
+`title`:`str` = The text description that will appear against a field on a web form. This defaults to a name based on the field name in the table schema.
+
+`default`:`str` = the default value that goes in the field. If not set, it is the value of the 0th choice in `choices`.
+
+
 
 
 
