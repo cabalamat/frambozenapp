@@ -263,6 +263,12 @@ class T_FK(lintest.TestCase):
             "the NullDoc is pretending to be an Author")   
         r = b4load.author.name
         self.assertSame(r, "", "No author, so field gets default value")
+        
+    def test_getForeignFieldNames(self):
+        """ the getForeignFieldNames() function """
+        r = Book.getForeignFieldNames(Author)
+        self.assertSame(r, ['author_id'], 
+            "Book has foreign field to Author of author_id")
             
      
 #---------------------------------------------------------------------
@@ -353,6 +359,16 @@ class T_FKeys(lintest.TestCase):
         self.assertSame(authorNames, "Brian Kernighan, Rob Pike",
             "authors for b3")
         
+    def test_getForeignFieldNames(self):
+        """ the getForeignFieldNames() function """
+        r = BookM.getForeignFieldNames(AuthorM)
+        self.assertSame(r, ['authors_ids'], 
+            "BookM has foreign field to AuthorM of authors_ids")
+        
+        r = AuthorM.getForeignFieldNames(BookM)
+        self.assertSame(r, [], 
+            "AuthorM has no foreign fields to BookM")
+        
     def test_getForeignIds(self):
         """ FKeys reverse lookup -- get ids """
         bookIds = list(self.a1.getForeignIds(BookM, 'authors_ids'))
@@ -383,6 +399,18 @@ class T_FKeys(lintest.TestCase):
         dpr("books for a3 (Rob Pike): %r", books)
         self.assertSame(len(books), 2, 
              "Rob Pike has authored 2 books in database")
+        titles = ",".join(book.title for book in books)
+        dpr("book titles = %r", titles)
+        self.assertTrue("The Practice of Programming" in titles,
+            "Books includes: The Practice of Programming")
+        self.assertTrue("The Unix Programming Environment" in titles,
+            "Books includes: The Unix Programming Environment")
+        
+    def test_getForeignDocs_no_field(self): 
+        books = list(self.a3.getForeignDocs(BookM))
+        dpr("books for a3 (Rob Pike): %r", books)
+        self.assertSame(len(books), 2, 
+             "Rob Pike has authored 2 books in database") 
         titles = ",".join(book.title for book in books)
         dpr("book titles = %r", titles)
         self.assertTrue("The Practice of Programming" in titles,

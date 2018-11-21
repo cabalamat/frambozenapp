@@ -60,3 +60,20 @@ Passed 83 assertions in 22 test functions
 FKeys reverse lookups
 Passed 91 assertions in 24 test functions
 3864 lines of Python (from `wc *.py */*.py`)
+
+## 2018-Nov-21
+
+Tidy up FKeys/FK
+Passed 99 assertions in 28 test functions
+3955 lines of Python (from `wc *.py */*.py`)
+
+
+
+
+
+
+
+
+
+
+

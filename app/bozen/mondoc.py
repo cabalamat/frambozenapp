@@ -254,18 +254,35 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         
     def getForeignDocs(self, 
             foreignCol: Type['MonDoc'], 
-            fn: str) -> Iterable['MonDoc']:
+            fn: str="") -> Iterable['MonDoc']:
         """ TODO: allow (foreignCol) to be a str which is then looked up.
         """
         if not self.hasId(): return []  
         foreignCol2 = self.makeMonDoc(foreignCol)
+        if not fn:
+            ffs = foreignCol2.getForeignFieldNames(self.__class__)
+            fn = ffs[0]
         q = {fn: self._id}
         dpr("query=%r", q)
         bookIter = foreignCol2.find(q)
-        return bookIter
+        return bookIter  
     
-    
-        
+    @classmethod
+    def getForeignFieldNames(cls, foreignClass:Type['MonDoc']) -> List[str]:
+        """ Get the foreign fields in (clss) which refer to a particular
+        foreign class. These are FK or FKeys fields.
+        Return a list of their field names.
+        """
+        from . import keychoicefield
+        from . import multichoicefield
+        fns = []
+        for fn in cls.classInfo.fieldNameTuple:
+            fi = cls.getFieldInfo(fn)
+            if isinstance(fi, (keychoicefield.FK, multichoicefield.FKeys)):
+                if fi.foreignTable == foreignClass:
+                    fns.append(fn)
+        #for
+        return fns
 
     #========== functions for rendering as html ==========
 

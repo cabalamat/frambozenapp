@@ -12,3 +12,9 @@ class MyForm(FormDoc):
     dob = DateField(title="Date of Birth")
 ```
 
+## Functions
+
+### Misc utility functions
+
+`getFieldInfo(fn:str)->FieldInfo` given a field name, gets the [[FieldInfo]] instance (this contains information about the type of the field)
+
