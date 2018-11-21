@@ -366,6 +366,17 @@ class T_FKeys(lintest.TestCase):
         self.assertTrue(self.b3._id in bookIds, 
             "bookIds contains 'The Unix Programming Environment'")
         
+    def test_getForeignIds_colStr(self):   
+        """ Test the getForeignIds() method using a string for the collection 
+        name.
+        """
+        bookIds = list(self.a2.getForeignIds('BookM', 'authors_ids'))
+        dpr("bookIds for a2 (Dennis Ritchie): %r", bookIds)
+        self.assertSame(len(bookIds), 1, 
+             "Dennis Ritchie has authored 1 book in database")
+        self.assertTrue(self.b1._id in bookIds, 
+            "bookIds contains 'The C Progranmming Language'") 
+               
     def test_getForeignDocs(self):  
         """ FKeys reverse lookup -- get documents """
         books = list(self.a3.getForeignDocs(BookM, 'authors_ids'))

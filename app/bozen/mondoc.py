@@ -239,14 +239,15 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
     #========== FKeys reverse lookup ==========
     
     def getForeignIds(self, 
-            foreignCol: Type['MonDoc'], 
+            foreignCol: Union[Type['MonDoc'],str], 
             fn: str) -> Iterable[DbId]:
         """ TODO: this needs to be made more efficient as it currently 
         retreives all fields. Also allow (foreignCol) to be a str which 
         is then looked up.
         """
         if not self.hasId(): return []    
-        for foreignDoc in foreignCol.find({fn: self._id}):
+        foreignCol2 = self.makeMonDoc(foreignCol)
+        for foreignDoc in foreignCol2.find({fn: self._id}):
             foreignId = foreignDoc._id
             yield foreignId
         #//for    
@@ -257,10 +258,13 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         """ TODO: allow (foreignCol) to be a str which is then looked up.
         """
         if not self.hasId(): return []  
+        foreignCol2 = self.makeMonDoc(foreignCol)
         q = {fn: self._id}
         dpr("query=%r", q)
-        bookIter = foreignCol.find(q)
+        bookIter = foreignCol2.find(q)
         return bookIter
+    
+    
         
 
     #========== functions for rendering as html ==========
@@ -386,8 +390,21 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
                            else (term, 1)
                       for term in sortArg]
         return newSortArg
-
-    
+   
+    @staticmethod
+    def makeMonDoc(mdos: Union[Type['MonDoc'],str]) -> Type['MonDoc']:
+        """ If (mdos) isn't already a MonDoc subclass, make it one by looking it
+        up. """
+        if not isinstance(mdos, str):
+            # assume it's alrerady a MonDoc subclass and return it
+            return mdos
+        
+        isAMonDocSubclass = mdos in monDocSubclassDict
+        if isAMonDocSubclass:
+            return monDocSubclassDict[mdos]
+        
+        raise KeyError("'%s' is not the name of a MonDoc subclass" % (mdos,))
+        
     
     
 #---------------------------------------------------------------------

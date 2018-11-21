@@ -344,7 +344,7 @@ class TestCase(Test, FileAssertionMixin, ColoursMixin):
             if test.__doc__:
                 print("%s* %s *%s" % (
                     self.TEST_DOCSTRING,
-                    test.__doc__.strip(),
+                    stripOnLines(test.__doc__),
                     self.NORMAL))
             test(self)
             functionsPassed += 1
@@ -427,7 +427,6 @@ class TestCase(Test, FileAssertionMixin, ColoursMixin):
             r = [r]
         return r    
         
-        
 #---------------------------------------------------------------------
 # comparison function for functions
 
@@ -435,6 +434,25 @@ def getFunCollate(f):
     ffc = f.__code__
     return (ffc.co_firstlineno, ffc.co_name)
 
+#---------------------------------------------------------------------
+# misc functions
+
+def stripOnLines(s:str) -> str:
+    """ process a doc string so that it looks nice, Split into
+    lines, and on each line strip whitespace at beginnig and end.
+    Remove empty lines,
+    """
+    lines = s.split("\n")
+    resultLines = []
+    for line in lines:
+        s2 = line.strip()
+        if s2: 
+            resultLines.append(s2)
+    #for
+    resultStr = "\n".join(resultLines)
+    return resultStr
+        
+        
 #---------------------------------------------------------------------
 
 """***
