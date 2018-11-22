@@ -1,5 +1,9 @@
 # butil.py = basic utilities
 
+"""
+Basic utilities for Python 3.x.
+"""
+
 from typing import *
 import os, os.path
 import sys
@@ -28,7 +32,7 @@ join=normalizePath # it works like os.path.join, but better
 #---------------------------------------------------------------------
 # formatting functions
 
-def form(fs:str, *args, **kwargs)->str:
+def form(fs:str, *args, **kwargs) -> str:
     """ an easier to use version of python's format(). It works the same
     except that %s is converted to {} and %r is converted to {!r}
     """
@@ -54,8 +58,8 @@ def prn(fs:str, *args, **kwargs):
 
 def dpr(formatStr, *args, **kwargs):
     """ debugging version of pr(), prn().
-    Prints to stderr, prefixes with funxtion name andf line
-    number, iadds newling.
+    Prints to stderr, prefixes with function name and line
+    number, adds newline.
     """
     caller = inspect.stack()[1]
     fileLine = caller[2]

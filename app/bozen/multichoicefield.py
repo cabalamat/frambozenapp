@@ -76,15 +76,11 @@ class MultiChoiceField(fieldinfo.FieldInfo):
         return h
 
 
-    def convertToReadable(self, v):
+    def convertToReadable(self, v: List[str]) -> str:
         """ Convert the internal value in the database (v) to a readable
-        value (i.e. a string or unicode that could de displayed in a form
+        value (i.e. a string that could de displayed in a form
         or elsewhere). This method is the opposite of the convertValue()
         method.
-
-        :param v: value from database
-        :type v: [str]
-        :rtype str or unicode
         """
         ch = dict(self.choices)
         s = ", ".join(ch.get(dn, dn) for dn in v)
@@ -110,7 +106,7 @@ class FKeys(fieldinfo.FieldInfo):
     def defaultDefault(self):
         return []
 
-    def formField_rw(self, v, **kwargs):
+    def formField_rw(self, v, **kwargs) -> str:
         if not v: v = []
         docs = list(self.foreignTable.find())
         docs.sort(key=lambda doc: doc.getName())
@@ -131,7 +127,7 @@ class FKeys(fieldinfo.FieldInfo):
         return h
 
 
-    def formField_ro(self, v, **kwargs):
+    def formField_ro(self, v, **kwargs) -> str:
         """ Display a link to the relevant document """
         return self.convertToReadableH(v)
 
@@ -144,16 +140,12 @@ class FKeys(fieldinfo.FieldInfo):
         #pr("FKeys.convertValue() from %r", v)
         return v
 
-    def convertToReadableH(self, v):
+    def convertToReadableH(self, v: List[str]) -> str:
         """ Convert the internal value in the database (v) to a readable
-        value (i.e. a string or unicode that could de displayed in a form
-        or elsewhere). This method is the opposite of the convertValue()
-        method.
+        value (i.e. a string that could de displayed in a form
+        or elsewhere). 
 
         :param v: value from database, list of keys
-        :type v: [str]
-        :return readable html based (v)
-        :rtype str containing html
         """
         if not v or type(v)!=list: return ""
         h = ""
@@ -168,15 +160,12 @@ class FKeys(fieldinfo.FieldInfo):
         h = h[:-2]
         return h
 
-    def convertToReadable(self, v):
+    def convertToReadable(self, v: List[str]) -> str:
         """ Convert the internal value in the database (v) to a readable
-        value (i.e. a string or unicode that could de displayed in a form
-        or elsewhere). This method is the opposite of the convertValue()
-        method.
+        value (i.e. a string that could de displayed in a form
+        or elsewhere). 
 
         :param v: value from database, list of keys
-        :type v: [str]
-        :rtype str or unicode
         """
         h = ""
         for key in v:
@@ -189,7 +178,7 @@ class FKeys(fieldinfo.FieldInfo):
     #==========
 
     @property
-    def foreignTable(self):
+    def foreignTable(self) -> Type['MonDoc']:
         """
         Return the MonDoc subclass for the foreign table
         If (self._foreignTable) is a string, change it to a MonDoc

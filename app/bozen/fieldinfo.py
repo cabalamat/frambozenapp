@@ -257,9 +257,9 @@ class FieldInfo:
         """
         raise ImplementedBySubclass
 
-    def convertToReadableH(self, v)->str:
+    def convertToReadableH(self, v) -> str:
         """ Convert the internal value in the database (v) to a readable
-        value (i.e. a string or unicode that could de displayed in a form
+        value (i.e. a string that could de displayed in a form
         or elsewhere). This method is the opposite of the convertValue()
         method.
 
@@ -270,14 +270,12 @@ class FieldInfo:
         h = htmlEsc(self.convertToReadable(v))
         return h
 
-    def convertToReadable(self, v)->str:
+    def convertToReadable(self, v) -> str:
         """ Convert the internal value in the database (v) to a readable
-        value (i.e. a string or unicode that could de displayed in a form
+        value (i.e. a string  that could de displayed in a form
         or elsewhere). This method is the opposite of the convertValue()
         method.
-
-        :param v: value from database
-        :rtype str or unicode
+        @param v = value from database
         """
         s = self.formatStr.format(v)
         return s
@@ -285,7 +283,7 @@ class FieldInfo:
 
     #========== helper functions
 
-    def setFieldName(self, fieldName: str)->str:
+    def setFieldName(self, fieldName: str) -> str:
         """
         This is called from formdoc.initialiseClass() to set the
         fieldName to be whatever the class variable name is in the
@@ -299,7 +297,7 @@ class FieldInfo:
             self.columnTitle = self.title
         return self.title
 
-    def setDocClass(self, docClass):
+    def setDocClass(self, docClass: Type['FieldInfo']):
         """
         This is called from formdoc.initialiseClass() to set the
         docClass to the class for which this is a field.
@@ -308,10 +306,9 @@ class FieldInfo:
         """
         self.docClass = docClass
 
-    def classFieldName(self)->str:
+    def classFieldName(self) -> str:
         """ Text giving the class and fieldname of the FieldInfo, e.g.
         "Customer.phoneNumber". May be useful for debugging.
-        @return::str
         """
         return "%s.%s" % (self.docClass.__name__, self.fieldName)
 
@@ -336,11 +333,11 @@ class StrField(FieldInfo):
         """
         return ""
 
-    def convertValue(self, v)->str:
+    def convertValue(self, v) -> str:
         return str(v)
 
 
-    def errorMsg(self, v)->str:
+    def errorMsg(self, v) -> str:
         if self.required and not v:
             return "This field is required."
 
@@ -376,7 +373,7 @@ class TextAreaField(StrField):
         self.wysiwyg = kwargs.get('wysiwyg', False)
 
 
-    def formField_rw(self, v, **kwargs):
+    def formField_rw(self, v, **kwargs) -> str:
         """ return html for a form field for this fieldInfo """
         h = form(('''<textarea{cc}
  id="id_{fieldName}" name="{fieldName}"
@@ -393,7 +390,7 @@ class TextAreaField(StrField):
         )
         return h
 
-    def formField_ro(self, v, **kwargs)->str:
+    def formField_ro(self, v, **kwargs) -> str:
         lines = [htmlEsc(line.strip()) for line in v.split("\n")]
         h = "<br>\n".join(lines)
         if h == "": h = "&nbsp;"

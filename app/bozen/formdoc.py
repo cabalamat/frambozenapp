@@ -376,20 +376,19 @@ class FormDoc(metaclass=FormDocMeta):
         return newOb
 
     def asReadableH(self, fn: str) -> HtmlStr:
-        """ Get a readable form of the field data, converted to  a 
-        string / unicode, and then converted to html ready to go in a 
+        """ Get a readable version of the field data, converted to  a 
+        string, and then converted to html ready to go in a 
         web page.
         """
         fi = self.getFieldInfo(fn)
         v = self[fn]
-        #prvars("fn v")
         s = fi.convertToReadableH(v)
         return s
 
 
     def asReadable(self, fn: str) -> str:
         """ Get a readable form of the field data, converted to a 
-        string / unicode.
+        string.
         """
         fi = self.getFieldInfo(fn)
         v = self[fn]
