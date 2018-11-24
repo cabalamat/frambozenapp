@@ -82,6 +82,21 @@ def getDefaultDatabase()->Optional[pymongo.collection.Collection]:
     """ return the default database, if this has been set """
     return defaultDB
 ```
+
+A lot of types for Bozen are declared in `bztypes.py`.
+
+### Variable names
+
+*This section contains quidelines for particular variable names.*
+
+`q` = a full or partial MongoDB query
+
+`fieldName`, `fn` = a name of a field in a [[FormDoc]] or [[MonDoc]] subclass
+
+`fi` = a [[FieldInfo]] (typically an instance of one of FieldInfo's subclasses)
+
+
+
 ## HTML
 
 ## CSS

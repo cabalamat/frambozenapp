@@ -31,6 +31,12 @@ Implemented in `multichoicefield.py`:
 * [[MultiChoiceField]] = a `List[str]`, allowing the user to chose several of a list of choices
 * [[FKeys]] = a list of foreign keys to MongoDB documents, enabling a many-to-many relation
 
+Implemented in `timefield.py`:
+
+* [[DateField]] = a date, stored as a [[BzDate]] in Python and as a string in the database
+* [[DateTimeField]] = a date and time, stored as a [[BzDateTime]] in Python and as a string in the database
+* [[TodField]] = a time of day, stored as a [[BzTod]] in Python and as a string in the database
+
 ## Parameters
 
 Some parameters are common to many `FieldInfo` subclasses. For each parameter we give its type after ":", where relevant.
