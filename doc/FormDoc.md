@@ -18,3 +18,16 @@ class MyForm(FormDoc):
 
 `getFieldInfo(fn:str)->FieldInfo` given a field name, gets the [[FieldInfo]] instance (this contains information about the type of the field)
 
+### Functions on fields
+
+`asReadable(fn:str)->str` returns a string giving a human-readable display value for the contents of the field whose field name is `fn`.
+
+`asReadableH(fn:str)->str` is like `asReadable()` except it returns an HTML-escaped string. 
+
+
+
+## See also
+
+* [[MonDoc]] is a subclass of `FormDoc` which is associated with a MongoDB collection
+* Fields in a `FormDoc` are defined using a [[FieldInfo]] subclass.
+

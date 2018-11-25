@@ -8,6 +8,9 @@ group = lintest.TestGroup()
 import test_fieldinfo
 group.add(test_fieldinfo.group)
 
+import test_timefield
+group.add(test_timefield.group)
+
 import test_formdoc
 group.add(test_formdoc.group)
 

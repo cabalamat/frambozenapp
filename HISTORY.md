@@ -67,6 +67,12 @@ Tidy up FKeys/FK
 Passed 99 assertions in 28 test functions
 3955 lines of Python (from `wc *.py */*.py`)
 
+## 2018-Nov-24
+
+Doing BzDate, BzDateTime, DateField, etc...
+Passed 123 assertions in 37 test functions
+4126 lines of Python (from `wc *.py */*.py`)
+
 
 
 
