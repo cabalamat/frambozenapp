@@ -18,6 +18,10 @@ class MyForm(FormDoc):
 
 `getFieldInfo(fn:str)->FieldInfo` given a field name, gets the [[FieldInfo]] instance (this contains information about the type of the field)
 
+`hasFieldInfo(fieldName:str)->bool` returns whether `fieldName` has a FieldInfo (i.e. is a field)
+
+`fieldNames()->List[str]` returns a list of the field names, in the order they were defined
+
 ### Functions on fields
 
 `asReadable(fn:str)->str` returns a string giving a human-readable display value for the contents of the field whose field name is `fn`.

@@ -101,8 +101,10 @@ class BzDate(str):
         return BzDate(today)
 
 #---------------------------------------------------------------------
-
-DEFAULT_DATE_FORMAT = "%Y-%b-%d"
+""" 
+The default format for a date to look like in a from field 
+"""
+DEFAULT_DATE_SCREEN_FORMAT = "%Y-%b-%d"
 
 class DateField(fieldinfo.FieldInfo):
     """ a field that contains a date """
@@ -110,7 +112,8 @@ class DateField(fieldinfo.FieldInfo):
     def readArgs(self, **kwargs):
         super(DateField, self).readArgs(**kwargs)
         self.fieldLen = kwargs.get('fieldLen', 13)
-        self.dateFormat = kwargs.get('dateFormat', DEFAULT_DATE_FORMAT)
+        self.dateFormat = kwargs.get('dateFormat', 
+            DEFAULT_DATE_SCREEN_FORMAT)
         self.required = kwargs.get('required', False)
 
     def defaultDefault(self):
