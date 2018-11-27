@@ -2,7 +2,7 @@
 
 **FieldInfo** is the abstract superclass for fields in [forms](FormDoc) and [database tables](MonDoc).
 
-A FieldInfo has a *type* (often a Python  built-in type such as `int` or `str`). Its type is its representation in the Python [[FormDoc]]/[[MonDoc]] which it belongs in. It also has the same type (or JSON equivalent) when saved to a database.
+A field has a *type* (often a Python  built-in type such as `int` or `str`). Its type is its representation in the Python [[FormDoc]]/[[MonDoc]] which it belongs in. It also has the same type (or JSON equivalent) when saved to a database.
 
 A FieldInfo also has a *form element*. This is the form element it gets rendered to when its FormDoc/MonDoc is rendered as an HTML form.
 

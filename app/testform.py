@@ -66,8 +66,8 @@ def getResultTable(th: TheTestForm)->str:
 <tr>
     <th>Field Name</th>
     <th>Type</th>
-    <th>Value</th>
-    <th>repr</th>
+    <th>Screen Value</th>
+    <th>Database Value (repr)</th>
     <th>Value Type</th>
 <tr>
 """    

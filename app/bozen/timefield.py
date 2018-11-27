@@ -121,11 +121,14 @@ class DateField(fieldinfo.FieldInfo):
 
     def convertValue(self, vStr: str) -> Union[BzDate,str]:
         """ Convert a value coming back from an html form into a format
-        correct for the database (in this case a string of the form
-        "yyyymmdd").
+        correct for the database (either a BzDate or "")
         """
-        #prvars("vStr")
-        vStr = str(vStr)
+        vStr = vStr.strip()
+        if not vStr: return ""
+    
+    
+    
+        # - - - - 
         try:
             #prvars("vStr")
             dt = datetime.datetime.strptime(vStr, self.dateFormat)
