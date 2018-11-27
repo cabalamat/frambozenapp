@@ -21,7 +21,7 @@ from . import butil
 from .butil import *
 from . import bozenutil
 
-from .fieldinfo import fieldIndex, FieldInfo
+from .fieldinfo import fieldIndex, FieldInfo, cssClasses
 
 #---------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ class BzDate(str):
                 return super().__new__(cls, s2)
             else:    
                 errMsg = form("String %r wrongly formatted for BzDate," 
-                    "should be 'yyyymmdd'", s)
+                    "should be 'yyyy-mm-dd'", s)
                 raise ValueError(errMsg)
         elif isinstance(s, datetime.date):
             s2 = "%04d-%02d-%02d" % (s.year, s.month, s.day)
@@ -90,6 +90,11 @@ class BzDate(str):
         y, m, d = self.toTuple()
         return datetime.datetime(y, m ,d)
     
+    def formatDate(self, formatStr:str) -> str:
+        dt = self.to_date()
+        s = dt.strftime(formatStr)
+        return s
+    
     def addDays(self, numDays: int) -> 'BzDate':
         dt = self.to_date() 
         dt2 = dt + datetime.timedelta(numDays)
@@ -106,7 +111,7 @@ The default format for a date to look like in a from field
 """
 DEFAULT_DATE_SCREEN_FORMAT = "%Y-%b-%d"
 
-class DateField(fieldinfo.FieldInfo):
+class DateField(FieldInfo):
     """ a field that contains a date """
 
     def readArgs(self, **kwargs):
@@ -126,35 +131,27 @@ class DateField(fieldinfo.FieldInfo):
         vStr = vStr.strip()
         if not vStr: return ""
     
-    
-    
-        # - - - - 
         try:
-            #prvars("vStr")
-            dt = datetime.datetime.strptime(vStr, self.dateFormat)
-            #prvars("vStr dt")
-            v = dt.strftime(DB_DATE_FORMAT)
-            #prvars("vStr dt v")
-        except:
-            v = self.defaultValue
-        return v
+            bzd = BzDate(vStr)
+        except ValueError:
+            return ""
+        return bzd
+    
+    
 
-    def convertToReadable(self, v):
+    def convertToReadable(self, v:Union[str,BzDate]) -> str:
         """ Convert the internal value in the database (v) to a readable
         value (i.e. a string or unicode that could de displayed in a form
         or elsewhere). This method is the opposite of the convertValue()
         method.
-
-        :param v: str representing db-date e.g. '20161231'
-        :rtype str or unicode
         """
+        dpr("v=%r:%s", v, type(v))
         if not v: return ""
-        try:
-            dt = datetime.datetime.strptime(v, DB_DATE_FORMAT)
-            s = dt.strftime(self.dateFormat)
-        except ValueError:
-            s = ""
-        return s
+        if isinstance(v,BzDate):
+            s = v.formatDate(self.dateFormat)
+            return s
+        else:
+            raise ShouldntGetHere
 
     def formField_rw(self, v, **kwargs) -> str:
         """
@@ -168,10 +165,13 @@ class DateField(fieldinfo.FieldInfo):
         :rtype str
         """
         vStr = self.convertToReadable(v)
-        h = form("""<input class='gin DateField{monospace}' id="id_{fn}"
+        h = form("""<input{cc} id="id_{fn}"
             name="{fn}"
             type="text" value="{v}" size={fieldLen}>""",
-            monospace = self.monospaceClass(),
+            cc = cssClasses(
+                "bz-input",
+                "bz-DateField",
+                self.monospaced and "monospace"),
             fn = self.fieldName,
             v = attrEsc(vStr),
             fieldLen = self.fieldLen)
@@ -180,7 +180,7 @@ class DateField(fieldinfo.FieldInfo):
     def formField_ro(self, v, **kwargs) -> str:
         vStr = self.convertToReadable(v)
         if not vStr: vStr = "&nbsp;"
-        h = form("""<span class='read-only'>{}</span>""",
+        h = form("""<span class='bz-read-only'>{}</span>""",
             vStr)
         return h
 

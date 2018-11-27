@@ -22,6 +22,14 @@ Class name      | Old class name | Meaning / notes
 `bz-form-error` | `form-error`   | an error message in a form
 `bz-form-warning-line` | `form-warning-line` | line containing an error message in a form
 `bz-form-warning`| `form-warning`| an error message in a form
+`bz-DateField`  | `DateField`    | says it is a [[DateField]] form element
+`bz-DateTimeField` | `DateTimeField` | says it is a [[DateTimeField]] form element
+
+### Visual display of forms
+
+Class name      | Old class name | Meaning / notes
+------          | ------         | ------
+`monospace`     | `monospace`    | uses a monspaced font
 
 ### Report tables
 

@@ -19,6 +19,7 @@ from .fieldinfo import FieldInfo, StrField, TextAreaField
 from .keychoicefield import ChoiceField
 from .numberfield import IntField, FloatField, BoolField
 from .multichoicefield import MultiChoiceField
+from .timefield import BzDate, DateField
 
                        
 #---------------------------------------------------------------------

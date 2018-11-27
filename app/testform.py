@@ -4,10 +4,11 @@ from flask import request, redirect
 
 from allpages import app, jinjaEnv
 from bozen.butil import pr, prn, dpr, form, htmlEsc
-from bozen import FormDoc
+from bozen import FormDoc, BzDate
 from bozen import (StrField, ChoiceField, TextAreaField,
     IntField, FloatField, BoolField,
-    MultiChoiceField)
+    MultiChoiceField,
+    DateField)
 
 prn("*** testform.py ***")
 
@@ -36,11 +37,13 @@ class TheTestForm(FormDoc):
         showNull=True, allowNull=False)
     slots = MultiChoiceField(choices=SLOT_CHOICES)
     note = TextAreaField()
+    dateOfBirth = DateField()
 
 @app.route('/testForm', methods=['POST', 'GET'])
 def testForm():
     dpr("- - - in testForm() - - -")
     theTF = TheTestForm()
+    theTF.dateOfBirth = BzDate.today()
     dpr("theTF=%r", theTF)
     resultTable = ""
     
