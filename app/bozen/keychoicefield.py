@@ -4,6 +4,7 @@ from typing import *
 
 from . import butil
 from .butil import *
+from .bztypes import *
 from . import bozenutil
 
 from .fieldinfo import fieldIndex, FieldInfo, StrField
@@ -65,11 +66,7 @@ class ChoiceField(StrField):
         #prvars("choices")
         return choices
 
-    def convertToReadable(self, v):
-        """
-        @param v::str
-        @return::str
-        """
+    def convertToScreen(self, v: str) -> str:
         for value, show in self.choices:
             if v==value:
                 return show
@@ -77,7 +74,7 @@ class ChoiceField(StrField):
         return v
 
 
-    def errorMsg(self, v):
+    def errorMsg(self, v: str) -> str:
         """
         :return an error message, or "" if there are no errors
         :rtype str
@@ -132,9 +129,9 @@ class FK(FieldInfo):
         return h
 
     def formField_ro(self, v, **kwargs) -> str:
-        return self.convertToReadableH(v, **kwargs)
+        return self.convertToScreenH(v, **kwargs)
 
-    def convertToReadableH(self, v, **kwargs) -> str:
+    def convertToScreenH(self, v: DbId, **kwargs) -> str:
         """ Display a link to the relevant document """
         forDoc = self.foreignTable.getDoc(v)
         #prvars("self v kwargs forDoc")

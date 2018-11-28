@@ -74,7 +74,7 @@ class BoolField(fieldinfo.FieldInfo):
     def convertValue(self, v):
         return bool(v)
 
-    def convertToReadable(self, v):
+    def convertToScreen(self, v):
         s = "yes" if v else "no"
         return s
 

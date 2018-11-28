@@ -103,9 +103,9 @@ fi.errorMsg() = return an error message (or "" if no errors)
 fi.convertValue(fv) = convert from a form-value into a value that can be
     stored in a database field.
     
-fi.convertToReadable(dbv)->str = convert from a db-valuer into a string
+fi.convertToScreen(dbv)->str = convert from a py-value into a string
 
-fi.convertToReadableH(dbv)->str = convert from a db-value into an html
+fi.convertToScreenH(dbv)->str = convert from a py-value into an html
     marked up string
 
 """
@@ -164,7 +164,7 @@ class FieldInfo:
 
 
     def formField_rw(self, v, **kwargs)->str:
-        vStr = self.convertToReadable(v)
+        vStr = self.convertToScreen(v)
         h = form("""<input{cc} id="id_{fn}"
             name="{fn}"
             type="text" value="{v}" size={fieldLen}>""",
@@ -175,7 +175,7 @@ class FieldInfo:
         return h
 
     def formField_ro(self, v, **kwargs)->str:
-        vStr = htmlEsc(self.convertToReadable(v))
+        vStr = self.convertToScreenH(v)
         if vStr.strip() == "": vStr = "&nbsp;"
         h = form("<span{cc} id='id_{fn}'>{v}</span>",
             cc = cssClasses("bz-read-only",  self.monospaced and "monospace"),
@@ -255,21 +255,18 @@ class FieldInfo:
         """
         raise ImplementedBySubclass
 
-    def convertToReadableH(self, v) -> str:
-        """ Convert the internal value in the database (v) to a readable
+    def convertToScreenH(self, v) -> str:
+        """ Convert the internal value in a document (v) to a screen
         value (i.e. a string that could de displayed in a form
-        or elsewhere). This method is the opposite of the convertValue()
-        method.
+        or elsewhere). 
 
-        :param v: value from database
-        :return readable html based (v)
-        :rtype str containing html
+        :param v: value in document
         """
-        h = htmlEsc(self.convertToReadable(v))
-        return h
+        return htmlEsc(self.convertToScreen(v))
 
-    def convertToReadable(self, v) -> str:
-        """ Convert the internal value in the database (v) to a readable
+
+    def convertToScreen(self, v) -> str:
+        """ Convert the internal value in the database (v) to a screen
         value (i.e. a string  that could de displayed in a form
         or elsewhere). This method is the opposite of the convertValue()
         method.
@@ -279,16 +276,16 @@ class FieldInfo:
         return s
 
     def convertFromDatabase(self, v):
-        """ Convert from a valuer got from the database to a value to go 
+        """ Convert from a value got from the database to a value to go 
         into a Python object. For most field types this will be the
         identity function (and therefore doesn't have to be overridden).
         """
         return v
         
     def convertToDatabase(self, v):
-        """ Convert from an internal python value to a value to go into 
+        """ Convert from an internal Python value to a value to go into 
         the database. For most field types this will be the
-        idewntity function (and therefore doesn't have to be overridden).
+        identity function (and therefore doesn't have to be overridden).
         """
         return v
 

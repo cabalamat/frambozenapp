@@ -34,3 +34,4 @@ SLOT_CHOICES = [
 ## See also
 
 * [[Coding Standards]]
+* [[Glossary]]. which lists terms we use with specialised meanings

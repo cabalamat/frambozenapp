@@ -375,14 +375,14 @@ class FormDoc(metaclass=FormDocMeta):
         newOb.__dict__ = dict(self.__dict__)
         return newOb
 
-    def asReadableH(self, fn: str) -> HtmlStr:
+    def asReadableH(self, fn: str) -> str:
         """ Get a readable version of the field data, converted to  a 
         string, and then converted to html ready to go in a 
         web page.
         """
         fi = self.getFieldInfo(fn)
         v = self[fn]
-        s = fi.convertToReadableH(v)
+        s = fi.convertToScreenH(v)
         return s
 
 
@@ -392,7 +392,7 @@ class FormDoc(metaclass=FormDocMeta):
         """
         fi = self.getFieldInfo(fn)
         v = self[fn]
-        s = fi.convertToReadable(v)
+        s = fi.convertToScreen(v)
         return s
 
     #========== validation ==========

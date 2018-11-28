@@ -139,11 +139,10 @@ class DateField(FieldInfo):
     
     
 
-    def convertToReadable(self, v:Union[str,BzDate]) -> str:
-        """ Convert the internal value in the database (v) to a readable
+    def convertToScreen(self, v:Union[str,BzDate]) -> str:
+        """ Convert the internal value in Python (v) to a readable
         value (i.e. a string or unicode that could de displayed in a form
-        or elsewhere). This method is the opposite of the convertValue()
-        method.
+        or elsewhere).
         """
         dpr("v=%r:%s", v, type(v))
         if not v: return ""
@@ -164,7 +163,7 @@ class DateField(FieldInfo):
         :return html containing the field
         :rtype str
         """
-        vStr = self.convertToReadable(v)
+        vStr = self.convertToScreen(v)
         h = form("""<input{cc} id="id_{fn}"
             name="{fn}"
             type="text" value="{v}" size={fieldLen}>""",
@@ -178,7 +177,7 @@ class DateField(FieldInfo):
         return h
 
     def formField_ro(self, v, **kwargs) -> str:
-        vStr = self.convertToReadable(v)
+        vStr = self.convertToScreenH(v)
         if not vStr: vStr = "&nbsp;"
         h = form("""<span class='bz-read-only'>{}</span>""",
             vStr)

@@ -76,7 +76,7 @@ class MultiChoiceField(fieldinfo.FieldInfo):
         return h
 
 
-    def convertToReadable(self, v: List[str]) -> str:
+    def convertToScreen(self, v: List[str]) -> str:
         """ Convert the internal value in the database (v) to a readable
         value (i.e. a string that could de displayed in a form
         or elsewhere). This method is the opposite of the convertValue()
@@ -129,7 +129,7 @@ class FKeys(fieldinfo.FieldInfo):
 
     def formField_ro(self, v, **kwargs) -> str:
         """ Display a link to the relevant document """
-        return self.convertToReadableH(v)
+        return self.convertToScreenH(v)
 
     def convertValue(self, v):
         """ Convert a value from something got from a form to a value
@@ -140,12 +140,12 @@ class FKeys(fieldinfo.FieldInfo):
         #pr("FKeys.convertValue() from %r", v)
         return v
 
-    def convertToReadableH(self, v: List[str]) -> str:
-        """ Convert the internal value in the database (v) to a readable
+    def convertToScreenH(self, v: List[str]) -> str:
+        """ Convert the internal value in python (v) to a readable
         value (i.e. a string that could de displayed in a form
         or elsewhere). 
 
-        :param v: value from database, list of keys
+        :param v: value from Python, list of keys
         """
         if not v or type(v)!=list: return ""
         h = ""
@@ -160,7 +160,7 @@ class FKeys(fieldinfo.FieldInfo):
         h = h[:-2]
         return h
 
-    def convertToReadable(self, v: List[str]) -> str:
+    def convertToScreen(self, v: List[str]) -> str:
         """ Convert the internal value in the database (v) to a readable
         value (i.e. a string that could de displayed in a form
         or elsewhere). 
