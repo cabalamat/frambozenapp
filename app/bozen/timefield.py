@@ -26,18 +26,16 @@ from .fieldinfo import fieldIndex, FieldInfo, cssClasses
 #---------------------------------------------------------------------
 
 validDate=re.compile("[0-9]{4}-[0-1][0-9]-[0-3][0-9]")
-
 def isValidDate(s: str) -> bool:
     return bool(validDate.fullmatch(s[:10]))
 
 validDate8=re.compile("[0-9]{4}[0-1][0-9][0-3][0-9]")
-
 def isValidDate8(s: str) -> bool:
     return bool(validDate8.fullmatch(s[:8]))
 
+
 validDateTime=re.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}"
     "T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]")
-
 def isValidDateTime(s: str) -> bool:
     return bool(validDateTime.fullmatch(s))
 
@@ -62,7 +60,7 @@ class BzDate(str):
                 errMsg = form("String %r wrongly formatted for BzDate," 
                     "should be 'yyyy-mm-dd'", s)
                 raise ValueError(errMsg)
-        elif isinstance(s, datetime.date):
+        elif isinstance(s, (datetime.date,datetime.datetime)):
             s2 = "%04d-%02d-%02d" % (s.year, s.month, s.day)
             return super().__new__(cls, s2)
         else:
@@ -106,8 +104,10 @@ class BzDate(str):
         return BzDate(today)
 
 #---------------------------------------------------------------------
-""" 
-The default format for a date to look like in a from field 
+
+
+""" The default format for a date to look like in a from field,
+e.g. 2017-Dec-31
 """
 DEFAULT_DATE_SCREEN_FORMAT = "%Y-%b-%d"
 
@@ -169,14 +169,18 @@ class DateField(FieldInfo):
         """ Convert a value coming back from an html form into a format
         correct for Python (either a BzDate or "")
         """
+        dpr("vStr=%s", vStr)
         vStr = vStr.strip()
         if not vStr: return ""
     
-        try:
-            bzd = BzDate(vStr)
-        except ValueError:
-            return ""
-        return bzd  
+        dtd = butil.exValue(
+            lambda: datetime.datetime.strptime(vStr, self.dateFormat),
+            None)
+        dpr("dtd=%r", dtd)
+        if dtd:
+            bzd = BzDate(dtd)
+            return bzd
+        return ""
 
     def convertToScreen(self, v:Union[str,BzDate]) -> str:
         """ Convert the internal value in Python (v) to a readable

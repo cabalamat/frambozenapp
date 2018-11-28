@@ -7,12 +7,12 @@ Javascript for use with the monfab library.
 //--------------------------------------------------------------------
 /* date picker fields */
 
-$(".DateField").datepicker({
+$(".bz-DateField").datepicker({
     dateFormat: 'yy-M-d',
     firstDay: 1,
 });
 
-$('.DateTimeField').datetimepicker({
+$('.bz-DateTimeField').datetimepicker({
     dateFormat: 'yy-M-dd',
 });
 

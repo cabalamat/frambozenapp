@@ -9,6 +9,7 @@ import os, os.path
 import sys
 import html
 import inspect
+import functools
 
 #---------------------------------------------------------------------
 
@@ -47,10 +48,19 @@ def pr(fs:str, *args, **kwargs):
     """ print to stdout """
     sys.stdout.write(form(fs, *args, **kwargs))
 
+def epr(fs:str, *args, **kwargs):
+    """ print to stderr """
+    sys.stderr.write(form(fs, *args, **kwargs))
+
 def prn(fs:str, *args, **kwargs):
     """ print to stdout, with \n at end """
     sys.stdout.write(form(fs, *args, **kwargs))
     sys.stdout.write("\n")
+    
+def eprn(fs:str, *args, **kwargs):
+    """ print to stderr, with \n at end """
+    sys.stderr.write(form(fs, *args, **kwargs))
+    sys.stderr.write("\n")
 
 
 #---------------------------------------------------------------------
@@ -67,6 +77,31 @@ def dpr(formatStr, *args, **kwargs):
     s = form(formatStr, *args, **kwargs)
     prefix = "%s():%d: " % (functionName, fileLine)
     sys.stderr.write(prefix + s + "\n")
+
+_PRINTARGS_DEPTH = 0
+_PRINTARGS_INDENT = "| "
+
+def printargs(fn):
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        global _PRINTARGS_DEPTH
+        argStr = ", ".join([repr(a) for a in args])
+        kwargStr = ", ".join(["%s=%r"%(k,v) for v,k in enumerate(kwargs)])
+        comma = ""
+        if argStr and kwargStr: comma = ", "
+        akStr = argStr + comma + kwargStr
+        eprn('%s%s(%s)', _PRINTARGS_INDENT * _PRINTARGS_DEPTH,
+           fn.__name__, akStr)
+        _PRINTARGS_DEPTH += 1
+        retVal = fn(*args, **kwargs)
+        _PRINTARGS_DEPTH -= 1
+        if retVal != None:
+            eprn("%s%s(%s) => %r", _PRINTARGS_INDENT * _PRINTARGS_DEPTH,
+               fn.__name__, akStr,
+               retVal)
+        return retVal
+    return wrapper
+
 
 #---------------------------------------------------------------------
 
