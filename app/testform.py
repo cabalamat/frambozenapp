@@ -71,11 +71,11 @@ def getResultTable(th: TheTestForm)->str:
     <th colspan=3>Value</th>
 </tr>
 <tr>
-    <th>Screen Name</th>
     <th>Py Name</th>
+    <th>Screen Name</th>
     <th>Type</th>
-    <th>Screen Value</th>
     <th>Py Value</th>
+    <th>Screen Value</th>
     <th>Type</th>
 </tr>
 """    
@@ -83,12 +83,12 @@ def getResultTable(th: TheTestForm)->str:
         fi = th.getFieldInfo(fn)
         cn = fi.__class__.__name__
         v = th[fn]
-        h += form("""<tr>
-    <td>{screenName}</td>       
-    <td><code>{fn}</code></td>       
+        h += form("""<tr>     
+    <td><code>{fn}</code></td>    
+    <td><b>{screenName}</b></td>     
     <td><tt>{type}</tt></td>
-    <td>{s}</td>      
     <td><code>{r}</code></td>   
+    <td>{s}</td>      
     <td><tt>{vt}</tt></td>            
 <tr>""",   
             screenName = fi.title,

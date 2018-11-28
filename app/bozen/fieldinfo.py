@@ -243,17 +243,15 @@ class FieldInfo:
         The return type necessarily depends on what field type it is.
         """
         v2 = str(v)
-        #prvars("v2")
         if self.convertF:
             return self.convertF(v2)
         else:
             return self.convertValue(v2)
 
-    def convertValue(self, v):
+    def convertValue(self, v: str):
         """ Convert a value from something got from a form to a value
         that can be stored in the database for that field.
         The return type necessarily depends on what field type it is.
-        :param string v:
         """
         raise ImplementedBySubclass
 
@@ -280,6 +278,19 @@ class FieldInfo:
         s = self.formatStr.format(v)
         return s
 
+    def convertFromDatabase(self, v):
+        """ Convert from a valuer got from the database to a value to go 
+        into a Python object. For most field types this will be the
+        identity function (and therefore doesn't have to be overridden).
+        """
+        return v
+        
+    def convertToDatabase(self, v):
+        """ Convert from an internal python value to a value to go into 
+        the database. For most field types this will be the
+        idewntity function (and therefore doesn't have to be overridden).
+        """
+        return v
 
     #========== helper functions
 
