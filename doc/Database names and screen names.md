@@ -25,9 +25,9 @@ The second field's database name is `"dept"`, and its screen name is defined as 
 In the above example, the collection class (in Python) is `DeptNumber`, the collection name in the database is also `DeptNumber`, 
 and the collection's automatically produced screen name is "Dept Number".
 
-## Database format versus screen format
+## Database value versus screen format
 
-A related concept is how data is stored in the database (the **datebase format**) versus how it appears on the screen (the **screen format**). 
+A related concept is how data is stored in the database (the **datebase value**) versus how it appears on the screen (the **screen format**). 
 
 ### ChoiceField
 

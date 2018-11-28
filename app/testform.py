@@ -67,24 +67,31 @@ def getResultTable(th: TheTestForm)->str:
     """ return an html table with the contents of (tf) """
     h = """<table class='bz-report-table'>
 <tr>
-    <th>Field Name</th>
+    <th colspan=3>Field</th>
+    <th colspan=3>Value</th>
+</tr>
+<tr>
+    <th>Screen Name</th>
+    <th>Py Name</th>
     <th>Type</th>
     <th>Screen Value</th>
-    <th>Database Value (repr)</th>
-    <th>Value Type</th>
-<tr>
+    <th>Py Value</th>
+    <th>Type</th>
+</tr>
 """    
     for fn in th.fieldNames():
         fi = th.getFieldInfo(fn)
         cn = fi.__class__.__name__
         v = th[fn]
         h += form("""<tr>
-    <td>{fn}</td>       
+    <td>{screenName}</td>       
+    <td><code>{fn}</code></td>       
     <td><tt>{type}</tt></td>
     <td>{s}</td>      
     <td><code>{r}</code></td>   
     <td><tt>{vt}</tt></td>            
 <tr>""",   
+            screenName = fi.title,
             fn = fn,
             type = cn,
             s = th.asReadableH(fn),
