@@ -168,7 +168,13 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         """
         instance = cls()
         for k, v in mongoDoc.items():
-            instance.__dict__[k] = v
+            try:
+                fi = cls.getFieldInfo(k)
+            except KeyError:
+                instance.__dict__[k] = v
+            else:    
+                instance.__dict__[k] = fi.convertFromDatabase(v)
+        #//for    
         instance.postLoad()
         return instance
     
@@ -229,11 +235,15 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         :rtype dict
         """
         d = {}
-        for fn in (self.classInfo.fieldNameTuple + ('_id',)):
+        #dpr("self.__dict__=%r", self.__dict__)
+        for fn in self.classInfo.fieldNameTuple:
+            #dpr("fn=%r", fn)
             if not fn in self.__dict__: continue
-            d[fn] = self[fn]
-        #//for
-        #prvars("d")
+            fi = self.getFieldInfo(fn)
+            d[fn] = fi.convertToDatabase(self[fn])
+        #//for    
+        d['_id'] = self['_id']
+        #dpr("d=%r", d)
         return d
     
     #========== FKeys reverse lookup ==========
@@ -242,8 +252,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
             foreignCol: Union[Type['MonDoc'],str], 
             fn: str) -> Iterable[DbId]:
         """ TODO: this needs to be made more efficient as it currently 
-        retreives all fields. Also allow (foreignCol) to be a str which 
-        is then looked up.
+        retreives all fields. 
         """
         if not self.hasId(): return []    
         foreignCol2 = self.makeMonDoc(foreignCol)
@@ -255,7 +264,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
     def getForeignDocs(self, 
             foreignCol: Type['MonDoc'], 
             fn: str="") -> Iterable['MonDoc']:
-        """ TODO: allow (foreignCol) to be a str which is then looked up.
+        """
         """
         if not self.hasId(): return []  
         foreignCol2 = self.makeMonDoc(foreignCol)
@@ -268,7 +277,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         return bookIter  
     
     @classmethod
-    def getForeignFieldNames(cls, foreignClass:Type['MonDoc']) -> List[str]:
+    def getForeignFieldNames(cls, foreignClass: Type['MonDoc']) -> List[str]:
         """ Get the foreign fields in (clss) which refer to a particular
         foreign class. These are FK or FKeys fields.
         Return a list of their field names.

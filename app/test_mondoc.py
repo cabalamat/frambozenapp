@@ -74,6 +74,7 @@ class T_create_save_delete(lintest.TestCase):
         f.address = "up north"
         f.y = "Why?"
         f.howMany = -333
+        dpr("f=%r", f)
         f.save()
         numFoos = Foo.count()
         self.assertSame(numFoos, 1, "there should be exactly 1 Foo")

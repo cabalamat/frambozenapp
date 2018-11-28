@@ -124,33 +124,7 @@ class DateField(FieldInfo):
     def defaultDefault(self):
         return ""
 
-    def convertValue(self, vStr: str) -> Union[BzDate,str]:
-        """ Convert a value coming back from an html form into a format
-        correct for the database (either a BzDate or "")
-        """
-        vStr = vStr.strip()
-        if not vStr: return ""
-    
-        try:
-            bzd = BzDate(vStr)
-        except ValueError:
-            return ""
-        return bzd
-    
-    
-
-    def convertToScreen(self, v:Union[str,BzDate]) -> str:
-        """ Convert the internal value in Python (v) to a readable
-        value (i.e. a string or unicode that could de displayed in a form
-        or elsewhere).
-        """
-        dpr("v=%r:%s", v, type(v))
-        if not v: return ""
-        if isinstance(v,BzDate):
-            s = v.formatDate(self.dateFormat)
-            return s
-        else:
-            raise ShouldntGetHere
+    #========== output to form ==========
 
     def formField_rw(self, v, **kwargs) -> str:
         """
@@ -183,10 +157,59 @@ class DateField(FieldInfo):
             vStr)
         return h
 
+    #========== error message for field
+    
     def errorMsg(self, v) -> str:
         if self.required and not v:
             return "This field is required."
 
+    #========== conversion functions ==========
+
+    def convertValue(self, vStr: str) -> Union[BzDate,str]:
+        """ Convert a value coming back from an html form into a format
+        correct for Python (either a BzDate or "")
+        """
+        vStr = vStr.strip()
+        if not vStr: return ""
+    
+        try:
+            bzd = BzDate(vStr)
+        except ValueError:
+            return ""
+        return bzd  
+
+    def convertToScreen(self, v:Union[str,BzDate]) -> str:
+        """ Convert the internal value in Python (v) to a readable
+        value (i.e. a string or unicode that could de displayed in a form
+        or elsewhere).
+        """
+        dpr("v=%r:%s", v, type(v))
+        if not v: return ""
+        if isinstance(v,BzDate):
+            s = v.formatDate(self.dateFormat)
+            return s
+        else:
+            raise ShouldntGetHere
+             
+    def convertFromDatabase(self, v: str) -> Union[str,BzDate]:
+        """ Convert from a value got from the database to a value to go 
+        into a Python object.
+        """
+        if not v: return ""
+        try:
+            bzd = BzDate(v)
+        except ValueError:
+            return ""
+        else:
+            return bzd
+            
+        
+    def convertToDatabase(self, v: Union[str,BzDate]) -> str:
+        """ Convert from an internal Python value to a value to go into 
+        the database.
+        """
+        if not v: return ""
+        return str(v)
 
 #---------------------------------------------------------------------
 
