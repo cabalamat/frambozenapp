@@ -73,6 +73,13 @@ Doing BzDate, BzDateTime, DateField, etc...
 Passed 123 assertions in 37 test functions
 4126 lines of Python (from `wc *.py */*.py`)
 
+## 2018-Nov-29
+
+BzDate date picker working, misc tidying up and documentation
+Passed 130 assertions in 38 test functions 
+4351 lines of Python (from `wc *.py */*.py`)
+
+
 
 
 

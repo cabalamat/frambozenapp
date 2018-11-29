@@ -1,7 +1,7 @@
-/* monfab.js
-   =========
+/* bozen.js
+   ========
 
-Javascript for use with the monfab library.
+Javascript for use with the Bozen library.
 */
 
 //--------------------------------------------------------------------
