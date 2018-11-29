@@ -29,8 +29,8 @@ tinymce.init({
 
 function deleteEntity(name, id){
     console.log("deleteEntity " + name + ", " + id);
-    var msg = ("Do you really want to delete '"
-        + name + "'?");
+    var msg = ("Do you really want to delete "
+        + name + "?");
     bootbox.confirm(msg, function(result) {
         if (result) {
             reallyDeleteEntity(name, id);

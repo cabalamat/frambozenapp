@@ -1,0 +1,26 @@
+{# foos.html
+   =========
+
+Show a table of foos
+#}
+{% extends "main.html" %}
+
+{% block body %}
+<h1><i class='fa fa-star'></i> Foos ({{count}})</h1>
+
+<p>This page, <tt>/foos</tt>, displays foos in an HTML table.</p>
+
+<p>It is coded in <tt>foo.py</tt>, which also codes the table definition for
+the <tt>Foo</tt> table. The view function is <tt>foos()</tt>.</p>
+
+{{table}}
+
+<p><br>
+<a href="/foo/NEW" class='btn btn-primary'>
+<i class='fa fa-plus'></i>
+Create a new Foo</a>
+</p>
+{% endblock body %}
+
+
+{# end #}

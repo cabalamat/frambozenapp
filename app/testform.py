@@ -35,9 +35,9 @@ class TheTestForm(FormDoc):
     tickyBox = BoolField()
     favouriteFruit = ChoiceField(choices=FRUIT_CHOICES,
         showNull=True, allowNull=False)
-    slots = MultiChoiceField(choices=SLOT_CHOICES)
+    slots = MultiChoiceField(choices=SLOT_CHOICES, required=True)
     note = TextAreaField()
-    dateOfBirth = DateField()
+    dateOfBirth = DateField(required=True)
 
 @app.route('/testForm', methods=['POST', 'GET'])
 def testForm():

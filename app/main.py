@@ -15,10 +15,12 @@ import config
 import allpages
 from allpages import app
 import templateglobal
+import models
 
 # pages of app:
 import front
 import testform
+import foo
 
 #---------------------------------------------------------------------
 

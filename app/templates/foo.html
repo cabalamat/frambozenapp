@@ -1,0 +1,36 @@
+{# foo.html
+   ========
+
+Show a foo
+#}
+{% extends "main.html" %}
+
+{% block body %}
+<h1><i class='fa fa-star'></i> Foo</h1>
+
+<p>This page, <tt>/foo</tt>, displays a foo.</p>
+
+<form id="theForm" action="/foo/{{id}}" method="POST">
+<input name="id" type="hidden" value="{{id}}">
+<input id="delete_record" name="delete" type="hidden" value="0">
+
+{{doc.buildForm()}}
+
+<p><br>
+<button class='btn btn-primary'>
+<i class='fa fa-save'></i> Save Foo</button>
+&nbsp;
+<button class='btn btn-danger'>
+<i class='fa fa-times'></i> Delete Foo</button>
+<span class="btn btn-danger"
+    onclick="deleteEntity('foo', '{{id}}')">
+  <i class='fa fa-times'></i>
+    Delete Foo</span>
+</p>
+</form>
+
+
+{% endblock body %}
+
+
+{# end #}
