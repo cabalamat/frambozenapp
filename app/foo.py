@@ -53,6 +53,13 @@ class Foo(MonDoc):
             return "<i class='fa fa-star-o'></i> "
         else:
             return "<i class='fa fa-star'></i> "
+        
+    def formWideErrorMessage(self):
+        if self.dateOfBirth and self.dateOfDeath:
+            if self.dateOfDeath < self.dateOfBirth:
+                return "Date Of Death cannot be before Date Of Birth"
+        
+        return "" # no error message, validates OK
 
 #---------------------------------------------------------------------
 
@@ -109,10 +116,15 @@ def foo(id):
     
     if request.method=='POST':
         doc = doc.populateFromRequest(request)
-        if doc.isValid():
-            doc.save()
-            msg = "Saved document"
-        #//if    
+        if request.form.get('delete', "0") == "1":
+            # delete the foo
+            doc.delete()
+            return redirect("/foos", code=302)
+        else:
+            if doc.isValid():
+                doc.save()
+                msg = "Saved document"
+            #//if    
     #//if    
         
     tem = jinjaEnv.get_template("foo.html")
