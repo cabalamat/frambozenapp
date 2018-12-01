@@ -34,4 +34,5 @@ class MyForm(FormDoc):
 
 * [[MonDoc]] is a subclass of `FormDoc` which is associated with a MongoDB collection
 * Fields in a `FormDoc` are defined using a [[FieldInfo]] subclass.
+* [[Validating forms]]
 

@@ -84,6 +84,9 @@ Started Foo class, associated /foos, /foo pages
 
 ## 2018-Nov-30
 
+Done /foos, /foo pages
+4603 lines of Python (from `wc *.py */*.py`)
+
 
 
 
