@@ -7,7 +7,7 @@ from bozen.butil import *
 from bozen import lintest
 
 from bozen import timefield
-from bozen.timefield import BzDate
+from bozen.timefield import BzDate, BzDateTime
 
 #---------------------------------------------------------------------
 
@@ -43,6 +43,11 @@ class T_BzDate(lintest.TestCase):
         dpr("d=%r:%s", d, type(d))
         dpr("str(d)=%r", str(d))
         self.assertSame(d, "1998-12-13")
+        
+    def test_creation_from_BzDate(self):
+        d = BzDate("2011-09-22")
+        d2 = BzDate(d)
+        self.assertSame(d2, "2011-09-22")
         
     def test_actsAsStr(self):   
         d = BzDate("2006-07-09")
@@ -109,12 +114,64 @@ class T_BzDate(lintest.TestCase):
         self.assertTrue(day >= 1)
         self.assertTrue(day <= 31)
         
+  
+#---------------------------------------------------------------------
+
+class T_BzDateTime(lintest.TestCase):
+    """ test the BzDateTime class """
+    
+    def test_creation_allDigits(self):
+        """ create a BzDateTime using all-digit format """
+        d = BzDateTime("20171231")
+        self.assertSame(d, "2017-12-31T00:00:00")
+        self.assertSame(str(d), "2017-12-31T00:00:00")
+        
+        d = BzDateTime("19870615")
+        self.assertSame(d, "1987-06-15T00:00:00")
+        
+        d = BzDateTime("1989061521")
+        self.assertSame(d, "1989-06-15T21:00:00")
+        
+        d = BzDateTime("199106152153")
+        self.assertSame(d, "1991-06-15T21:53:00")
+        
+        d = BzDateTime("199106152153somenonsensehere")
+        self.assertSame(d, "1991-06-15T21:53:00")
+        
+        d = BzDateTime("19920615215301")
+        self.assertSame(d, "1992-06-15T21:53:01")
+              
+    def test_creation_bzFormat(self):
+        """ create a BzDateTime using variations of bz format, 
+        e.g. "2017-12-31T23:59:58"
+        """
+        d = BzDateTime("2012-06-04")
+        self.assertSame(d, "2012-06-04T00:00:00")
+        
+        d = BzDateTime("2012-05-04T07")
+        self.assertSame(d, "2012-05-04T07:00:00")
+        
+        d = BzDateTime("2012-04-04T07:35")
+        self.assertSame(d, "2012-04-04T07:35:00")
+        
+        d = BzDateTime("2011-04-04T07:35:51")
+        self.assertSame(d, "2011-04-04T07:35:51")
+        
+        d = BzDateTime("2011-04-04  07:35:51")
+        self.assertSame(d, "2011-04-04T07:35:51")
+        
+    def test_creation_from_BzDate(self):
+        """ create a BzDateTime from a BzDate or BzDateTime """
+        d = BzDate("2012-06-04")
+        d2 = BzDateTime(d)
+        self.assertSame(d2, "2012-06-04T00:00:00")
         
     
 #---------------------------------------------------------------------
 
 group = lintest.TestGroup()
 group.add(T_BzDate)
+group.add(T_BzDateTime)
 
 if __name__=='__main__': group.run()
 

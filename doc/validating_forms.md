@@ -1,6 +1,10 @@
 # Validating Forms
 
+Sometimes when a user inputs a form, the values they enter are invalid. This means the form can't proceed. This page discusses form validation. 
+
 [TOC]
+
+## Example: foo.py
 
 To populate a form with data from a POST request, in Flask (This is a simplified version of the `foo()` view function in [[frambozenapp]]'s `foo.py`):
 
@@ -61,21 +65,20 @@ If there is any form-wide validation that must be done, the method `formWideErro
 
 class Foo(MonDoc):
     name = StrField()
-    #...other fields...
-    dateOfBirth = DateField()
-    dateOfDeath = DateField()
+    minSpeed = FloatField(title="Minimum Speed, mph", minValue=0.0)
+    maxSpeed = FloatField(title="Maximim Speed, mph", minValue=0.0)
+    #...etc...
 ```
 
-If both the `dateOfBirth` and `dateOfDeath` are present, the `dateOfDeath` can't be earlier than the `dateOfBirth`. This is exprtessed in a method on `Foo` thus:
+Where `minSpeed` must be less than or equal to `maxSpeed`. This is expressed in a method on `Foo` thus:
 ```py
-
     def formWideErrorMessage(self):
-        if self.dateOfBirth and self.dateOfDeath:
-            if self.dateOfDeath < self.dateOfBirth:
-                return "Date Of Death cannot be before Date Of Birth"       
+        if self.minSpeed > self.maxSpeed:
+            return "Minimum speed cannot be greater than maximum speed"       
         return "" # no error message, validates OK
 ```
 
+(If there are other form-wide validation checks that need to be done, they all go in the `formWideErrorMessage()` method.)
 
 
 The method `formWideErrorMessageH()` gets the output from `formWideErrorMessage()` and wraps it up in suitable HTML.

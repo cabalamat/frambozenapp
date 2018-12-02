@@ -38,26 +38,25 @@ FRUIT_CHOICES = [
 
 class Foo(MonDoc):
     name = StrField()
+    description = TextAreaField(monospaced=True)
     aNumber = IntField(minValue=0, maxValue=100)
+    minSpeed = FloatField(title="Minimum Speed, mph", minValue=0.0)
+    maxSpeed = FloatField(title="Maximim Speed, mph", minValue=0.0)
     favouriteDrink = ChoiceField(choices=DRINK_CHOICES,
         showNull=True, allowNull=True)
     fruitsLiked = MultiChoiceField(choices=FRUIT_CHOICES,
         desc="tick all fruits this person likes") 
     tickyBox = BoolField()
-    dateOfBirth = DateField()
-    dateOfDeath = DateField()
+    aDate = DateField()
+
     
-    def logo(self):
-        """ use different logs depending on whether alive/dead """
-        if self.dateOfDeath:
-            return "<i class='fa fa-star-o'></i> "
-        else:
-            return "<i class='fa fa-star'></i> "
+    @classmethod
+    def classLogo(self):
+        return "<i class='fa fa-star-o'></i> "
         
     def formWideErrorMessage(self):
-        if self.dateOfBirth and self.dateOfDeath:
-            if self.dateOfDeath < self.dateOfBirth:
-                return "Date Of Death cannot be before Date Of Birth"
+        if self.minSpeed > self.maxSpeed:
+            return "Minimum speed cannot be greater than maximum speed"
         
         return "" # no error message, validates OK
 
@@ -80,24 +79,20 @@ def foosTable() -> str:
     <th>Name</th>
     <th>Favourite<br>Drink</th>
     <th>Ticky Box</th>
-    <th>Date of<br>Birth</th>
-    <th>Date of<br>Death</th>
 </tr>    
     """
     fs = Foo.find(sort='name')
     for f in fs:
         h += form("""<tr>
      <td>{name}</td>       
+     <td>{description}</td>       
      <td>{favouriteDrink}</td>       
-     <td>{tickyBox}</td>       
-     <td>{dateOfBirth}</td>       
-     <td>{dateOfDeath}</td>                
+     <td>{tickyBox}</td>                  
 </tr>""",
             name = f.a(),
+            description = f.asReadableH('description'),
             favouriteDrink = f.asReadableH('favouriteDrink'),
             tickyBox = f.asReadableH('tickyBox'),
-            dateOfBirth = f.asReadableH('dateOfBirth'),
-            dateOfDeath = f.asReadableH('dateOfDeath'),
         )     
     #//for f
     h += "</table>"

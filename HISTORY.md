@@ -87,6 +87,12 @@ Started Foo class, associated /foos, /foo pages
 Done /foos, /foo pages
 4603 lines of Python (from `wc *.py */*.py`)
 
+## 2018-Dec-01
+
+Working on BzDateTime...
+Passed 144 assertions in 42 test functions
+4792 lines of Python (from `wc *.py */*.py`)
+
 
 
 

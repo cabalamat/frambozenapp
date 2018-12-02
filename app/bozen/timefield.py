@@ -24,6 +24,8 @@ from . import bozenutil
 from .fieldinfo import fieldIndex, FieldInfo, cssClasses
 
 #---------------------------------------------------------------------
+# regular expressions for time formats
+# note that seconds field can be "60" for leap seconds
 
 validDate=re.compile("[0-9]{4}-[0-1][0-9]-[0-3][0-9]")
 def isValidDate(s: str) -> bool:
@@ -33,17 +35,17 @@ validDate8=re.compile("[0-9]{4}[0-1][0-9][0-3][0-9]")
 def isValidDate8(s: str) -> bool:
     return bool(validDate8.fullmatch(s[:8]))
 
-
 validDateTime=re.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}"
-    "T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]")
+    "T[0-2][0-9]:[0-5][0-9]:[0-6][0-9]")
 def isValidDateTime(s: str) -> bool:
     return bool(validDateTime.fullmatch(s))
 
-validTod=re.compile("[0-2][0-9]:[0-5][0-9]:[0-5][0-9]")
+validTod=re.compile("[0-2][0-9]:[0-5][0-9]:[0-6][0-9]")
 
 def isValidTod(s: str) -> bool:
     return bool(validTod.fullmatch(s))
 
+#---------------------------------------------------------------------
 
 class BzDate(str):
     """ the Bozen date class """
@@ -72,7 +74,7 @@ class BzDate(str):
         return r
     
     def toTuple(self) -> Tuple[int,int,int]:
-        """ to tuple of year, month, day """
+        """ to tuple of (year, month, day) """
         y = butil.exValue(lambda: int(self[0:4]), 2000)
         mon = butil.exValue(lambda: int(self[5:7]), 1)
         day = butil.exValue(lambda: int(self[8:10]), 1)
@@ -88,7 +90,7 @@ class BzDate(str):
         y, m, d = self.toTuple()
         return datetime.datetime(y, m ,d)
     
-    def formatDate(self, formatStr:str) -> str:
+    def formatDate(self, formatStr: str) -> str:
         dt = self.to_date()
         s = dt.strftime(formatStr)
         return s
@@ -102,6 +104,141 @@ class BzDate(str):
     def today(cls) -> 'BzDate':
         today = datetime.date.today()
         return BzDate(today)
+
+#---------------------------------------------------------------------
+
+class BzDateTime(str):
+    """ the Bozen date-time class """
+    
+    def __new__(cls, s):
+        dpr("s=%r:%s", s, type(s))
+        if isinstance(s, BzDate):
+            dts = str(s) + "T00:00:00"
+            return super().__new__(cls, dts)
+        if isinstance(s, BzDateTime):
+            return super().__new__(cls, str(s))
+        elif isinstance(s, str):
+            dtStr = convertToBzDataTimeStr(s)
+            if dtStr:                 
+                return super().__new__(cls, dtStr)
+            else:   
+                raise ValueError(errMsg)
+        elif isinstance(s, datetime.date):
+            s2 = "%04d-%02d-%02dT00:00:00" % (s.year, s.month, s.day)
+            return super().__new__(cls, s2)
+        elif isinstance(s, datetime.datetime):
+            s2 = "%04d-%02d-%02dT%02d:%02d:%02d" % (
+                s.year, s.month, s.day,
+                s.hour, s.minute, s.second)
+            return super().__new__(cls, s2)
+        else:
+            s = ""
+        
+            
+    def __repr__(self) -> str:
+        r = "BzDateTime(%r)" % (str(self),)
+        return r
+
+def convertToBzDataTimeStr(s: str) -> str:
+    """ Convert a string to the BZDateTime format, which is:
+    yyyy-mm-ddTHH:MM:SS e.g. "2017-11-28T13:45:07"
+    If cannot convert it, return "".
+    Valid input types are:
+    
+    * "2017-11-28" (date only)
+    * The above followed by any of:
+      "13:45" (hour:minute)
+      "13:45:07" (hour:minute:second)
+    
+    * "20171128" (date only)
+    * the above with trailing numbers for time, e.g.:
+      "2017112813"
+      "201711281345"
+      "20171128134507"    
+    """
+    s = s.strip()
+    if isValidDate8(s[:8]):
+        return decodeDateTime8(s)
+    elif isValidDate(s[:10]):
+        return decodeDateTime(s)
+    return "" # can't convert it
+
+def decodeDateTime8(s: str) -> str:
+    """ Convert a string to the BZDateTime format, which is:
+    yyyy-mm-ddTHH:MM:SS e.g. "2017-11-28T13:45:07"
+
+    From:
+    * "20171128" (date only)
+    * the above with trailing numbers for time, e.g.:
+      "2017112813"
+      "201711281345"
+      "20171128134507" 
+    """
+    y = butil.exValue(lambda: int(s[0:4]), 2000)
+    mon = butil.exValue(lambda: int(s[4:6]), 1)
+    day = butil.exValue(lambda: int(s[6:8]), 1)
+    hh = butil.exValue(lambda: int(s[8:10]), 0)
+    mm = butil.exValue(lambda: int(s[10:12]), 0)
+    ss = butil.exValue(lambda: int(s[12:14]), 0)
+    r = "%04d-%02d-%02dT%02d:%02d:%02d" % (
+        y, mon, day,
+        hh, mm, ss)
+    return r
+    
+@printargs
+def decodeDateTime(s: str) -> str:
+    """ Convert a string to the BZDateTime format, which is:
+    yyyy-mm-ddTHH:MM:SS e.g. "2017-11-28T13:45:07", from:
+    
+    * "2017-11-28" (date only)
+    * The above followed by any of:
+      "13:45" (hour:minute)
+      "13:45:07" (hour:minute:second)
+    """  
+    dateStr = s[:10]
+    hh, mm, ss = get3ints(s[10:])
+    s2 = dateStr + "T%02d:%02d:%02d" % (hh, mm, ss)
+    return s2
+
+@printargs
+def get3ints(s: str) -> Tuple[int,int,int]:
+    """ get 3 integers from a string. if there aren't any,
+    return 0s for the ones there aren't
+    """
+    i1, s1 = getPosInt(s, 0)
+    i2, s2 = getPosInt(s1, 0)
+    i3, _ = getPosInt(s2, 0)
+    return (i1, i2, i3)
+
+@printargs
+def getPosInt(s: int, default:int = 0) -> Tuple[int,str]:
+    """ Get a positive integer from the start of a string,
+    If there isn't one, return (default).
+    Return the remnants of ther string after the integer
+    in a tuple.
+    """
+    while 1:
+        if s=="": return (default, "")
+        if s[0].isdigit(): break
+        s = s[1:]
+    #//while
+    
+    sci = "" # string containing int
+    while 1:
+        if s=="": break
+        if s[0].isdigit():
+            sci += s[0]
+            s = s[1:]
+        else:    
+            break
+    #//while
+    
+    i = int(sci)
+    return (i, s)
+    
+
+
+
 
 #---------------------------------------------------------------------
 
