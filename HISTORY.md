@@ -106,6 +106,8 @@ Passed 182 assertions in 49 test functions
 Done DateTimeField.
 5064 lines of Python (from `wc *.py */*.py`)
 
+Added <paginate.py>, paginating /foos
+
 
 
 
