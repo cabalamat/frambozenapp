@@ -93,7 +93,17 @@ Working on BzDateTime...
 Passed 144 assertions in 42 test functions
 4792 lines of Python (from `wc *.py */*.py`)
 
+Passed 170 assertions in 48 test functions
+4926 lines of Python (from `wc *.py */*.py`)
 
+
+## 2018-Dec-01
+
+Finished BzDateTime
+Passed 182 assertions in 49 test functions
+4944 lines of Python (from `wc *.py */*.py`)
+
+working on DateTimeField...
 
 
 

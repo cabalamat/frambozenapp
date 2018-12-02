@@ -166,6 +166,16 @@ class T_BzDateTime(lintest.TestCase):
         d2 = BzDateTime(d)
         self.assertSame(d2, "2012-06-04T00:00:00")
         
+    def test_creation_from_date(self):  
+        """ create from a datetime.date or datetime.datetime """
+        pd = datetime.date(2011, 6, 13)
+        bzdt = BzDateTime(pd)
+        self.assertSame(bzdt, "2011-06-13T00:00:00")
+        
+        pdt2 = datetime.datetime(2010, 5, 12, 23, 30, 1)
+        bzdt2 = BzDateTime(pdt2)
+        self.assertSame(bzdt2, "2010-05-12T23:30:01")
+        
     def test_toTuple(self):
         """ convert a BzDateTime to a tuple """
         dt = BzDateTime("2011-04-14T07:35:51")
@@ -204,6 +214,41 @@ class T_BzDateTime(lintest.TestCase):
         self.assertSame(pydt.hour, 7) 
         self.assertSame(pydt.minute, 35) 
         self.assertSame(pydt.second, 51) 
+        
+    def test_formatDateTime(self):
+        bdt = BzDateTime("2018-11-24T17:45:21")
+        r = bdt.formatDateTime("%Y-%b-%d")
+        self.assertSame(r, "2018-Nov-24")
+        
+        r = bdt.formatDateTime("%Y-%b-%d %a %H:%M:%S")
+        self.assertSame(r, "2018-Nov-24 Sat 17:45:21")
+        
+    def test_addDays(self):
+        """ add days and seconds to a BzDateTime """
+        bdt = BzDateTime("2018-11-24T17:45:21")
+        bdt2 = bdt.addDays(2)
+        self.assertSame(bdt2, "2018-11-26T17:45:21")
+        
+        bdt3 = bdt.addDaysSeconds(1, 1*3600 + 2*60 + 3)
+        self.assertSame(bdt3, "2018-11-25T18:47:24")
+        
+    def test_now(self):
+        bdt = BzDateTime.now()
+        self.assertTrue(isinstance(bdt, BzDateTime),
+             "BzDateTime.now() returns a BzDateTime")
+        year, month, day, hh, mm, ss = bdt.toTuple_ymdhms()
+        self.assertTrue(year >= 2018, 
+            "(assumes we are not testing in the past)")
+        self.assertTrue(month >= 1)
+        self.assertTrue(month <= 12)
+        self.assertTrue(day >= 1)
+        self.assertTrue(day <= 31)
+        self.assertTrue(hh >= 0)
+        self.assertTrue(hh <= 23)
+        self.assertTrue(mm >= 0)
+        self.assertTrue(mm <= 59)
+        self.assertTrue(ss >= 0)
+        self.assertTrue(ss <= 60) # for leap seconds
        
         
     

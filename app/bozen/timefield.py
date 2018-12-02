@@ -131,13 +131,15 @@ class BzDateTime(str):
                 return super().__new__(cls, dtStr)
             else:   
                 raise ValueError(errMsg)
-        elif isinstance(s, datetime.date):
-            s2 = "%04d-%02d-%02dT00:00:00" % (s.year, s.month, s.day)
-            return super().__new__(cls, s2)
         elif isinstance(s, datetime.datetime):
             s2 = "%04d-%02d-%02dT%02d:%02d:%02d" % (
                 s.year, s.month, s.day,
                 s.hour, s.minute, s.second)
+            #dpr("s2=%r", s2)
+            return super().__new__(cls, s2)
+        elif isinstance(s, datetime.date):
+            s2 = "%04d-%02d-%02dT00:00:00" % (s.year, s.month, s.day)
+            #dpr("s2=%r", s2)
             return super().__new__(cls, s2)
         else:
             s = ""
@@ -174,6 +176,37 @@ class BzDateTime(str):
         """ convert to datetime.datetime """
         y, m, d, hh, mm, ss = self.toTuple_ymdhms()
         return datetime.datetime(y, m, d, hh, mm, ss)
+    
+    def formatDateTime(self, formatStr: str) -> str:
+        """ format a BzDateTime according to the format string conventions
+        in strftime(). See 
+        <https://docs.python.org/3.6/library/datetime.html#strftime-strptime-behavior>
+        """
+        dt = self.to_datetime()
+        s = dt.strftime(formatStr)
+        return s
+    
+    def addDays(self, numDays: int) -> 'BzDateTime':
+        """ add days to a BzDateTime """
+        dpr("self=%r numDays=%r", self, numDays)
+        dt = self.to_datetime() 
+        dpr("dt=%r", dt)
+        dt2 = dt + datetime.timedelta(numDays) 
+        dpr("dt2=%r", dt2)
+        bzdt2 = BzDateTime(dt2)  
+        dpr("bzdt2=%r", bzdt2)
+        return bzdt2
+    
+    def addDaysSeconds(self, numDays: int, numSeconds: int) -> 'BzDateTime':
+        """ add days and seconds to a BzDateTime """
+        dt = self.to_datetime() 
+        dt2 = dt + datetime.timedelta(numDays, numSeconds)
+        return BzDateTime(dt2)        
+        
+    @classmethod
+    def now(cls) -> 'BzDateTime':
+        now = datetime.datetime.now()
+        return BzDateTime(now)
     
 
 #---------------------------------------------------------------------
