@@ -51,7 +51,7 @@ class BzDate(str):
     """ the Bozen date class """
     
     def __new__(cls, s):
-        dpr("s=%r:%s", s, type(s))
+        #dpr("s=%r:%s", s, type(s))
         if isinstance(s, str):
             if isValidDate(s): # yyyy-mm-dd
                 return super().__new__(cls, s[:10])
@@ -73,22 +73,30 @@ class BzDate(str):
         r = "BzDate(%r)" % (str(self),)
         return r
     
-    def toTuple(self) -> Tuple[int,int,int]:
+    def toTuple_ymd(self) -> Tuple[int,int,int]:
         """ to tuple of (year, month, day) """
         y = butil.exValue(lambda: int(self[0:4]), 2000)
         mon = butil.exValue(lambda: int(self[5:7]), 1)
         day = butil.exValue(lambda: int(self[8:10]), 1)
         return (y, mon, day)
     
+    def toTuple_ymdhms(self) -> Tuple[int,int,int,int,int,int]:
+        """ to tuple of (year, month, day, hour, minute, second) """
+        y = butil.exValue(lambda: int(self[0:4]), 2000)
+        mon = butil.exValue(lambda: int(self[5:7]), 1)
+        day = butil.exValue(lambda: int(self[8:10]), 1)
+        day = butil.exValue(lambda: int(self[8:10]), 1)
+        return (y, mon, day, 0, 0, 0)
+    
     def to_date(self) -> datetime.date:
         """ convert to datetime.date """
-        y, m, d = self.toTuple()
-        return datetime.date(y, m ,d)
+        y, m, d = self.toTuple_ymd()
+        return datetime.date(y, m, d)
         
     def to_datetime(self) -> datetime.datetime:
         """ convert to datetime.datetime """
-        y, m, d = self.toTuple()
-        return datetime.datetime(y, m ,d)
+        y, m, d = self.toTuple_ymd()
+        return datetime.datetime(y, m, d)
     
     def formatDate(self, formatStr: str) -> str:
         dt = self.to_date()
@@ -111,7 +119,7 @@ class BzDateTime(str):
     """ the Bozen date-time class """
     
     def __new__(cls, s):
-        dpr("s=%r:%s", s, type(s))
+        #dpr("s=%r:%s", s, type(s))
         if isinstance(s, BzDate):
             dts = str(s) + "T00:00:00"
             return super().__new__(cls, dts)
@@ -138,6 +146,38 @@ class BzDateTime(str):
     def __repr__(self) -> str:
         r = "BzDateTime(%r)" % (str(self),)
         return r
+    
+    def toTuple_ymd(self) -> Tuple[int,int,int]:
+        """ to tuple of (year, month, day) """
+        y = butil.exValue(lambda: int(self[0:4]), 2000)
+        mon = butil.exValue(lambda: int(self[5:7]), 1)
+        day = butil.exValue(lambda: int(self[8:10]), 1)
+        return (y, mon, day)
+    
+    def toTuple_ymdhms(self) -> Tuple[int,int,int,int,int,int]:
+        """ to tuple of (year, month, day, hour, minute, second) """
+        y = butil.exValue(lambda: int(self[0:4]), 2000)
+        mon = butil.exValue(lambda: int(self[5:7]), 1)
+        day = butil.exValue(lambda: int(self[8:10]), 1)
+        day = butil.exValue(lambda: int(self[8:10]), 1)
+        hh = butil.exValue(lambda: int(self[11:13]), 0)
+        mm = butil.exValue(lambda: int(self[14:16]), 0)
+        ss = butil.exValue(lambda: int(self[17:19]), 0)
+        return (y, mon, day, hh, mm, ss)
+    
+    def to_date(self) -> datetime.date:
+        """ convert to datetime.date """
+        y, m, d = self.toTuple_ymd()
+        return datetime.date(y, m, d)
+        
+    def to_datetime(self) -> datetime.datetime:
+        """ convert to datetime.datetime """
+        y, m, d, hh, mm, ss = self.toTuple_ymdhms()
+        return datetime.datetime(y, m, d, hh, mm, ss)
+    
+
+#---------------------------------------------------------------------
+# helper functions 
 
 def convertToBzDataTimeStr(s: str) -> str:
     """ Convert a string to the BZDateTime format, which is:
@@ -185,7 +225,6 @@ def decodeDateTime8(s: str) -> str:
         hh, mm, ss)
     return r
     
-@printargs
 def decodeDateTime(s: str) -> str:
     """ Convert a string to the BZDateTime format, which is:
     yyyy-mm-ddTHH:MM:SS e.g. "2017-11-28T13:45:07", from:
@@ -200,7 +239,6 @@ def decodeDateTime(s: str) -> str:
     s2 = dateStr + "T%02d:%02d:%02d" % (hh, mm, ss)
     return s2
 
-@printargs
 def get3ints(s: str) -> Tuple[int,int,int]:
     """ get 3 integers from a string. if there aren't any,
     return 0s for the ones there aren't
@@ -210,7 +248,6 @@ def get3ints(s: str) -> Tuple[int,int,int]:
     i3, _ = getPosInt(s2, 0)
     return (i1, i2, i3)
 
-@printargs
 def getPosInt(s: int, default:int = 0) -> Tuple[int,str]:
     """ Get a positive integer from the start of a string,
     If there isn't one, return (default).
@@ -236,9 +273,6 @@ def getPosInt(s: int, default:int = 0) -> Tuple[int,str]:
     i = int(sci)
     return (i, s)
     
-
-
-
 
 #---------------------------------------------------------------------
 

@@ -66,7 +66,7 @@ class T_BzDate(lintest.TestCase):
         
     def test_toTuple(self):
         d = BzDate("2004-12-02")
-        year, month, day = d.toTuple()
+        year, month, day = d.toTuple_ymd()
         self.assertSame(year, 2004, "year")
         self.assertSame(month, 12, "month")
         self.assertSame(day, 2, "day")
@@ -106,7 +106,7 @@ class T_BzDate(lintest.TestCase):
     def test_today(self):
         t = BzDate.today()
         dpr("Today's date: %r", t)
-        year, month, day = t.toTuple()
+        year, month, day = t.toTuple_ymd()
         self.assertTrue(year >= 2018, 
             "(assumes we are not testing in the past)")
         self.assertTrue(month >= 1)
@@ -165,6 +165,46 @@ class T_BzDateTime(lintest.TestCase):
         d = BzDate("2012-06-04")
         d2 = BzDateTime(d)
         self.assertSame(d2, "2012-06-04T00:00:00")
+        
+    def test_toTuple(self):
+        """ convert a BzDateTime to a tuple """
+        dt = BzDateTime("2011-04-14T07:35:51")
+        y, m, d, hh, mm, ss = dt.toTuple_ymdhms()
+        self.assertSame(y, 2011)
+        self.assertSame(m, 4)
+        self.assertSame(d, 14)
+        self.assertSame(hh, 7)
+        self.assertSame(mm, 35)
+        self.assertSame(ss, 51)
+        
+        y, m, d = dt.toTuple_ymd()
+        self.assertSame(y, 2011)
+        self.assertSame(m, 4)
+        self.assertSame(d, 14)
+        
+    def test_to_date(self):
+        """ convert a BzDateTime to a datetime.date """
+        bdt = BzDateTime("2008-10-24T07:35:51")
+        pyd = bdt.to_date()
+        self.assertTrue(isinstance(pyd, datetime.date),
+            "pyd is a datetime.date")
+        self.assertSame(pyd.year, 2008) 
+        self.assertSame(pyd.month, 10) 
+        self.assertSame(pyd.day, 24) 
+        
+    def test_to_datetime(self):
+        """ convert a BzDateTime to a datetime.datetime """
+        bdt = BzDateTime("2008-10-24T07:35:51")
+        pydt = bdt.to_datetime()
+        self.assertTrue(isinstance(pydt, datetime.datetime),
+            "pydt is a datetime.datetime")
+        self.assertSame(pydt.year, 2008) 
+        self.assertSame(pydt.month, 10) 
+        self.assertSame(pydt.day, 24) 
+        self.assertSame(pydt.hour, 7) 
+        self.assertSame(pydt.minute, 35) 
+        self.assertSame(pydt.second, 51) 
+       
         
     
 #---------------------------------------------------------------------
