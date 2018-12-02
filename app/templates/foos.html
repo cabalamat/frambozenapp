@@ -6,6 +6,7 @@ Show a table of foos
 {% extends "main.html" %}
 
 {% block body %}
+<div class='right-pagination'>{{pag.links}}</div>
 <h1><i class='fa fa-star'></i> Foos ({{count}})</h1>
 
 <p>This page, <tt>/foos</tt>, displays foos in an HTML table.</p>
@@ -13,7 +14,10 @@ Show a table of foos
 <p>It is coded in <tt>foo.py</tt>, which also codes the table definition for
 the <tt>Foo</tt> table. The view function is <tt>foos()</tt>.</p>
 
+<p>{{pag.info}}</p>
 {{table}}
+
+<div class='right-pagination'>{{pag.links}}</div>
 
 <p><br>
 <a href="/foo/NEW" class='btn btn-primary'>

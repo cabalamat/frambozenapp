@@ -12,6 +12,7 @@ from flask import request, redirect
 from allpages import app, jinjaEnv
 from bozen.butil import pr, prn, dpr, form, htmlEsc
 from bozen import FormDoc, MonDoc, BzDate, BzDateTime
+from bozen import paginate
 from bozen import (StrField, ChoiceField, TextAreaField,
     IntField, FloatField, BoolField,
     MultiChoiceField,
@@ -69,14 +70,16 @@ class Foo(MonDoc):
 @app.route('/foos')
 def foos():
     count = Foo.count()
+    pag = paginate.Paginator(count)
     tem = jinjaEnv.get_template("foos.html")
     h = tem.render(
         count = count,
-        table = foosTable(),
+        pag = pag,
+        table = foosTable(pag),
     )
     return h
 
-def foosTable() -> str:
+def foosTable(pag: paginate.Paginator) -> str:
     """ a table of foos """
     h = """<table class='bz-report-table'>
 <tr>
@@ -88,7 +91,10 @@ def foosTable() -> str:
     <th>Ticky<br>Box</th>
 </tr>    
     """
-    fs = Foo.find(sort='name')
+    fs = Foo.find(
+        skip=pag.skip, # skip this number of docs before returning some
+        limit=pag.numShow, # max number of docs to return
+        sort='name')
     for f in fs:
         h += form("""<tr>
      <td style='background:#fed'><tt>{id}</tt></td>      

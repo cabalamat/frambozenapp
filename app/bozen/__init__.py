@@ -30,6 +30,12 @@ from .mondoc import MonDoc
     
     
 #---------------------------------------------------------------------
+# utilities for HTML / web pages
+
+from .paginate import Paginator
+ 
+ 
+#---------------------------------------------------------------------
 
 
 
