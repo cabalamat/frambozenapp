@@ -309,7 +309,6 @@ def getPosInt(s: int, default:int = 0) -> Tuple[int,str]:
 
 #---------------------------------------------------------------------
 
-
 """ The default format for a date to look like in a from field,
 e.g. 2017-Dec-31
 """
@@ -319,7 +318,7 @@ class DateField(FieldInfo):
     """ a field that contains a date """
 
     def readArgs(self, **kwargs):
-        super(DateField, self).readArgs(**kwargs)
+        super().readArgs(**kwargs)
         self.fieldLen = kwargs.get('fieldLen', 13)
         self.dateFormat = kwargs.get('dateFormat', 
             DEFAULT_DATE_SCREEN_FORMAT)
@@ -420,6 +419,116 @@ class DateField(FieldInfo):
         return str(v)
 
 #---------------------------------------------------------------------
+
+""" The default format for a date to look like in a from field,
+e.g. 2017-Dec-31 17:04
+"""
+DEFAULT_DATETIME_SCREEN_FORMAT = "%Y-%b-%d %H:%M"
+
+class DateTimeField(FieldInfo):
+    """ a field that contains a date and a time """
+
+    def readArgs(self, **kwargs):
+        super().readArgs(**kwargs)
+        self.fieldLen = kwargs.get('fieldLen', 20)
+        self.dateTimeFormat = kwargs.get('dateTimeFormat', 
+            DEFAULT_DATETIME_SCREEN_FORMAT)
+        self.required = kwargs.get('required', False)
+
+    def defaultDefault(self):
+        return ""
+
+    #========== output to form ==========
+
+    def formField_rw(self, v, **kwargs) -> str:
+        """
+        Create a form field (an <input> tag).
+
+        :param v: this is the value of the field in the FormDoc
+        :param kwargs: these arguments may include
+            - readOnly :: bool (default False) = the form is read only
+        :type kwargs: dict str:Any
+        :return html containing the field
+        :rtype str
+        """
+        vStr = self.convertToScreen(v)
+        h = form("""<input{cc} id="id_{fn}"
+            name="{fn}"
+            type="text" value="{v}" size={fieldLen}>""",
+            cc = cssClasses(
+                "bz-input",
+                "bz-DateTimeField",
+                self.monospaced and "monospace"),
+            fn = self.fieldName,
+            v = attrEsc(vStr),
+            fieldLen = self.fieldLen)
+        return h
+
+    def formField_ro(self, v, **kwargs) -> str:
+        vStr = self.convertToScreenH(v)
+        if not vStr: vStr = "&nbsp;"
+        h = form("""<span class='bz-read-only'>{}</span>""",
+            vStr)
+        return h
+
+    #========== error message for field
+    
+    def errorMsg(self, v) -> str:
+        if self.required and not v:
+            return "This field is required."
+
+    #========== conversion functions ==========
+
+    def convertValue(self, vStr: str) -> Union[BzDateTime,str]:
+        """ Convert a value coming back from an html form into a format
+        correct for Python (either a BzDate or "")
+        """
+        dpr("vStr=%s", vStr)
+        vStr = vStr.strip()
+        if not vStr: return ""
+    
+        pydt = butil.exValue(
+            lambda: datetime.datetime.strptime(vStr, self.dateTimeFormat),
+            None)
+        dpr("pydt=%r", pydt)
+        if pydt:
+            bzdt = BzDateTime(pydt)
+            return bzdt
+        return ""
+
+    def convertToScreen(self, v:Union[str,BzDateTime]) -> str:
+        """ Convert the internal value in Python (v) to a readable
+        value (i.e. a string or unicode that could de displayed in a form
+        or elsewhere).
+        """
+        dpr("python value '%s', v=%r:%s", self.fieldName, v, type(v))
+        if not v: return ""
+        if isinstance(v,BzDateTime):
+            s = v.formatDateTime(self.dateTimeFormat)
+            dpr("s=%r:%s", s, type(s))
+            return s
+        else:
+            raise ShouldntgetHere
+             
+    def convertFromDatabase(self, v: str) -> Union[str,BzDateTime]:
+        """ Convert from a value got from the database to a value to go 
+        into a Python object.
+        """
+        if not v: return ""
+        try:
+            bzdt = BzDateTime(v)
+        except ValueError:
+            return ""
+        else:
+            return bzdt
+            
+        
+    def convertToDatabase(self, v: Union[str,BzDateTime]) -> str:
+        """ Convert from an internal Python value to a value to go into 
+        the database.
+        """
+        if not v: return ""
+        return str(v)
 
 #---------------------------------------------------------------------
 

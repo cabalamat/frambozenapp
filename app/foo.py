@@ -11,11 +11,11 @@ from flask import request, redirect
 
 from allpages import app, jinjaEnv
 from bozen.butil import pr, prn, dpr, form, htmlEsc
-from bozen import FormDoc, MonDoc, BzDate
+from bozen import FormDoc, MonDoc, BzDate, BzDateTime
 from bozen import (StrField, ChoiceField, TextAreaField,
     IntField, FloatField, BoolField,
     MultiChoiceField,
-    DateField)
+    DateField, DateTimeField)
 
 import ht
 
@@ -48,17 +48,21 @@ class Foo(MonDoc):
         desc="tick all fruits this person likes") 
     tickyBox = BoolField()
     aDate = DateField()
-
-    
+    lastSaved = DateTimeField(desc="when this foo was last saved",
+        readOnly=True)
+    aDateTime = DateTimeField(title="A Date and Time")
+   
     @classmethod
     def classLogo(self):
         return "<i class='fa fa-star-o'></i> "
         
     def formWideErrorMessage(self):
         if self.minSpeed > self.maxSpeed:
-            return "Minimum speed cannot be greater than maximum speed"
-        
+            return "Minimum speed cannot be greater than maximum speed"       
         return "" # no error message, validates OK
+    
+    def preSave(self):
+        self.lastSaved = BzDateTime.now()
 
 #---------------------------------------------------------------------
 
@@ -76,22 +80,29 @@ def foosTable() -> str:
     """ a table of foos """
     h = """<table class='bz-report-table'>
 <tr>
+    <th>Id</th>
     <th>Name</th>
+    <th>Description</th>
     <th>Favourite<br>Drink</th>
-    <th>Ticky Box</th>
+    <th>Fruits<br>Liked</th>
+    <th>Ticky<br>Box</th>
 </tr>    
     """
     fs = Foo.find(sort='name')
     for f in fs:
         h += form("""<tr>
+     <td style='background:#fed'><tt>{id}</tt></td>      
      <td>{name}</td>       
      <td>{description}</td>       
-     <td>{favouriteDrink}</td>       
+     <td>{favouriteDrink}</td>    
+     <td>{fruitsLiked}</td>       
      <td>{tickyBox}</td>                  
 </tr>""",
+            id = htmlEsc(f.id()),
             name = f.a(),
             description = f.asReadableH('description'),
             favouriteDrink = f.asReadableH('favouriteDrink'),
+            fruitsLiked = f.asReadableH('fruitsLiked'),
             tickyBox = f.asReadableH('tickyBox'),
         )     
     #//for f
