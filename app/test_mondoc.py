@@ -8,6 +8,7 @@ from bozen import lintest, MonDoc
 from bozen.fieldinfo import StrField
 from bozen.numberfield import IntField
 from bozen.keychoicefield import FK
+from bozen.multichoicefield import FKeys
 from bozen import mondoc
 from bozen.nulldoc import NullDoc
 
@@ -279,7 +280,7 @@ class AuthorM(MonDoc):
 
 class BookM(MonDoc):
     title = StrField()
-    authors_ids = FK(AuthorM)
+    authors_ids = FKeys(AuthorM)
     
 
 class T_FKeys(lintest.TestCase):

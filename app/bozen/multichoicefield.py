@@ -96,7 +96,7 @@ class FKeys(fieldinfo.FieldInfo):
 
     def __init__(self, foreignTable, **kwargs):
         self._foreignTable = foreignTable
-        self.index = fieldIndex()
+        self.index = fieldinfo.fieldIndex()
         self.desc = ""
         self.readArgs(**kwargs)
 
@@ -184,9 +184,9 @@ class FKeys(fieldinfo.FieldInfo):
         If (self._foreignTable) is a string, change it to a MonDoc
         subclass.
         """
-        import mondoc
+        from . import mondoc
         if isinstance(self._foreignTable, str):
-            pr("Looking up MonDoc subclass for '%s'", self._foreignTable)
+            dpr("Looking up MonDoc subclass for '%s'", self._foreignTable)
             mdsc = mondoc.monDocSubclassDict.get(self._foreignTable, None)
             if not mdsc:
                 msg = ("In FK field %s.%s, "
