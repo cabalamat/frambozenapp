@@ -9,6 +9,7 @@ from . import bozenutil
 from .bztypes import DbId, DisplayValue, DbValue, HtmlStr
 from . import formdoc
 from . import mongo
+from . import autopages
 
 #---------------------------------------------------------------------
 
@@ -319,12 +320,13 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
     def url(self) -> str:
         """
         The URL at which this document can be accessed in the web app.
-        By convention this is /{collectionName}/{documentId} ; this can be
-        over-ridden if desired.
+        By convention this is /{stub}/{documentId} 
+        where stub = the collection name but twith the 1st character in 
+        lower case. This can be over-ridden if desired.
         """
         n = self.__class__.__name__
-        collectionName = n[:1].lower() + n[1:]
-        u = form("/{}/{}", collectionName, self.id())
+        stub = n[:1].lower() + n[1:]
+        u = form("/{}/{}", stub, self.id())
         return u
 
     @classmethod
@@ -364,6 +366,12 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         """
         return htmlEsc(self.getName())
 
+    #========== autopages ==========
+    
+    @classmethod
+    def autopages(cls, pages='BREAD', **kwargs):
+        """ set up autopages for this class """
+        autopages.addAutopage(cls, pages, **kwargs)
     
     #========== misc methods
 

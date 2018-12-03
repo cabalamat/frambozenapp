@@ -107,6 +107,8 @@ Done DateTimeField.
 5064 lines of Python (from `wc *.py */*.py`)
 
 Added <paginate.py>, paginating /foos
+Added autopages
+5501 lines of Python (from `wc *.py */*.py`)
 
 
 

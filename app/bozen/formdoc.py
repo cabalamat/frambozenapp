@@ -7,6 +7,7 @@ from typing import *
 from .butil import *
 from . import bozenutil
 from .bztypes import DbId, DisplayValue, DbValue, HtmlStr
+from . import fieldinfo
 from .fieldinfo import FieldInfo
 from .numberfield import BoolField
 from . import keychoicefield
@@ -479,6 +480,18 @@ class FormDoc(metaclass=FormDocMeta):
             # not a defined field, fail
             #prvars("fieldName newValue")
             raise ShouldntGetHere
+        
+    @classmethod
+    def classTitle(cls):
+        return fieldinfo.titleize(cls.__name__)
+    
+    @classmethod
+    def classTitlePlural(cls):
+        ct = cls.classTitle()
+        if ct[-1:] == "s":
+            return ct + "es"
+        else:
+            return ct + "s"
         
         
 #---------------------------------------------------------------------

@@ -1,7 +1,8 @@
 {# autopage_doc.html
    =================
 
-Automatically-generated page for reading (and possibly editting, adding, deleting)
+Automatically-generated page for reading (and possibly editting, 
+adding, deleting)
 a document.
 #}
 {% extends "main.html" %}
@@ -11,11 +12,11 @@ a document.
 
 <p>Details of {{doc.classTitle()}} {{doc.logo()+doc.getName()}}.
 {% if autopage.canBrowse %}
-    Back to <a href='/{{autopage.colName+"s"}}'>list of {{doc.classTitlePlural()}}</a>.
+    Back to <a href='/{{autopage.colStub+"s"}}'>list of {{doc.classTitlePlural()}}</a>.
 {% endif %}
 </p>
 
-<form id="theForm" action="/{{autopage.colName}}/{{id}}" method="POST"
+<form id="theForm" action="/{{autopage.colStub}}/{{id}}" method="POST"
       enctype='multipart/form-data'>
 <input name="id" type="hidden" value="{{id}}">
 {% if autopage.canDelete %}

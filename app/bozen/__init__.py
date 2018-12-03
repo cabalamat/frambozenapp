@@ -16,9 +16,9 @@ import os, sys; sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 from .formdoc import FormDoc
 
 from .fieldinfo import FieldInfo, StrField, TextAreaField
-from .keychoicefield import ChoiceField
+from .keychoicefield import ChoiceField, FK
 from .numberfield import IntField, FloatField, BoolField
-from .multichoicefield import MultiChoiceField
+from .multichoicefield import MultiChoiceField, FKeys
 from .timefield import BzDate, DateField, BzDateTime, DateTimeField
 
                        
@@ -33,7 +33,7 @@ from .mondoc import MonDoc
 # utilities for HTML / web pages
 
 from .paginate import Paginator
- 
+from .autopages import notifyFlaskForAutopages
  
 #---------------------------------------------------------------------
 
