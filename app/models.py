@@ -27,6 +27,18 @@ class Author(MonDoc):
 
 Author.autopages()
 
+class Book(MonDoc):
+    title = StrField()
+    yearPublished = IntField()
+    authors_ids = FKeys(Author)
+    
+    @classmethod
+    def classLogo(cls):
+        return "<i class='fa fa-book'></i> "
+    
+Book.autopages()
+
+
 #---------------------------------------------------------------------
 
 
