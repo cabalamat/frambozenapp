@@ -198,8 +198,9 @@ Create new {classTitle}</a></p>""",
         msg = ""
 
         if request.method=='POST':
+            dpr("doc=%r:%s", doc, type(doc))
             doc = doc.populateFromRequest(request)
-            dpr("doc populated from request")
+            dpr("after populate, doc=%r:%s", doc, type(doc))
 
             if request.form.get('delete', "") == u"1":
                 # delete this record

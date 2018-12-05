@@ -11,9 +11,9 @@ PORT=9033
 APP_TITLE = "Frambozen App"
 APP_LOGO = "<i class='icon-noun_162884_cc'></i> "
 
-# unique identifier for the app, tpyically the same as its directory 
+# unique identifier for the app, typically the same as its directory 
 # in ~/sproj/ .
-# Usually also used for mongoDB database name
+# Usually also used for MongoDB database name
 APP_NAME = "frambozenapp"
 DB_NAME = "frambozenapp"
 

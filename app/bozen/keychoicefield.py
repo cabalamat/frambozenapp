@@ -223,10 +223,6 @@ class FK(FieldInfo):
         return self._foreignTable
 
 #---------------------------------------------------------------------
-
-class FKeys: pass
-
-#---------------------------------------------------------------------
 # convenience function for ChoiceField and FK
 
 def renderChoices(fieldName, choices, chosen):

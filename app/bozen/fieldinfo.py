@@ -138,6 +138,17 @@ class FieldInfo:
 
     def createWithInitialValue(self):
         return self.defaultValue
+    
+    @classmethod
+    def takesMultipleValues(cls) -> bool:
+        """ Return true of thisd is the fort of field type that in the
+        MultiDict that comers bacxk from the form, it can have multiple
+        values from the same key.
+        Usually this is False. If it true for field types where the
+        form displaces a series of check boxes, such as MultiChoiceField 
+        and FKeys; in those classes this metrhod must be redefined.
+        """
+        return False
 
     #========== html output to form ==========
 

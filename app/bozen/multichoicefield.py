@@ -6,6 +6,10 @@ from . import fieldinfo
 #---------------------------------------------------------------------
 
 class MultiChoiceField(fieldinfo.FieldInfo):
+    
+    @classmethod
+    def takesMultipleValues(cls) -> bool:
+        return True
 
     def readArgs(self, **kwargs):
         super(MultiChoiceField,self).readArgs(**kwargs)
@@ -100,6 +104,10 @@ class FKeys(fieldinfo.FieldInfo):
         self.desc = ""
         self.readArgs(**kwargs)
 
+    @classmethod
+    def takesMultipleValues(cls) -> bool:
+        return True
+    
     def readArgs(self, **kwargs):
         super(FKeys, self).readArgs(**kwargs)
 

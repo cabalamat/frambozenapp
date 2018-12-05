@@ -30,7 +30,7 @@ Author.autopages()
 class Book(MonDoc):
     title = StrField()
     yearPublished = IntField()
-    authors_ids = FKeys(Author)
+    authors_ids = FKeys(Author, title="Authors")
     
     @classmethod
     def classLogo(cls):

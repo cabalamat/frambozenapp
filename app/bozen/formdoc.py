@@ -290,12 +290,12 @@ class FormDoc(metaclass=FormDocMeta):
         :type populateBools: 'all' | list of str
         :rtype FormDoc subclass
         """
-        from .multichoicefield import MultiChoiceField
-        #pr("req=%r::%s", req, type(req))
-        #pr("populateBools=%r::%s", populateBools, type(populateBools))
+        from .multichoicefield import MultiChoiceField, FKeys
+        dpr("req=%r:%s", req, type(req))
+        dpr("populateBools=%r:%s", populateBools, type(populateBools))
 
         reqForm = req.form
-        #pr("reqForm=%r::%s", reqForm, type(reqForm))
+        dpr("reqForm=%r:%s", reqForm, type(reqForm))
         reqFiles = req.files
         #pr("reqFiles=%r::%s, len=%r", reqFiles, type(reqFiles), len(reqFiles))
         import filefield
@@ -312,7 +312,7 @@ class FormDoc(metaclass=FormDocMeta):
             if self.hasFieldInfo(k):
                 fi = self.getFieldInfo(k)
                 #prvars("fi")
-                if isinstance(fi, (keychoicefield.FKeys, MultiChoiceField)):
+                if fi.takesMultipleValues():
                     listValues = reqForm.getlist(k)
                     #prvars("k listValues")
                     #newOb.setField(k, listValues)
