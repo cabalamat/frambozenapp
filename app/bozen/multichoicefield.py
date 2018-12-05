@@ -126,7 +126,7 @@ class FKeys(fieldinfo.FieldInfo):
         h = "<br>\n".join(hs)
         return h
 
-
+    @printargs
     def formField_ro(self, v, **kwargs) -> str:
         """ Display a link to the relevant document """
         return self.convertToScreenH(v)
@@ -137,7 +137,7 @@ class FKeys(fieldinfo.FieldInfo):
         The return type necessarily depends on what field type it is.
         :param string v:
         """
-        #pr("FKeys.convertValue() from %r", v)
+        dpr("FKeys.convertValue() v=%r:%s", v, type(v))
         return v
 
     def convertToScreenH(self, v: List[str]) -> str:
@@ -147,9 +147,9 @@ class FKeys(fieldinfo.FieldInfo):
 
         :param v: value from Python, list of keys
         """
+        dpr("%s v=%r", self.classFieldName(), v)
         if not v or type(v)!=list: return ""
         h = ""
-        #prvars("v")
         for key in v:
             doc = self.foreignTable.getDoc(key)
             if doc:
