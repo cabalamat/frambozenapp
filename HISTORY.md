@@ -114,6 +114,9 @@ Added autopages
 
 Issues with FKeys not updating from form POST request...
 fixed
+5542 lines of Python (from `wc *.py */*.py`)
+1468 lines of documentation (`wc ../doc/*.md`)
+
 
 
 

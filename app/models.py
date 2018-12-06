@@ -24,6 +24,18 @@ class Author(MonDoc):
     @classmethod
     def classLogo(cls):
         return "<i class='fa fa-pencil'></i> "
+    
+    def myBooks(self) -> Iterable['Book']:
+        """ return this author's books """
+        return self.getForeignDocs('Book')
+    
+    def myBooksLinks(self) -> str:
+        """ return html giving a list of this author's books,
+        with each book being a hyperlink to it.
+        I.e. return HTML containing a series of <a href> elements,
+        each containing the name of a book and a link to it.
+        """
+        return ", ".join(bk.a() for bk in self.myBooks())
 
 Author.autopages()
 
