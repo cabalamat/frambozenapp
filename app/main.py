@@ -18,6 +18,7 @@ import templateglobal
 import models
 
 # pages of app:
+import login
 import front
 import testform
 import foo

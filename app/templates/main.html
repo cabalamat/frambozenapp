@@ -88,26 +88,13 @@ Uses SB-Admin
   <ul class="nav navbar-nav side-nav">
     {% if currentUserName() %}
     
-      {%if canView('userPages')%}
       <li{{hpic('user')}}><a href="/users">
         <i class="fa fa-user"></i>
         Users</a></li>
-      {%endif%}
-      
-      {%if canView('rolePages')%}
-      <li{{hpic('role')}}><a href="/roles">
-        <i class="fa fa-asterisk"></i>
-        Roles</a></li>
-      {%endif%}
-      
-      {%if canView('mainPages')%}
       <li{{hpic('settings')}}><a href="/settings">
         <i class="fa fa-sliders"></i>
-        Settings</a></li>       
-      <li{{hpic('hero')}}><a href="/heros">
-        <i class="fa fa-male"></i>
-        Heroes</a></li>
-      {%endif%}   
+        Settings</a></li> 
+
       <li{{hpic('testForm')}}><a href="/testForm">
         <i class="fa fa-check-square-o"></i>
         Test Form</a></li>
