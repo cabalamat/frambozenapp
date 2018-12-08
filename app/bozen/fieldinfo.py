@@ -42,7 +42,7 @@ https://stackoverflow.com/questions/448981/which-characters-are-valid-in-css-cla
 """
 validCssClassName = re.compile("-?[_a-zA-Z]+[_a-zA-Z0-9-]*")
 
-def cssClasses(*args)->str:
+def cssClasses(*args) -> str:
     """ Utility function for producing HTML containing the CSS classes
     of an HTML element. Examples:
     
@@ -415,6 +415,25 @@ class TextAreaField(StrField):
         if h == "": h = "&nbsp;"
         h2 = "<span class='read-only'>{}</span>".format(butil.myStr(h))
         return h2
+
+#---------------------------------------------------------------------
+
+
+class PasswordField(StrField):
+    """ a StrField that displays characters as "*"s, for security """
+
+    def formField_rw(self, v: str, **kwargs) -> str:
+        """ return  html for a form field for this fieldInfo """
+        h = form('''<input{cc} id="id_{fieldName}" name="{fieldName}"
+            type="password" value={v} size={fieldLen}>''',
+            cc = cssClasses("bz-input"),
+            fieldName = self.fieldName,
+            v = attrEsc(self.formatStr.format(v)),
+            fieldLen = self.fieldLen,
+        )
+        return h
+
+
 
 
 #---------------------------------------------------------------------

@@ -3,7 +3,7 @@
 import functools
 
 from flask import request, redirect
-from flask.ext.login import LoginManager, current_user, logout_user
+from flask_login import LoginManager, current_user, logout_user
 
 from bozen.butil import dpr
 

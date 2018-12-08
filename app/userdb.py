@@ -40,6 +40,12 @@ class User(MonDoc):
     pw = StrField(desc="unencrypted password, for testing")
     password = StrField(default=HIDDEN) # for altering on /user page
     email = StrField(monospaced=True)
+    isAdmin = BoolField(desc="is this user an admin?", 
+         title="Is Admin?",
+         default=False)
+    isActive = BoolField(desc="is this an active user?", 
+         title="Is Active?",
+         default=True)
 
     @classmethod
     def classLogo(cls):

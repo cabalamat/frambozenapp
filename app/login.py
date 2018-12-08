@@ -16,25 +16,22 @@ import time
 import string
 
 from flask import request, redirect, abort
-from flask.ext.login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user
 import pymongo
 
-from monfab.debugdec import printargs, prvars, pr
-import monfab
-from monfab import (MonDoc, FormDoc,
-    ObjectField, StrField, TextAreaField,
-    PostcodeField, EmailField,
+from bozen.butil import dpr, htmlEsc, form
+import bozen
+from bozen import (MonDoc, FormDoc,
+    StrField, TextAreaField, PasswordField,
     ChoiceField, FK, FKeys, MultiChoiceField,
-    DateField, DateTimeField, HhmmField,
-    IntField, FloatField, BoolField,
-    FileField, ImageField)
+    DateField, DateTimeField,
+    IntField, FloatField, BoolField)
 
 import allpages
 from allpages import *
 from permission import *
 
 import userdb
-import models
 
 
 #---------------------------------------------------------------------
@@ -43,14 +40,14 @@ import models
 # page to go to, on login, if the user is an engineer
 ENG_ON_LOGIN_PAGE = "/startday"
 
-class LoginForm(monfab.FormDoc):
-    userName = monfab.StrField()
-    password = monfab.PasswordField()
+class LoginForm(FormDoc):
+    userName = StrField()
+    password = PasswordField()
 
 
-@app.route('/', methods=['POST', 'GET'])
-def front():
-    frontPageTem = jinjaEnv.get_template("front_page.html")
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    tem = jinjaEnv.get_template("login.html")
     doc = LoginForm()
     msg = ""
 
@@ -64,27 +61,20 @@ def front():
         #    pass
         #    #abort(403)
 
-        #d = monfab.toDict(request.form)
-        #doc = doc.populateFromForm(d)
         doc = doc.populateFromRequest(request)
         u = userdb.User.find_one({'userName': doc.userName})
 
         ok = u and userdb.verifyPassword(u.hashedPassword,
                                          doc.password)
         pr("doc.password=%r ok=%r", doc.password, ok)
-        #notifyLoginAttempt(doc, ok)
         if ok:
             login_user(u)
-            eng = models.Engineer.getDoc(doc.userName)
-            if eng:
-                # user is an engineer
-                return redirect(ENG_ON_LOGIN_PAGE)
         else:
             msg = ("<p><span style='color:#800; background:#fee;'>"
                    "<i class='fa fa-times-circle'></i> "
                    "login failed</span></p>")
 
-    canAutocomplete = ("Linux" in platform.platform())
+    canAutocomplete = True
     autocomplete = ("autocomplete=on" if canAutocomplete
                     else "autocomplete=off")
     h = frontPageTem.render(
@@ -106,7 +96,6 @@ def logout():
 #---------------------------------------------------------------------
 
 @app.route('/users')
-@needPerm('userPages')
 def users():
     tem = jinjaEnv.get_template("users.html")
     h = tem.render(
@@ -117,23 +106,29 @@ def users():
 
 def usersTable():
     """ returns an html table of users """
-    h = """<table class='report_table'>
+    h = """<table class='bz-report-table'>
 <tr>
    <th class=debug>(id)</th>
    <th>User name</th>
    <th>Email</th>
+   <th>Is Admin?</th>
+   <th>Is Active?</th>
 </tr>
 """
     for doc in userdb.User.find(sort=[('userName',pymongo.ASCENDING)]):
 
         item = form("""<tr>
 <td class="debug unemphasized">{id}</td>
-<td><a href="/user/{id}">{userName}</a></td>
-<td>{email}</td>
+    <td><a href="/user/{id}">{userName}</a></td>
+    <td>{email}</td>
+    <td>{isAdmin}</td>
+    <td>{isActive}</td>
 </tr>""",
             id = doc.id(),
             userName = doc.asReadableH('userName'),
             email = doc.asReadableH('email'),
+            isAdmin = doc.asReadableH('isAdmin'),
+            isActive = doc.asReadableH('isActive'),
         )
         h += item
     #//for
@@ -156,17 +151,16 @@ def orNone(s):
 
 
 @app.route('/user/<id>', methods=['POST', 'GET'])
-@needPerm('userPages')
 def user(id):
     if id=='NEW':
         doc = userdb.User()
-        prvars("doc")
+        dpr("doc=%r", doc)
     else:
         doc = userdb.User.getDoc(id)
-        prvars("doc")
+        dpr("doc=%r", doc)
     msg = ""
 
-    if request.method=='POST' and canEd:
+    if request.method=='POST':
         doc = doc.populateFromRequest(request)
         if doc.isValid():
             if request.form['delete']=="1":

@@ -87,6 +87,7 @@ Uses SB-Admin
 <div class="collapse navbar-collapse navbar-ex1-collapse">
   <ul class="nav navbar-nav side-nav">
     {% if currentUserName() %}
+    {% endif %} 
     
       <li{{hpic('user')}}><a href="/users">
         <i class="fa fa-user"></i>
@@ -109,7 +110,6 @@ Uses SB-Admin
         <i class="fa fa-book"></i>
         Books</a></li>
         
-    {% endif %}    
   </ul>
 </div>
 {% endblock leftbar %}
