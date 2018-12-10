@@ -30,6 +30,7 @@ from bozen import (MonDoc, FormDoc,
 import allpages
 from allpages import *
 from permission import *
+import ht
 
 import userdb
 
@@ -54,9 +55,9 @@ def login():
     if request.method=='POST':
 
         #>>>>> CSRF handling
-        pr("@@@ session=%r @@@", session)
+        dpr("@@@ session=%r @@@", session)
         token = session.pop('_csrf_token', None)
-        pr("@@@ token=%r @@@", token)
+        dpr("@@@ token=%r @@@", token)
         #if not token or token != request.form.get('_csrf_token'):
         #    pass
         #    #abort(403)
@@ -66,21 +67,15 @@ def login():
 
         ok = u and userdb.verifyPassword(u.hashedPassword,
                                          doc.password)
-        pr("doc.password=%r ok=%r", doc.password, ok)
+        dpr("doc.password=%r ok=%r", doc.password, ok)
         if ok:
             login_user(u)
         else:
-            msg = ("<p><span style='color:#800; background:#fee;'>"
-                   "<i class='fa fa-times-circle'></i> "
-                   "login failed</span></p>")
+            msg = "login failed"
 
-    canAutocomplete = True
-    autocomplete = ("autocomplete=on" if canAutocomplete
-                    else "autocomplete=off")
-    h = frontPageTem.render(
+    h = tem.render(
         doc = doc,
-        msg = msg,
-        autocomplete = autocomplete,
+        msg = ht.errorBox(msg),
     )
     return h
 
