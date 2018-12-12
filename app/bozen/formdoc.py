@@ -204,10 +204,14 @@ class FormDoc(metaclass=FormDocMeta):
         return len(self.__dict__)
 
     def get(self, key, defaultValue=None):
-        if self.__dict__.has_key(key):
+        if key in self.__dict__:
             return self.__dict__[key]
         else:
             return defaultValue
+        
+    def has_key(self, key):   
+        return key in self.__dict__
+    __contains__ = has_key
         
     #========== rendering an html form ==========
 

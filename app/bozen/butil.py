@@ -142,6 +142,16 @@ def attrEsc(s, noneIs=''):
 def htmlEsc(s: str) -> str:
     return html.escape(s)
 
+def toBytes(b) -> bytes:
+    """ convert anything to a byte array """
+    if isinstance(b, bytes):
+        return b
+    elif isinstance(b, str):
+        return bytes(b, 'utf-8')
+    else:
+        return bytes(str(b), 'utf-8')
+      
+
 #---------------------------------------------------------------------
 
 class Struct:

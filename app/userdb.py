@@ -10,11 +10,12 @@ The 'user' collection stores usernames and passwords.
 
 import random
 import string
+from typing import *
 
 import pyscrypt
 
 from bozen import butil
-from bozen.butil import printargs, dpr
+from bozen.butil import printargs, dpr, toBytes
 
 import bozen
 from bozen import (MonDoc,
@@ -65,7 +66,7 @@ class User(MonDoc):
     """
 
     def get_id(self):
-        return unicode(self.userName)
+        return self.userName
 
     @property
     def is_authenticated(self):
@@ -123,38 +124,47 @@ def randStr(length):
     return ''.join(chr(random.randint(0,255))
                    for i in range(length))
 
-def hashPassword(password):
+def hashPassword(password: str) -> str:
     encrypted = pyscrypt.hash(
-        password = butil.mystr(password),
-        salt="salt", N=128, r=1, p=1, dkLen=256)
+        password = toBytes(password),
+        salt = toBytes("salt"), 
+        N=128, r=1, p=1, dkLen=256)
+    dpr("encrypted=%r:%s", encrypted, type(encrypted))
     hx = toHex(encrypted)
-    #prvars("encrypted hx")
+    dpr("hx=%r:%s", hx, type(hx))
     return hx
 
 @printargs
 def verifyPassword(hashedPassword, guessedPassword):
     encrypted = pyscrypt.hash(
-        password = butil.mystr(guessedPassword),
-        salt="salt", N=128, r=1, p=1, dkLen=256)
+        password = toBytes(guessedPassword),
+        salt = toBytes("salt"), 
+        N=128, r=1, p=1, dkLen=256)
+    dpr("encrypted=%r:%s", encrypted, type(encrypted))
     hx = toHex(encrypted)
+    dpr("hx=%r:%s", hx, type(hx))
     ok = (hx == hashedPassword)
+    dpr("hashedPassword=%r ok=%r", hashedPassword, ok)
     return ok
 
 
-def toHex(s):
+def toHex(s: Union[str,bytes]) -> str:
     """ convert a str to another str containing hex digits, e.g.
     '\xab' -> 'ab'
     """
     hexDigits = "0123456789abcdef"
     r = ""
     for ch in s:
-        n = ord(ch)
+        if isinstance(ch, int):
+            n = ch
+        else:    
+            n = ord(ch)
         n1 = int(n/16)
         n2 = n - n1*16
         r += hexDigits[n1] + hexDigits[n2]
     return r
 
-def fromHex(s):
+def xxxfromHex(s: str) -> bytes:
     """ does the opposite of toHex """
     hexValues = {
         '0':0, '1':1, '2':2, '3':3,
@@ -162,11 +172,12 @@ def fromHex(s):
         '8':8, '9':9, 'a':10, 'b':11,
         'c':12, 'd':13, 'e':14, 'f':15
     }
-    r = ""
+    r = []
     for c1, c2 in zip(s[::2], s[1:][::2]):
         v = hexValues[c1]*16 + hexValues[c2]
-        r += chr(v)
-    return r
+        r.append(v)
+    r2 = bytes(r)    
+    return r2
 
 #---------------------------------------------------------------------
 

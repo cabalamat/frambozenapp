@@ -70,6 +70,7 @@ def login():
         dpr("doc.password=%r ok=%r", doc.password, ok)
         if ok:
             login_user(u)
+            return redirect("/", code=302)
         else:
             msg = "login failed"
 
@@ -113,13 +114,12 @@ def usersTable():
     for doc in userdb.User.find(sort=[('userName',pymongo.ASCENDING)]):
 
         item = form("""<tr>
-<td class="debug unemphasized">{id}</td>
-    <td><a href="/user/{id}">{userName}</a></td>
+    <td>{a}</td>
     <td>{email}</td>
     <td>{isAdmin}</td>
     <td>{isActive}</td>
 </tr>""",
-            id = doc.id(),
+            a = doc.a(),
             userName = doc.asReadableH('userName'),
             email = doc.asReadableH('email'),
             isAdmin = doc.asReadableH('isAdmin'),

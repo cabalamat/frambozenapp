@@ -10,19 +10,12 @@ Front page
 <small>on port {{PORT}}</small></h1>
 
 <p>App name <tt>{{APP_NAME}}</tt>, using database <tt>{{DB_NAME}}</tt>.</p>
-
-<h2><i class='fa fa-star'></i> Second Level heading</h2>
-
-<h3><i class='fa fa-hand-o-right'></i> Third Level heading</h3>
-
-<p>The Raspberry icons:
-  <i class='icon-noun_752516_cc'></i>
-  <i class='icon-noun_71141_cc'></i>
-  <i class='icon-noun_71140_cc'></i>
-  <i class='icon-noun_71181_cc'></i>
-  <i class='icon-noun_162884_cc'></i>
-  <i class='icon-noun_1596749_cc'></i>
-</p>
+{% if currentUserName() %}
+<p>Welcome, {{currentUserName()}}.</p>
+{% else %}
+<p>Hello, you can <a href="/login"><i class='fa fa-sign-in'></i>
+log in</a>.</p>
+{% endif %}
 
 <h2>Big Icons</h2>
 
