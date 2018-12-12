@@ -134,7 +134,6 @@ def hashPassword(password: str) -> str:
     dpr("hx=%r:%s", hx, type(hx))
     return hx
 
-@printargs
 def verifyPassword(hashedPassword, guessedPassword):
     encrypted = pyscrypt.hash(
         password = toBytes(guessedPassword),
@@ -164,20 +163,6 @@ def toHex(s: Union[str,bytes]) -> str:
         r += hexDigits[n1] + hexDigits[n2]
     return r
 
-def xxxfromHex(s: str) -> bytes:
-    """ does the opposite of toHex """
-    hexValues = {
-        '0':0, '1':1, '2':2, '3':3,
-        '4':4, '5':5, '6':6, '7':7,
-        '8':8, '9':9, 'a':10, 'b':11,
-        'c':12, 'd':13, 'e':14, 'f':15
-    }
-    r = []
-    for c1, c2 in zip(s[::2], s[1:][::2]):
-        v = hexValues[c1]*16 + hexValues[c2]
-        r.append(v)
-    r2 = bytes(r)    
-    return r2
 
 #---------------------------------------------------------------------
 
