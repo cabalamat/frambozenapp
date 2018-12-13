@@ -142,7 +142,7 @@ class FK(FieldInfo):
                 keyStr = ""
             h = form("<i>(none{keyStr})</i>", keyStr=keyStr)
             return h
-        if kwargs.has_key('adminStub'):
+        if 'adminStub' in kwargs:
             h = forDoc.adminA(adminStub=kwargs['adminStub'])
         else:
             #pr("getting forDoc.a() forDoc=%r", forDoc)
