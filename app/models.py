@@ -9,7 +9,8 @@ from bozen import (StrField, ChoiceField, TextAreaField,
     MultiChoiceField, FK, FKeys,
     DateField, DateTimeField)
 
-bozen.setDefaultDatabase('frambozenapp')
+import config
+bozen.setDefaultDatabase(config.DB_NAME)
 import allpages
 bozen.notifyFlaskForAutopages(allpages.app, allpages.jinjaEnv)
 
