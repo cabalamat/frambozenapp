@@ -1,6 +1,6 @@
 # BzDate
 
-**BzDate** (short for *Bozen Date*) is Bozen's class to handle strings in forms and database fields.
+**BzDate** (short for *Bozen Date*) is Bozen's class to handle date strings in forms and database fields.
 
 This issue arises because JSON has no native date format. So people have taken to the convention of using [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) string formats. 
 But ISO8601 defines lots of string formats, so [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) recommends a subset of them. 
