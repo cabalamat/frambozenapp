@@ -44,7 +44,7 @@ Use CamelCase, e.g. `theFunctionName` not `the_function_name`. Classes and types
 APP_LOGO = "<i class='icon-noun_162884_cc'></i> "
 ```
 
-Where part of an identifier is an initialism, letters after the first go in lower case, e.g. `theHtmlEditor`, `cssClassList`.
+Where part of an identifier is an initialism, letters after the first go in lower case, e.g. `theHtmlEditor`, `cssClassList` (and not `theHTMLEditor` or `CSSClassList`).
 
 Don't use non-ascii characters in identifiers.
 
