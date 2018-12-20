@@ -2,6 +2,8 @@
 
 **FormDoc** is a class representing an HTML form. it contains methods to render the HTML for the form and validate the form from an http POST request.
 
+[TOC]
+
 ## Example
 
 ```py
@@ -29,6 +31,41 @@ class MyForm(FormDoc):
 `asReadableH(fn:str)->str` is like `asReadable()` except it returns an HTML-escaped string. 
 
 
+## Rendering html forms
+
+There are lots of ways to do this. Going from high-level to low-level:
+
+### A whole form
+
+To generate HTML for the form:
+
+    doc.buildForm()
+
+This includes the `name`, `height`, `dob` and `job_id` fields, in that order. 
+It includes the enclosing `<table class='bz-form-table'> ... </table>` tags, but not the `<form>`. 
+
+#### A form without an enclosing `<table>` element
+
+You can also use:
+
+    doc.buildFormLines()
+
+This is the same as `doc.buildForm()` except that it doesn't include the `<table>` tags.
+
+### A line in a form
+
+To generate HTML for one line:
+
+    doc.formLine('height')
+
+Inside an HTML template, the `formLine()` method might be used like this:
+```
+<table class='form-table'>
+    {{doc.formLine('height')}}
+    {{doc.formLine('width')}}
+    {{doc.formLine('mass', readOnly=True)}}
+</table>
+```
 
 ## See also
 
