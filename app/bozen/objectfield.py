@@ -17,7 +17,7 @@ class ObjectField(fieldinfo.FieldInfo):
         """
         return None
 
-    def convertToReadable(self, v):
+    def convertToScreen(self, v):
         """ Convert the internal value in the database (v) to a readable
         value (i.e. a string or unicode that could de displayed in a form
         or elsewhere). This method is the opposite of the convertValue()
@@ -26,17 +26,17 @@ class ObjectField(fieldinfo.FieldInfo):
         :param v: value from database
         :rtype str or unicode
         """
-        s = repr(v)
+        s = pretty(v, 2)
         return s
 
     def formField_rw(self, v, **kwargs):
         return self.formField_ro(v, **kwargs)
 
     def formField_ro(self, v, **kwargs) -> str:
-        ctr = self.convertToReadable(v)
         h2 = form("<pre{cc}>{h}</pre>",
             cc = fieldinfo.cssClasses("bz-read-only"),
-            h = htmlEsc(ctr))
+            h = self.convertToScreenH(v)
+        )    
         return h2
 
 #---------------------------------------------------------------------

@@ -40,6 +40,19 @@ ChoiceList is used for the choices in ChoiceFiled and MultiChoiceField
 """
 ChoiceList = List[Tuple[DbValue, DisplayValue]]
 
+"""
+Jsonable is a python value that can be converted into JSON
+"""
+
+"""
+MongoValue is a value that can go in a MongoBD document 
+"""
+
+"""
+MongoDict is a MongoDB object (==python dictionary)
+"""
+
+
 #---------------------------------------------------------------------
 
 #end

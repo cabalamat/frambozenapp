@@ -53,7 +53,6 @@ class Foo(MonDoc):
         readOnly=True)
     aDateTime = DateTimeField(title="A Date and Time")
     anything = ObjectField(desc="can contain anything",
-        monospaced=False,
         default=["any", "thing"])
    
     @classmethod
@@ -67,6 +66,10 @@ class Foo(MonDoc):
     
     def preSave(self):
         self.lastSaved = BzDateTime.now()
+        d = self.mongoDict()
+        d.pop('anything', "") # remove the anything field
+        dpr("d=%r", d)
+        self.anything = d
         
 
 #---------------------------------------------------------------------

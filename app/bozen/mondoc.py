@@ -229,7 +229,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         """
         pass
     
-    def mongoDict(self):
+    def mongoDict(self) -> dict:
         """ return a dictionary for the current document,
         in the format wanted by pymongo. Only include fields
         defined in the class definition.

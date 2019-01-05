@@ -48,6 +48,12 @@ A document has some (hopefully descriptive) text associated with it, got by `get
 
 Putting these all together we get `a()` which returns HTML for a link, containing url, logo and name.
 
+## Saving to the database
+
+### `mongoDict()->dict`
+
+The `mongoDict()` method returns a `dict` of the document suitable for putting in a MongoDB database.
+
 ## See also
 
 * [Boxen](bozen)
