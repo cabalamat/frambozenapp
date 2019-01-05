@@ -37,6 +37,10 @@ Implemented in `timefield.py`:
 * [[DateTimeField]] = a date and time, stored as a [[BzDateTime]] in Python and as a string in the database
 * [[TodField]] = a time of day, stored as a [[BzTod]] in Python and as a string in the database
 
+Implemented in `objectfield.py`:
+
+* [[ObjectField]] = any object. This can contain any JSON value in the Database and the equivalent in Python. It is read-only.
+
 ## Parameters
 
 Some parameters are common to many `FieldInfo` subclasses. For each parameter we give its type after ":", where relevant.
@@ -52,7 +56,7 @@ or render each field separately (see [[FormDoc]] for details).
 If we are rendering the whole form in one go, then it only includes fields for which this parameter is `True`.
 This is useful when a form is being created from a `MonDoc` and we don't want to display some fields in a form relating to the document.
 
-`monospaced`:`bool`, defaults to `False` for most field types. If `True`, text is show in a monospaced font.
+`monospaced`:`bool`, defaults to `False` for most field types. If `True`, text is shown in a monospaced font.
 
 `minLength`:`int` (`StrField` and `TextAreaField`) = the minimum number of characters allowed,
 for validation.

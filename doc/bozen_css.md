@@ -1,6 +1,6 @@
 # Bozen CSS
 
-**Bozen CSS** is the CSS classes and identifiers included in HTML rendered by Bozen.
+**Bozen CSS** is the CSS classes and identifiers included in HTML rendered by [[Bozen]].
 
 The layout for these classes and identifiers is defined in `static/bozen.css` in the Flask app.
 

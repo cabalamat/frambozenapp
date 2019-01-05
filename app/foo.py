@@ -15,7 +15,7 @@ from bozen import FormDoc, MonDoc, BzDate, BzDateTime
 from bozen import paginate
 from bozen import (StrField, ChoiceField, TextAreaField,
     IntField, FloatField, BoolField,
-    MultiChoiceField,
+    MultiChoiceField, ObjectField,
     DateField, DateTimeField)
 
 import ht
@@ -52,6 +52,9 @@ class Foo(MonDoc):
     lastSaved = DateTimeField(desc="when this foo was last saved",
         readOnly=True)
     aDateTime = DateTimeField(title="A Date and Time")
+    anything = ObjectField(desc="can contain anything",
+        monospaced=False,
+        default=["any", "thing"])
    
     @classmethod
     def classLogo(self):
@@ -64,6 +67,7 @@ class Foo(MonDoc):
     
     def preSave(self):
         self.lastSaved = BzDateTime.now()
+        
 
 #---------------------------------------------------------------------
 
