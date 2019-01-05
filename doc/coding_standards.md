@@ -50,7 +50,7 @@ Don't use non-ascii characters in identifiers.
 
 ### Misc
 
-In quoted strings, use single quotes for what would bve a Symbol in Smalltalk (i.e. short strings that are valid identifiers and have symbolic meaning), otherwise use double quotes. 
+In quoted strings, use single quotes for what would be a Symbol in Smalltalk (i.e. short strings that are valid identifiers and have symbolic meaning), otherwise use double quotes. 
 
 ```py
 FRUIT_CHOICES = [

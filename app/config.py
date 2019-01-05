@@ -17,6 +17,8 @@ APP_LOGO = "<i class='icon-noun_162884_cc'></i> "
 APP_NAME = "frambozenapp"
 DB_NAME = "frambozenapp"
 
+CREATE_ADMIN_SITE=True
+
 
 #---------------------------------------------------------------------
 

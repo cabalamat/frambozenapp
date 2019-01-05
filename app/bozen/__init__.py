@@ -37,6 +37,12 @@ from .paginate import Paginator
 from .autopages import notifyFlaskForAutopages
  
 #---------------------------------------------------------------------
+# admin site
+
+from .admin import AdminSite
+  
+    
+#---------------------------------------------------------------------
 
 
 

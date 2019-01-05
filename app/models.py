@@ -53,6 +53,18 @@ Book.autopages()
 
 
 #---------------------------------------------------------------------
+# admin site
+
+def createAdminSite():
+    """ create admin site """
+    import foo
+    adminSite = bozen.AdminSite()
+    adminSite.runFlask(allpages.app, allpages.jinjaEnv)
+
+if config.CREATE_ADMIN_SITE:
+    createAdminSite()
+
+#---------------------------------------------------------------------
 
 
 #end
