@@ -15,10 +15,11 @@ from bozen import FormDoc, MonDoc, BzDate, BzDateTime
 from bozen import paginate
 from bozen import (StrField, ChoiceField, TextAreaField,
     IntField, FloatField, BoolField,
-    MultiChoiceField, ObjectField,
+    MultiChoiceField, ObjectField, FK,
     DateField, DateTimeField)
 
 import ht
+import models
 
 #---------------------------------------------------------------------
 
@@ -54,6 +55,7 @@ class Foo(MonDoc):
     aDateTime = DateTimeField(title="A Date and Time")
     anything = ObjectField(desc="can contain anything",
         default=["any", "thing"])
+    favouriteBook = FK(models.Book, allowNull=True, showNull=True)
    
     @classmethod
     def classLogo(self):
