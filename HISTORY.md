@@ -121,6 +121,13 @@ fixed
 
 Adding user pages...
 
+## 2019-Feb-23
+
+Merge changes from meowcat2 on admin site back into Frambozenapp.
+
+Add new toggle switche control 
+(from <https://www.w3schools.com/howto/howto_css_switch.asp>)
+
 
 
 
