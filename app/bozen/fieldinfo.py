@@ -339,7 +339,7 @@ class StrField(FieldInfo):
     """ a field holding a Python str """
 
     def readArgs(self, **kwargs):
-        super(StrField, self).readArgs(**kwargs)
+        super().readArgs(**kwargs)
         self.minLength = kwargs.get('minLength', None)
         self.maxLength = kwargs.get('maxLength', None)
         self.charsAllowed = kwargs.get('charsAllowed', None)
@@ -386,7 +386,7 @@ class TextAreaField(StrField):
     """ a string field displayed using a textarea element """
 
     def readArgs(self, **kwargs):
-        super(TextAreaField, self).readArgs(**kwargs)
+        super().readArgs(**kwargs)
         self.rows = kwargs.get('rows', 2)
         self.cols = kwargs.get('cols', 30)
         self.wysiwyg = kwargs.get('wysiwyg', False)

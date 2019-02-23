@@ -8,7 +8,27 @@ Its data type is a `bool`. Its form element is an checkbox, with the HTML lookin
 <input id="id_tickyBox" type="checkbox" name="tickyBox">
 ```
 
+## Toggle Switch
+
+There is also a **toggle switch** variant of how a `BoolField` is displayed; this is set by setting the parameter `widget` to the value `'toggleSwitch'. Example:
+
+```py
+class MyForm(FormDoc):
+    showBody = BoolField(widget='toggleSwitch')
+    order = BoolField(widget='toggleSwitch'
+        onText = "Oldest First",
+        offText = "Newest First")
+```
+
+### Toggle Switch parameters
+
+`onTitle:str` = 
+
+
+
 ## Parameters
+
+*See also Toggle Switch Parameters above.*
 
 `desc:str` = A description of the field. This is used as a comment and is displayed as a tooltip on the field title as it appears on the page (using the HTML `title` attribute)
 

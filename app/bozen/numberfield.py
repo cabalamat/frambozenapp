@@ -65,6 +65,13 @@ class FloatField(fieldinfo.FieldInfo):
 class BoolField(fieldinfo.FieldInfo):
     """ a field holding a Python bool """
 
+
+    def readArgs(self, **kwargs):
+        super().readArgs(**kwargs)
+        self.widget = kwargs.get('widget', 'checkbox')
+        self.offText = kwargs.get('offText', "Off")
+        self.onText = kwargs.get('widget', "On")
+        
     def defaultDefault(self):
         """ return the default value for the default value of the
         object.
@@ -83,6 +90,7 @@ class BoolField(fieldinfo.FieldInfo):
         """
         checked = ""
         if v: checked = " checked"
+        #if self.widget=='checkbox':
         h = form('''<input id="id_{fieldName}" type="checkbox"
             name="{fieldName}"{checked}>''',
             fieldName = self.fieldName,

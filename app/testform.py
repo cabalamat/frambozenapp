@@ -33,6 +33,7 @@ class TheTestForm(FormDoc):
     cost = FloatField(title="Cost, £",
          formatStr="{:.2f}")
     tickyBox = BoolField()
+    toggleSwitch1 = BoolField(widget='toggleSwitch')
     favouriteFruit = ChoiceField(choices=FRUIT_CHOICES,
         showNull=True, allowNull=False)
     slots = MultiChoiceField(choices=SLOT_CHOICES, required=True)
