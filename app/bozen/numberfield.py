@@ -99,8 +99,9 @@ class BoolField(fieldinfo.FieldInfo):
         elif self.widget=='toggleSwitch':
             h = form('''<label class="switch">
                 <input id="id_{fieldName}" type="checkbox"
-                name="{fieldName}"{checked}>
-                <span class="slider round"></span></label>''',
+                name="{fieldName}"{checked}> 
+                <span class="slider round"></span></label> 
+                <b class='bz-toggleSwitch-right'>Toggle</b>''',
                 fieldName = self.fieldName,
                 checked = checked,
             ) 

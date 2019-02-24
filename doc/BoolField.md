@@ -22,7 +22,11 @@ class MyForm(FormDoc):
 
 ### Toggle Switch parameters
 
-`onTitle:str` = 
+`widget:str`, defaults to `'checkbox'` = what widget to use for the field. Values are `'checkbox'` or `'toggleSwitch'`
+
+`onText:str`, defaults to `"On"` = text for the On/True position
+
+`offText:str`, defaults to `"Off"` = text for the Off/False position
 
 
 

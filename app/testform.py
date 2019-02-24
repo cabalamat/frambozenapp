@@ -34,6 +34,7 @@ class TheTestForm(FormDoc):
          formatStr="{:.2f}")
     tickyBox = BoolField()
     toggleSwitch1 = BoolField(widget='toggleSwitch')
+    toggleSwitch2 = BoolField(widget='toggleSwitch')
     favouriteFruit = ChoiceField(choices=FRUIT_CHOICES,
         showNull=True, allowNull=False)
     slots = MultiChoiceField(choices=SLOT_CHOICES, required=True)
