@@ -178,7 +178,7 @@ select {
 /*------------------------------------------------------------------*/
 /* Toggle Switch (varient of BoolField */
 
-.switch {
+.bz-toggleSwitch {
   position: relative;
   display: inline-block;
   width: 58px;
@@ -186,14 +186,14 @@ select {
 }
 
 /* Hide default HTML checkbox */
-.switch input {
+.bz-toggleSwitch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
 /* The slider */
-.slider {
+.bz-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -207,7 +207,7 @@ select {
   transition: .4s;
 }
 
-.slider:before {
+.bz-slider:before {
   position: absolute;
   content: "";
   height: 20px;
@@ -219,25 +219,25 @@ select {
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked + .bz-slider {
   background-color: #afa;
   //background-color: #fff;
 }
 
-input:focus + .slider {
+input:focus + .bz-slider {
   box-shadow: 0 0 1px #000;
 }
 
-input:checked + .slider:before {
+input:checked + .bz-slider:before {
   transform: translateX(30px);
 }
 
 /* Rounded sliders */
-.slider.round {
+.bz-slider.bz-round {
   border-radius: 18px;
 }
 
-.slider.round:before {
+.bz-slider.bz-round:before {
   border-radius: 50%;
 }
 

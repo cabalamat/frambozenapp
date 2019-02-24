@@ -125,8 +125,17 @@ Adding user pages...
 
 Merge changes from meowcat2 on admin site back into Frambozenapp.
 
-Add new toggle switche control 
+Add new toggle switch control 
 (from <https://www.w3schools.com/howto/howto_css_switch.asp>)
+
+## 2019-Feb-24
+
+Toggle switch change css names:
+
+switch -> bz-toggleSwitch --DONE
+slider -> bz-slider --DONE
+round  -> bz-round
+
 
 
 

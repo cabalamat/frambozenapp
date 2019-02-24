@@ -307,6 +307,7 @@ class FieldInfo:
         This is called from formdoc.initialiseClass() to set the
         fieldName to be whatever the class variable name is in the
         class definition.
+        Also sets the title and columnTitle.
         """
         dpr("setting field name to %r", fieldName)
         self.fieldName = fieldName
@@ -314,7 +315,6 @@ class FieldInfo:
             self.title = titleize(self.fieldName)
         if not hasattr(self, 'columnTitle'):
             self.columnTitle = self.title
-        return self.title
 
     def setDocClass(self, docClass: Type['FieldInfo']):
         """
