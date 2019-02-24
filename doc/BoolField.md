@@ -15,10 +15,15 @@ There is also a **toggle switch** variant of how a `BoolField` is displayed; thi
 ```py
 class MyForm(FormDoc):
     showBody = BoolField(widget='toggleSwitch')
-    order = BoolField(widget='toggleSwitch'
+    order = BoolField(widget='toggleSwitch',
+        showTitle = False,
         onText = "Oldest First",
         offText = "Newest First")
 ```
+
+Note that in toggle switches, the Off/False position is to the left and the On/True position is to the right. This form would be rendered something like this:
+
+![](toggleSwitch_example.png)
 
 ### Toggle Switch parameters
 
@@ -27,6 +32,8 @@ class MyForm(FormDoc):
 `onText:str`, defaults to `"On"` = text for the On/True position
 
 `offText:str`, defaults to `"Off"` = text for the Off/False position
+
+`showTitle:bool`, defaults to `True` = if `True`, shows the title to the left of the `offText`. If `False`, doesn't show the title.
 
 
 
