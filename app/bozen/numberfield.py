@@ -70,7 +70,7 @@ class BoolField(fieldinfo.FieldInfo):
         super().readArgs(**kwargs)
         self.widget = kwargs.get('widget', 'checkbox')
         self.offText = kwargs.get('offText', "Off")
-        self.onText = kwargs.get('widget', "On")
+        self.onText = kwargs.get('onText', "On")
         
     def defaultDefault(self):
         """ return the default value for the default value of the
@@ -90,12 +90,23 @@ class BoolField(fieldinfo.FieldInfo):
         """
         checked = ""
         if v: checked = " checked"
-        #if self.widget=='checkbox':
-        h = form('''<input id="id_{fieldName}" type="checkbox"
-            name="{fieldName}"{checked}>''',
-            fieldName = self.fieldName,
-            checked = checked,
-        )
+        if self.widget=='checkbox':
+            h = form('''<input id="id_{fieldName}" type="checkbox"
+                name="{fieldName}"{checked}>''',
+                fieldName = self.fieldName,
+                checked = checked,
+            )
+        elif self.widget=='toggleSwitch':
+            h = form('''<label class="switch">
+                <input id="id_{fieldName}" type="checkbox"
+                name="{fieldName}"{checked}>
+                <span class="slider round"></span></label>''',
+                fieldName = self.fieldName,
+                checked = checked,
+            ) 
+        else:
+            raise ShouldntGetHere
+        #endif        
         return h
 
 
