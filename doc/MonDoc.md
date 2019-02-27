@@ -56,5 +56,5 @@ The `mongoDict()` method returns a `dict` of the document suitable for putting i
 
 ## See also
 
-* [Boxen](bozen)
+* [[Bozen]]
 * [[FormDoc]]

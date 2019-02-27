@@ -134,7 +134,7 @@ Toggle switch change css names:
 
 switch -> bz-toggleSwitch --DONE
 slider -> bz-slider --DONE
-round  -> bz-round
+round  -> bz-round --DONE
 
 
 

@@ -4,6 +4,8 @@ An `FK` is a foreign key to a MongoDB document. As a field, it is a subclass of 
 
 `FK` is defined in `keychoicefield.py`.
 
+The value in the field is the `_id` field of the foreign document. If there isn't a foreign key, it's a null reference and the value in the database is either `""` or `null` and in the field is either `""` or `None`.
+
 ## Example
 
 Consider an app with *Books* and *Authors*. Each book has at most one author. 
