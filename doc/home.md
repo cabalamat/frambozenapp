@@ -25,13 +25,35 @@ Is known as **bozen** inside the repository (it's shorter). See [[Bozen]].
 
 ## Frambozenapp
 
-To start:
+To start, first clone the repository locally.
 
-    $ cd ~/sproj/frambozenapp
+    $ git clone git@github.com:cabalamat/frambozenapp.git
+    $ cd frambozenapp
+    
+Create a virtual environment called `v3`:
+
+    $ python3 -m venv v3
+    
+Go into your virtual environment:
+
     $ . v3/bin/activate
-    $ cd app
-    $ python main.py
+    
+Install the requirements:
 
+    $ pip install -r requirements.txt
+
+Finally, go into the `app/` directory and run the program. The
+`--debug` flag denotes that you are running it in debugging mode.
+    
+    $ cd app
+    $ python main.py --debug
+
+Now you can point your web browser at <http://127.0.0.1:9033> to
+view the site.
+
+### Screenshots
+
+Screenshots of some Frambozenapp pages [are available](screenshots).
 
 ## See also
 
