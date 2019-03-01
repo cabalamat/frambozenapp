@@ -1,7 +1,9 @@
 # Frambozenapp
 
+![Frambozen Logo](doc/frambozen_logo.png)
+
 **Frambozenapp** is a Python web application that showcases the
-**frambozen** library.
+**Bozen** library.
 
 ## About Bozen
 
