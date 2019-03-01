@@ -44,5 +44,56 @@ extended markdown format that
 
 ## Screenshots
 
+**Test Form** shows some of the form controls:
 
 ![](doc/test_form.png)
+
+The **Foos** page shows a list of *Foos* (Foo being a collection
+in the database).
+
+![](doc/foos.png)
+
+The **Foo** page shows a single *Foo*, and allows you to edit its 
+fields. The form is automatically denerated from the database schema
+(in `foo.py`):
+
+```py
+DRINK_CHOICES = [
+    ('beer', "Beer"),    
+    ('beer-lager', "Lager"),   
+    ('beer-frambozen', "Frambozen"), 
+    ('wine', "Wine"),         
+    ('spirits-whisky', "Whisky"),   
+    ('spirits-gin', "Gin"), 
+] 
+FRUIT_CHOICES = [
+    ('apple', "Apple"),
+    ('banana', "Banana"),
+    ('strawberry', "Strawberry"),
+    ('raspberry', "Raspberry"),
+]
+
+class Foo(MonDoc):
+    name = StrField()
+    description = TextAreaField(monospaced=True)
+    aNumber = IntField(minValue=0, maxValue=100)
+    minSpeed = FloatField(title="Minimum Speed, mph", minValue=0.0)
+    maxSpeed = FloatField(title="Maximim Speed, mph", minValue=0.0)
+    favouriteDrink = ChoiceField(choices=DRINK_CHOICES,
+        showNull=True, allowNull=True)
+    fruitsLiked = MultiChoiceField(choices=FRUIT_CHOICES,
+        desc="tick all fruits this person likes") 
+    tickyBox = BoolField()
+    aDate = DateField()
+    lastSaved = DateTimeField(desc="when this foo was last saved",
+        readOnly=True)
+    aDateTime = DateTimeField(title="A Date and Time")
+    anything = ObjectField(desc="can contain anything",
+        default=["any", "thing"])
+    favouriteBook = FK(models.Book, allowNull=True, showNull=True)
+```
+
+![](doc/foo.png)
+
+
+

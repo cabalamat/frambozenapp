@@ -8,5 +8,8 @@ Some screenshots of some pages in Frambozenapp.
 
 ## Foos page
 
+![](foos.png)
 
 ## Foo page
+
+![](foo.png)
