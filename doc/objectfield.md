@@ -14,4 +14,4 @@ This can contain any JSON value in the Database and the equivalent in Python. It
 
 `displayInForm:bool` = whether the field is to be rendered in a form built with `doc.buildForm()`  or `doc.buildFormLines()`.
 
-`monospaced:bool`, defaults to `True`. If `True`, text is show in a monospaced font.
+`monospaced:bool`, defaults to `True`. If `True`, text is shown in a monospaced font.
