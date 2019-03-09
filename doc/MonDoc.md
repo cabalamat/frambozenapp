@@ -50,6 +50,17 @@ Putting these all together we get `a()` which returns HTML for a link, containin
 
 ## Saving to the database
 
+### Hooks on saving to the database
+
+In your MonDoc subclass you can define hooks, i.e. method that will be triggered on a specific event. the hooks are:
+
+* `preSave()` = called before saving
+* `postSave()` = called after saving
+* `preCreate()` = call before creating
+* `postLoad()` = called after loading from the database
+
+See [[MonDoc hook functions]] for details.
+
 ### `mongoDict()->dict`
 
 The `mongoDict()` method returns a `dict` of the document suitable for putting in a MongoDB database.
