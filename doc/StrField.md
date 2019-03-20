@@ -18,7 +18,7 @@ Its data type is a `str`. Its form element is an input box, with the HTML lookin
 
 `default:str` = the default value that goes in the field. 
 
-`displayInForm:bool` = whether the field is to be rendered in a form built with `doc.buildForm()`  or `doc.buildFormLines()`.
+`displayInForm:bool` defaults to `True` = whether the field is to be rendered in a form built with `doc.buildForm()`  or `doc.buildFormLines()`.
 
 `monospaced:bool`, defaults to `False` for most field types. If `True`, text is show in a monospaced font.
 

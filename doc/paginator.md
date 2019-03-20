@@ -16,6 +16,9 @@ done transparently so no application code has to be written.
 
 * `pag.skip` = number of items in the list to skip before displaying
 * `pag.numShow` = number of items in the list to display
+* `pag.total` = the total number of items in the list
+* `pag.fromIx` = the index of the first item to be displayed, indexing from 1
+* `pag.toIx` = the index of the last item to be displayed, indexing from 1
 * `pag.links` = HTML for links to other pages
 * `pag.info` = String descripting which rows are being displayed, e.g. `"Displaying rows 61-80 of 113."`
 

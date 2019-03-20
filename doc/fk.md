@@ -56,11 +56,13 @@ Later on in the program, you load a copy of the book, `bCopy`, from the database
 ```py
 bCopy = find_one({'title': "Animal Farm"})
 ```
+
 You could get the author_id by: `bCopy.author_id`. You can get the author document from its `_id`, i.e.:
 ```py
 theAuthor = Author.getDoc(bCopy.author_id)
 ```
-But the usual way is `bCopy.author`. From here you can access the author's fields, e.g.:
+
+But there is a shortcut: the usual way is `bCopy.author`. From here you can access the author's fields, e.g.:
 ```py
 bCopy.author.name #=> "George Orwell"
 ```

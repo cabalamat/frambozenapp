@@ -11,7 +11,8 @@ The **hook functions** are:
 
 In `MonDoc` they have empty definitions:
 
-```py    def preSave(self):
+```py    
+    def preSave(self):
         """ The user can over-ride this with a method to be called
         immediately before the document is saved.
         """

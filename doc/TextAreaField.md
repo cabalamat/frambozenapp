@@ -11,7 +11,7 @@
 
 `default:str` = the default value that goes in the field. 
 
-`displayInForm:bool` = whether the field is to be rendered in a form built with `doc.buildForm()`  or `doc.buildFormLines()`.
+`displayInForm:bool` defaults to `True` = whether the field is to be rendered in a form built with `doc.buildForm()`  or `doc.buildFormLines()`.
 
 `monospaced:bool` defaults to `False` = If `True`, text is show in a monospaced font.
 
