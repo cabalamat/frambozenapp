@@ -9,7 +9,7 @@ from bozen.butil import dpr
 
 import ht
 import allpages
-from allpages import jinjaEnv
+from allpages import jinjaEnv, app
 
 
 #---------------------------------------------------------------------
@@ -58,5 +58,12 @@ def http403(msg=""):
         msg = html.errorBox(msg),
     )
     return (h, 403)
+
+@app.errorhandler(404)
+def http404(e):
+    tem = jinjaEnv.get_template("404.html")
+    h = tem.render()
+    return (h, 404)
+
 
 #end
