@@ -65,6 +65,12 @@ See [[MonDoc hook functions]] for details.
 
 The `mongoDict()` method returns a `dict` of the document suitable for putting in a MongoDB database.
 
+## Low-level database access
+
+### `col()->pymongo.collection.Collection`
+
+The `col()` method returns the underlying pymongo Collection object.
+
 ## See also
 
 * [[Bozen]]
