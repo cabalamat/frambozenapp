@@ -22,7 +22,6 @@ CREATE_ADMIN_SITE=True
 # prefix in urls for the admin site
 ADMIN_SITE_PREFIX="dbv"
 
-
 #---------------------------------------------------------------------
 
 

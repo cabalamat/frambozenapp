@@ -15,6 +15,7 @@ The most important classes in Bozen are:
 Other Bozen features:
 
 * For a MonDoc, automatically generated **[[autopages]]** can perform BREAD (Browse, Read, Edit, Add, Delete) functionality for it.
+* There is an automatically generated **[[Admin Site]]** wihch allows users to view and edit the database. 
 * The **[[Paginator]]** class enables a table to be paginated so that only a certain number of rows appear on each page.
 * There are various **[[utility functions]]**.
 
