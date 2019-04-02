@@ -17,7 +17,10 @@ APP_LOGO = "<i class='icon-noun_162884_cc'></i> "
 APP_NAME = "frambozenapp"
 DB_NAME = "frambozenapp"
 
+# create an admin site?
 CREATE_ADMIN_SITE=True
+# prefix in urls for the admin site
+ADMIN_SITE_PREFIX="dbv"
 
 
 #---------------------------------------------------------------------
