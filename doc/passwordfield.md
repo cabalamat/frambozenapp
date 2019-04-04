@@ -1,14 +1,6 @@
-# StrField
+# PasswordField
 
-**StrField** is a [[FieldInfo]] subclass.
-
-Its data type is a `str`. Its form element is an input box, with the HTML looking like this:
-
-```html
-<input id="id_aaa"
-     name="aaa"
-     type="text" value="" size=20>
-```
+**PasswordField** is a [[FieldInfo]] subclass. Its data type is a `str`. It behaves like a [[StrField]], except the characters entered aren't displayed. This is for security purposes. 
 
 ## Parameters
 
