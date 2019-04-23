@@ -279,7 +279,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
     
     @classmethod
     def getForeignFieldNames(cls, foreignClass: Type['MonDoc']) -> List[str]:
-        """ Get the foreign fields in (clss) which refer to a particular
+        """ Get the foreign fields in (cls) which refer to a particular
         foreign class. These are FK or FKeys fields.
         Return a list of their field names.
         """

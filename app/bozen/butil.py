@@ -5,7 +5,10 @@ Basic utilities for Python 3.x.
 """
 
 from typing import *
-import os, os.path
+import os
+import os.path
+import stat
+import fnmatch
 import sys
 import html
 import inspect
@@ -13,6 +16,7 @@ import functools
 import pprint
 
 #---------------------------------------------------------------------
+# file functions
 
 def normalizePath(p: str, *pathParts: List[str]) -> str:
     """ Normalize a file path, by expanding the user name and getting
@@ -30,6 +34,41 @@ def normalizePath(p: str, *pathParts: List[str]) -> str:
     return p2
 normalisePath=normalizePath # alternate spelling
 join=normalizePath # it works like os.path.join, but better
+
+def fileExists(fn: str) -> bool:
+    """ Does a file exist?
+    @param fn  = a filename or pathname
+    @return = True if (fn) is the filename of an existing file
+        and it is readable.
+    """
+    fn = os.path.expanduser(fn)
+    readable = os.access(fn, os.R_OK)
+    # (if it doesn't exist, it can't be readable, so don't bother
+    # testing that separately)
+
+    if not readable: return False
+
+    # now test if it's a file
+    mode = os.stat(fn)[stat.ST_MODE]
+    return stat.S_ISREG(mode)
+
+def getFilenames(dir: str, pattern:str="*") -> List[str]:
+    """ Return a list of all the filenames in a directory that match a
+    pattern. Note that this by default returns files and subdirectories.
+    @param dir = a directory
+    @param pattern = a Unix-style file wildcard pattern
+    @return = the files that matched, sorted in ascii order
+    """
+    try:
+        filenames = os.listdir(dir)
+    except:
+        filenames = []
+    matching = []
+    for fn in filenames:
+        if fnmatch.fnmatch(fn, pattern):
+            matching.append(fn)
+    matching.sort()
+    return matching
 
 #---------------------------------------------------------------------
 # formatting functions

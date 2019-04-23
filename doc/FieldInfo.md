@@ -13,7 +13,7 @@ Implemented in `fieldinfo.py`:
 
 * [[StrField]] = a `str`
 * [[TextAreaField]] = like StrField, but rendered in a form using the `<textarea>` control
-* [[PasswordField]] = like StrField, but the characters entered aren't displayed. Implemented as a `<input type="password">` field.
+* [[PasswordField]] = like StrField, but the characters entered aren't displayed. Rendered as a `<input type="password">` field.
 
 
 Implemented in `numberfield.py`:
