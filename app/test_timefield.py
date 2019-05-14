@@ -49,6 +49,10 @@ class T_BzDate(lintest.TestCase):
         d2 = BzDate(d)
         self.assertSame(d2, "2011-09-22")
         
+    def test_creation_from_int(self):
+        d = BzDate(10)
+        self.assertSame(d, "1970-01-11")
+        
     def test_actsAsStr(self):   
         d = BzDate("2006-07-09")
         mm = d[5:7]
@@ -87,6 +91,19 @@ class T_BzDate(lintest.TestCase):
         self.assertSame(pyd.hour, 0, "hour")
         self.assertSame(pyd.minute, 0, "minute")
         self.assertSame(pyd.second, 0, "second")
+        
+    def test_to_dayInt(self):
+        bzd = BzDate("1970-01-01")
+        r = bzd.to_dayInt()
+        self.assertSame(r, 0, "1970-Jan-01 is day 0")
+        
+        bzd = BzDate("1971-02-03")
+        r = bzd.to_dayInt()
+        self.assertSame(r, 398, "1971-Feb-03 is day 398")
+        
+        bzd = BzDate("1969-12-25")
+        r = bzd.to_dayInt()
+        self.assertSame(r, -7, "1969-Dec-25 is day -7")
         
     def test_addDays(self):
         d = BzDate("2001-01-09")
@@ -140,6 +157,12 @@ class T_BzDateTime(lintest.TestCase):
         
         d = BzDateTime("19920615215301")
         self.assertSame(d, "1992-06-15T21:53:01")
+        
+    def test_creation_from_string_2(self):
+        bzdt1 = BzDateTime("2017-11-28T13:45:07")
+        self.assertSame(bzdt1, "2017-11-28T13:45:07")
+        bzdt2 = BzDateTime("2017-11-28 hello world 13 45 07")
+        self.assertSame(bzdt2, "2017-11-28T13:45:07")        
               
     def test_creation_bzFormat(self):
         """ create a BzDateTime using variations of bz format, 
@@ -175,6 +198,10 @@ class T_BzDateTime(lintest.TestCase):
         pdt2 = datetime.datetime(2010, 5, 12, 23, 30, 1)
         bzdt2 = BzDateTime(pdt2)
         self.assertSame(bzdt2, "2010-05-12T23:30:01")
+        
+    def test_creation_from_int(self):
+        d = BzDateTime(15)
+        self.assertSame(d, "1970-01-16T00:00:00")
         
     def test_toTuple(self):
         """ convert a BzDateTime to a tuple """
@@ -214,6 +241,19 @@ class T_BzDateTime(lintest.TestCase):
         self.assertSame(pydt.hour, 7) 
         self.assertSame(pydt.minute, 35) 
         self.assertSame(pydt.second, 51) 
+        
+    def test_to_dayInt(self):
+        bzd = BzDateTime("1970-01-01")
+        r = bzd.to_dayInt()
+        self.assertSame(r, 0, "1970-Jan-01 is day 0")
+        
+        bzd = BzDateTime("1971-02-03")
+        r = bzd.to_dayInt()
+        self.assertSame(r, 398, "1971-Feb-03 is day 398")
+        
+        bzd = BzDateTime("1969-12-25")
+        r = bzd.to_dayInt()
+        self.assertSame(r, -7, "1969-Dec-25 is day -7")
         
     def test_formatDateTime(self):
         bdt = BzDateTime("2018-11-24T17:45:21")

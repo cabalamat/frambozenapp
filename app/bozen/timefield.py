@@ -65,6 +65,10 @@ class BzDate(str):
         elif isinstance(s, (datetime.date,datetime.datetime)):
             s2 = "%04d-%02d-%02d" % (s.year, s.month, s.day)
             return super().__new__(cls, s2)
+        elif isinstance(s, int):
+            pyd = datetime.date(1970, 1, 1) + datetime.timedelta(s)
+            s2 = "%04d-%02d-%02d" % (pyd.year, pyd.month, pyd.day)
+            return super().__new__(cls, s2)
         else:
             s = ""
         
@@ -97,6 +101,16 @@ class BzDate(str):
         """ convert to datetime.datetime """
         y, m, d = self.toTuple_ymd()
         return datetime.datetime(y, m, d)
+    
+    def to_dayInt(self) -> int:
+        """ convert to an integer representing a day, 
+        where 1-Jan-1970 is day 0.
+        """
+        pyd = self.to_date()
+        day0 = datetime.date(1970, 1, 1)
+        delta = pyd - day0
+        return delta.days
+        
     
     def formatDate(self, formatStr: str) -> str:
         dt = self.to_date()
@@ -141,6 +155,10 @@ class BzDateTime(str):
             s2 = "%04d-%02d-%02dT00:00:00" % (s.year, s.month, s.day)
             #dpr("s2=%r", s2)
             return super().__new__(cls, s2)
+        elif isinstance(s, int):
+            pyd = datetime.date(1970, 1, 1) + datetime.timedelta(s)
+            s2 = "%04d-%02d-%02dT00:00:00" % (pyd.year, pyd.month, pyd.day)
+            return super().__new__(cls, s2)
         else:
             s = ""
         
@@ -176,6 +194,15 @@ class BzDateTime(str):
         """ convert to datetime.datetime """
         y, m, d, hh, mm, ss = self.toTuple_ymdhms()
         return datetime.datetime(y, m, d, hh, mm, ss)
+    
+    def to_dayInt(self) -> int:
+        """ convert to an integer representing a day, 
+        where 1-Jan-1970 is day 0.
+        """
+        pyd = self.to_date()
+        day0 = datetime.date(1970, 1, 1)
+        delta = pyd - day0
+        return delta.days
     
     def formatDateTime(self, formatStr: str) -> str:
         """ format a BzDateTime according to the format string conventions
@@ -284,7 +311,7 @@ def get3ints(s: str) -> Tuple[int,int,int]:
 def getPosInt(s: int, default:int = 0) -> Tuple[int,str]:
     """ Get a positive integer from the start of a string,
     If there isn't one, return (default).
-    Return the remnants of ther string after the integer
+    Return the remnants of the string after the integer
     in a tuple.
     """
     while 1:

@@ -19,6 +19,7 @@ The `BzDate()` constructor takes an argument that can be:
 * a `datetime.datetime`
 * a string beginning with the format *yyyy-mm-dd*, e.g. `"2006-07-09"`
 * a string beginning with the format *yyyymmdd*, e.g. `"20060709"`
+* an `int` where 1970-Jan-01 is day 0.
 
 
 ## Methods for conversion to different formats
@@ -28,6 +29,8 @@ The `BzDate()` constructor takes an argument that can be:
 `to_date()->datetime.date` returns a Python `date` object
 
 `to_datetime()->datetime.datetime` returns a Python `datetime` object
+
+`to_dayInt()->int` returns an `int`. This cobnversts a day to an integer whe 1-Jan-1970 is day zero, and each succeeding day adds 1.
 
 ## Methods for date arithmetic
 
