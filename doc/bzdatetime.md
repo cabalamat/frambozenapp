@@ -31,13 +31,13 @@ Where `BzDateTime` is constructed from a string, if the string is in any of thes
 
 then after the date part, the separators can be any non-digit characters.
 
-This means that in this code:
+Example. In this code:
 ```py
 bzdt1 = BzDateTime("2017-11-28T13:45:07")
 bzdt2 = BzDateTime("2017-11-28 hello world 13 45 07")
 ```
 
-That `bzdt1` and bzdt2` will have the same value.
+then `bzdt1` and `bzdt2` will have the same value.
 
 
 ## Methods for conversion to different formats

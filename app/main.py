@@ -22,6 +22,7 @@ import login
 import front
 import testform
 import foo
+import filex
 
 #---------------------------------------------------------------------
 
