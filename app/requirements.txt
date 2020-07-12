@@ -1,0 +1,10 @@
+click==7.1.2
+Flask==1.1.2
+Flask-Login==0.5.0
+flask-paginate==0.7.0
+itsdangerous==1.1.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+pymongo==3.10.1
+pyscrypt==1.6.2
+Werkzeug==1.0.1
