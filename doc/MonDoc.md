@@ -65,6 +65,38 @@ See [[MonDoc hook functions]] for details.
 
 The `mongoDict()` method returns a `dict` of the document suitable for putting in a MongoDB database.
 
+## Querying the database
+
+*See also [[MonDoc database queries]]*.
+
+Querying the database is done by the `MonDoc.find()` class method which is analogous to the `find()` method in `pymongo`. 
+
+Imagine you have a `Customer` table:
+
+```py
+class Customer(MonDoc):
+    name = StrField(desc="the name of the customer")
+    created = DateTimeField(desc="when the customer account was created")
+    balance = FloatField(desc="the customer's balance")
+    #...other fields...
+```
+
+You want all customers created since the start of 2019, in the order of when they were created. This is:
+
+```py
+recentCustomers = CustomerFind({'name': {'$gte': "2019-01-01"}}, sort='created')
+```
+
+If you want the most recent first (i.e. in decreasing order of `created`), this would be:
+```py
+recentCustomers = CustomerFind({'name': {'$gte': "2019-01-01"}}, sort=('created',-1))
+```
+
+If you want the 20 customers with the lowest balances, in order of increasing balance, this would be:
+```py
+lowBalCusts = CustomerFind(sort='balance', max=20)
+```
+
 ## Low-level database access
 
 ### `col()->pymongo.collection.Collection`
@@ -75,3 +107,4 @@ The `col()` method returns the underlying pymongo Collection object.
 
 * [[Bozen]]
 * [[FormDoc]]
+* [[MonDoc database queries]]

@@ -434,7 +434,7 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
         ('bar',-1) -> [('bar', -1)]
         [('foo',-1), 'bar'] -> [('foo', -1), ('bar', 1)]
 
-        @return = the sort argument in te way that pymongo requires it
+        @return = the sort argument in the way that pymongo requires it
         """
         if isinstance(sortArg, (str,tuple)):
             sortArg = [sortArg]
@@ -445,8 +445,9 @@ class MonDoc(formdoc.FormDoc, metaclass=MonDocMeta):
    
     @staticmethod
     def makeMonDoc(mdos: Union[Type['MonDoc'],str]) -> Type['MonDoc']:
-        """ If (mdos) isn't already a MonDoc subclass, make it one by looking it
-        up. """
+        """ If (mdos) isn't already a MonDoc subclass, make it one by 
+        looking it up. 
+        """
         if not isinstance(mdos, str):
             # assume it's alrerady a MonDoc subclass and return it
             return mdos
