@@ -9,7 +9,8 @@
 The most important classes in Bozen are:
 
 * **[[FormDoc]]**, which handles HTML forms
-* **[[MonDoc]]**, a subclass of `FormDoc` which knows how to get data into and out of a MongoDB database
+* **[[MonDoc]]**, a subclass of `FormDoc` which knows how to get data into and out of a MongoDB database. 
+  Once you have defined your [MonDoc collection classes](MonDoc collection class), you can do [database queries](MonDoc database queries) on them.
 * the **[[FieldInfo]]** classes. Every field has an instance of a subclass of FieldInfo describing what data type it is and how it behaves in a form.
 
 Other Bozen features:
@@ -22,7 +23,7 @@ Other Bozen features:
 
 ### Utility modules
 
-Packaged with Monfab, but not strictly part of it are some utility modules I've written:
+Packaged with Bozen, but not strictly part of it, are some utility modules I've written:
 
 * [[lintest]] is a replacement for Python's *unittest* test framework.
 

@@ -108,3 +108,4 @@ The `col()` method returns the underlying pymongo Collection object.
 * [[Bozen]]
 * [[FormDoc]]
 * [[MonDoc database queries]]
+* [[MonDoc collection class]]
