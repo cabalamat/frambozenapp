@@ -23,6 +23,7 @@ import front
 import testform
 import foo
 import filex
+import tabexample
 
 #---------------------------------------------------------------------
 

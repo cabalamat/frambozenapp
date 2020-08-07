@@ -10,8 +10,6 @@ from bozen import (StrField, ChoiceField, TextAreaField,
     MultiChoiceField,
     DateField)
 
-prn("*** testform.py ***")
-
 #---------------------------------------------------------------------
 
 FRUIT_CHOICES = [
